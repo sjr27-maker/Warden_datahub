@@ -15,6 +15,7 @@ include = ["warden*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --strict-markers"
+asyncio_mode = "auto"
 markers = [
     "live: requires a running DataHub instance (deselect with '-m \"not live\"')",
 ]
