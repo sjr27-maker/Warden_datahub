@@ -5,12 +5,12 @@ against it.
 """
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
 
-class Provenance(str, Enum):
+class Provenance(StrEnum):
     """How a fact entered the graph. Never collapse this distinction —
     it's what makes Warden's claims auditable rather than asserted."""
 
@@ -82,7 +82,7 @@ class CoverageCeiling(BaseModel):
     threshold_used: float
 
 
-class BreakageTier(str, Enum):
+class BreakageTier(StrEnum):
     BREAKS = "breaks"
     DEGRADES = "degrades"
     TOUCHES = "touches"

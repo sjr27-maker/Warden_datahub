@@ -1,5 +1,4 @@
-
-from warden.agent.models import EntityRef, LineageEdge, Provenance
+from warden.agent.models import LineageEdge
 
 
 class FakeMCPClient:

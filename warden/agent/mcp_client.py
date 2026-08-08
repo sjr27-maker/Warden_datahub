@@ -1,5 +1,3 @@
-
-
 import asyncio
 import json
 import logging
@@ -57,9 +55,7 @@ class MCPClient:
     async def search(self, query: str, entity_types: list[str] | None = None) -> dict:
         return await self._call("search", query=query, entity_types=entity_types or [])
 
-    async def search_with_retry(
-        self, query: str, entity_types: list[str] | None = None
-    ) -> dict:
+    async def search_with_retry(self, query: str, entity_types: list[str] | None = None) -> dict:
         """Use after a write, when the entity may not be indexed yet."""
         last_result: dict = {}
         for delay in _SEARCH_RETRY_DELAYS:
@@ -73,9 +69,7 @@ class MCPClient:
     async def get_entities(self, urns: list[str]) -> dict:
         return await self._call("get_entities", urns=urns)
 
-    async def get_lineage(
-        self, urn: str, direction: str = "downstream", hops: int = 2
-    ) -> dict:
+    async def get_lineage(self, urn: str, direction: str = "downstream", hops: int = 2) -> dict:
         return await self._call("get_lineage", urn=urn, direction=direction, hops=hops)
 
     async def grep_documents(self, pattern: str) -> dict:
@@ -90,14 +84,10 @@ class MCPClient:
         return await self._call("add_tags", urn=urn, tags=tags)
 
     async def add_structured_properties(self, urn: str, properties: dict) -> dict:
-        return await self._call(
-            "add_structured_properties", urn=urn, properties=properties
-        )
+        return await self._call("add_structured_properties", urn=urn, properties=properties)
 
     async def save_document(self, title: str, body: str, parent_urn: str | None = None) -> dict:
-        return await self._call(
-            "save_document", title=title, body=body, parent_urn=parent_urn
-        )
+        return await self._call("save_document", title=title, body=body, parent_urn=parent_urn)
 
 
 @asynccontextmanager
