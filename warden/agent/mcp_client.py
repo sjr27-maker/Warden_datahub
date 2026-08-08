@@ -1,7 +1,9 @@
+"""Async wrapper over mcp-server-datahub, spawned as a stdio subprocess."""
+
 import asyncio
 import json
 import logging
-from contextlib import asynccontextmanager
+from contextlib import AsyncExitStack, asynccontextmanager
 from typing import Any
 
 from mcp import ClientSession, StdioServerParameters
@@ -11,17 +13,16 @@ from warden.agent.config import settings
 
 logger = logging.getLogger(__name__)
 
-_SEARCH_RETRY_DELAYS = (0.5, 1.0, 2.0)  # absorbs eventual-consistency after writes
+_SEARCH_RETRY_DELAYS = (0.5, 1.0, 2.0)
 
 
 class MCPClient:
-    """Thin async wrapper. Construct via `async with MCPClient() as client:`."""
-
     def __init__(self) -> None:
         self._session: ClientSession | None = None
-        self._exit_stack = None
+        self._stack: AsyncExitStack | None = None
 
     async def __aenter__(self) -> "MCPClient":
+        self._stack = AsyncExitStack()
         server_params = StdioServerParameters(
             command="uvx",
             args=["mcp-server-datahub@latest"],
@@ -31,22 +32,19 @@ class MCPClient:
                 "TOOLS_IS_MUTATION_ENABLED": str(settings.mutation_tools_enabled).lower(),
             },
         )
-        self._read, self._write = await stdio_client(server_params).__aenter__()
-        self._session = ClientSession(self._read, self._write)
-        await self._session.__aenter__()
+        read, write = await self._stack.enter_async_context(stdio_client(server_params))
+        self._session = await self._stack.enter_async_context(ClientSession(read, write))
         await self._session.initialize()
         return self
 
     async def __aexit__(self, *exc: Any) -> None:
-        if self._session:
-            await self._session.__aexit__(*exc)
+        if self._stack:
+            await self._stack.aclose()
 
     async def _call(self, tool: str, **kwargs: Any) -> dict:
         if not self._session:
             raise RuntimeError("MCPClient used outside `async with` context")
         result = await self._session.call_tool(tool, arguments=kwargs)
-        # mcp tool results come back as content blocks; DataHub's server
-        # returns JSON text in the first block.
         text = result.content[0].text
         return json.loads(text)
 
@@ -56,7 +54,6 @@ class MCPClient:
         return await self._call("search", query=query, entity_types=entity_types or [])
 
     async def search_with_retry(self, query: str, entity_types: list[str] | None = None) -> dict:
-        """Use after a write, when the entity may not be indexed yet."""
         last_result: dict = {}
         for delay in _SEARCH_RETRY_DELAYS:
             last_result = await self.search(query, entity_types)
@@ -75,7 +72,7 @@ class MCPClient:
     async def grep_documents(self, pattern: str) -> dict:
         return await self._call("grep_documents", pattern=pattern)
 
-    # ---- writes (gated by TOOLS_IS_MUTATION_ENABLED on the server) ----
+    # ---- writes ----
 
     async def update_description(self, urn: str, description: str) -> dict:
         return await self._call("update_description", urn=urn, description=description)
@@ -92,7 +89,6 @@ class MCPClient:
 
 @asynccontextmanager
 async def mcp_client():
-    """Convenience context manager: `async with mcp_client() as c:`"""
     client = MCPClient()
     async with client:
         yield client
