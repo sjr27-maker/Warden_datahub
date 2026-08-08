@@ -1,0 +1,30 @@
+[project]
+name = "warden"
+version = "0.1.0"
+description = "A code-generation agent that establishes what it knows before it writes"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["warden*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "live: requires a running DataHub instance (deselect with '-m \"not live\"')",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.format]
+quote-style = "double"
