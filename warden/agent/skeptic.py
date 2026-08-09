@@ -139,18 +139,22 @@ def _blind_spots(subgraph: Subgraph, registry: list[PlatformRecord]) -> list[Bli
     return spots
 
 
+# Platforms whose entities are landing zones — having no upstream there is
+# expected, not a gap.
+_SOURCE_PLATFORMS = frozenset({"duckdb"})
+
+
 def _entities_without_upstream(subgraph: Subgraph) -> list[str]:
     """Entities whose origin the catalog cannot account for.
 
-    Only meaningful for nodes the traversal reached going downstream — an
-    upstream node having no further upstream is expected, not a gap.
+    A raw landed table having no upstream is expected. A derived model having
+    none means its origin is outside anything DataHub can observe.
     """
     has_upstream = {e.downstream.urn for e in subgraph.edges}
-    downstream_reached = {
-        urn for urn, why in subgraph.relevance_trace.items() if why.startswith("downstream")
-    }
     return [
         entity.urn
         for entity in subgraph.entities
-        if entity.urn in downstream_reached and entity.urn not in has_upstream
+        if entity.urn not in has_upstream
+        and entity.urn != subgraph.root.urn
+        and entity.platform not in _SOURCE_PLATFORMS
     ]
