@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: main
+    description: Raw tables landed in the warehouse.
+    tables:
+      - name: raw_users
+      - name: raw_orders
+      - name: raw_order_items
+      - name: raw_payments
+      - name: raw_refunds
+      - name: finance_extract
+        description: >
+          Hand-maintained quarterly extract, pasted in from a finance
+          spreadsheet. No automated upstream exists.

@@ -1,0 +1,7 @@
+select
+    item_id,
+    order_id,
+    sku,
+    quantity,
+    unit_price_cents / 100.0 as unit_price_usd
+from {{ source('raw', 'raw_order_items') }}
