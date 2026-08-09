@@ -1,4 +1,4 @@
-.PHONY: setup test lint fmt datahub-up datahub-down demo clean
+.PHONY: setup test test-live lint fmt datahub-up datahub-down demo clean world world-clean
 
 VENV := .venv
 PY := $(VENV)/bin/python
@@ -39,11 +39,11 @@ clean:
 	rm -rf world/dbt_project/target world/dbt_project/logs *.duckdb
 	find . -type d -name __pycache__ -exec rm -rf {} +
 
-world:
+build-world:
 	$(PY) world/generate_data.py
 	$(DBT) build
 	$(PY) world/transforms/customer_segments.py
 
-world-clean:
+clean-world:
 	rm -f world/warehouse.duckdb
 	rm -rf world/dbt_project/target world/dbt_project/logs
