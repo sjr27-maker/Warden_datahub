@@ -33,7 +33,12 @@ def _ceiling(*, may_assert_safe: bool, score: float = 0.9) -> CoverageCeiling:
     blind = (
         []
         if may_assert_safe
-        else [BlindSpot(description="tableau has no lineage connector", affected_platform="tableau")]
+        else [
+            BlindSpot(
+                description="tableau has no lineage connector",
+                affected_platform="tableau",
+            )
+        ]
     )
     return CoverageCeiling(
         report=CoverageReport(
@@ -55,7 +60,9 @@ DARK = _ceiling(may_assert_safe=False, score=0.4)
 
 def test_rename_with_consumers_breaks():
     change = ProposedChange(model="stg_orders", kind=ChangeKind.COLUMN_RENAMED, column="cust_id")
-    verdict = Assessor().assess(change, _subgraph("stg_orders", ["fct_orders", "fct_revenue"]), GOOD)
+    verdict = Assessor().assess(
+        change, _subgraph("stg_orders", ["fct_orders", "fct_revenue"]), GOOD
+    )
 
     assert verdict.overall is BreakageTier.BREAKS
     assert len(verdict.impacted) == 2
@@ -132,3 +139,19 @@ def test_build_verdict_downgrades_directly():
 
     assert verdict.overall is BreakageTier.TOUCHES
     assert verdict.abstained is True
+
+
+def test_intrinsic_safety_survives_a_dark_graph():
+    """Widening cannot break a reader whether or not that reader is visible.
+    Gating it would be crying wolf — the failure mode that makes tools ignored.
+
+    Contrast with test_safe_verdict_unconstructible_below_threshold, where
+    safety rests on having looked and found nothing.
+    """
+    change = ProposedChange(
+        model="stg_order_items", kind=ChangeKind.TYPE_WIDENED, column="quantity"
+    )
+    verdict = Assessor().assess(change, _subgraph("stg_order_items", ["fct_orders"]), DARK)
+
+    assert verdict.overall is BreakageTier.SAFE
+    assert verdict.abstained is False
