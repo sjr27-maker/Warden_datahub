@@ -1,4 +1,4 @@
-.PHONY: setup test test-live lint fmt datahub-up datahub-down demo clean world world-clean
+.PHONY: setup test test-live lint fmt datahub-up datahub-down demo clean world world-clean ingest-dark ingest-covered
 
 VENV := .venv
 PY := $(VENV)/bin/python
@@ -32,8 +32,14 @@ datahub-up:
 datahub-down:
 	$(VENV)/bin/datahub docker quickstart --stop
 
-demo:
-	@echo "not implemented until batch 3"
+ingest-dark:
+	$(PY) -m warden.ingest --profile dark
+
+ingest-covered:
+	$(PY) -m warden.ingest --profile covered
+
+demo: build-world ingest-dark
+	@echo "world built and dark profile ingested"
 
 clean:
 	rm -rf world/dbt_project/target world/dbt_project/logs *.duckdb
