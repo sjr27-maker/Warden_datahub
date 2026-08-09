@@ -4,6 +4,7 @@ VENV := .venv
 PY := $(VENV)/bin/python
 PIP := $(VENV)/bin/pip
 COMPOSE := $(HOME)/datahub-auth-compose.yml
+DBT := cd world/dbt_project && DBT_PROFILES_DIR=. $(abspath $(VENV))/bin/dbt
 
 setup:
 	python3.11 -m venv $(VENV)
@@ -37,3 +38,12 @@ demo:
 clean:
 	rm -rf world/dbt_project/target world/dbt_project/logs *.duckdb
 	find . -type d -name __pycache__ -exec rm -rf {} +
+
+world:
+	$(PY) world/generate_data.py
+	$(DBT) build
+	$(PY) world/transforms/customer_segments.py
+
+world-clean:
+	rm -f world/warehouse.duckdb
+	rm -rf world/dbt_project/target world/dbt_project/logs
