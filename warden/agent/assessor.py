@@ -20,6 +20,7 @@ from warden.agent.models import (
     BreakageTier,
     ChangeKind,
     CoverageCeiling,
+    EntityRef,
     ImpactedAsset,
     ProposedChange,
     Subgraph,
@@ -30,9 +31,7 @@ logger = logging.getLogger(__name__)
 
 # Change kinds whose consequence is determined by the kind alone, regardless
 # of what consumes the column. Widening and adding are strictly permissive.
-_ALWAYS_SAFE: frozenset[ChangeKind] = frozenset(
-    {ChangeKind.COLUMN_ADDED, ChangeKind.TYPE_WIDENED}
-)
+_ALWAYS_SAFE: frozenset[ChangeKind] = frozenset({ChangeKind.COLUMN_ADDED, ChangeKind.TYPE_WIDENED})
 
 # Change kinds whose consequence depends on whether anything consumes the
 # column, but not on any judgment beyond that.
@@ -42,31 +41,46 @@ _TIER_WHEN_CONSUMED: dict[ChangeKind, BreakageTier] = {
     ChangeKind.TYPE_NARROWED: BreakageTier.DEGRADES,
 }
 
+_TIER_SEVERITY = [
+    BreakageTier.BREAKS,
+    BreakageTier.DEGRADES,
+    BreakageTier.TOUCHES,
+    BreakageTier.SAFE,
+]
+
 
 def build_verdict(
     change: ProposedChange,
     impacted: list[ImpactedAsset],
     ceiling: CoverageCeiling,
     reasoning: str = "",
+    *,
+    safety_is_intrinsic: bool = False,
 ) -> Verdict:
     """Construct a Verdict with the ceiling enforced.
 
-    A SAFE conclusion asserts a negative — that nothing breaks. That assertion
-    is only available when the Skeptic confirms the graph was complete enough
-    to see consequences. Otherwise the honest answer is that the change merely
-    touches things, with the reason recorded.
+    A SAFE conclusion normally asserts a negative — that nothing breaks —
+    which is only available when the Skeptic confirms the graph was complete
+    enough to see consequences.
+
+    `safety_is_intrinsic` marks the exception: changes that are safe by their
+    own semantics rather than by absence of evidence. A widened type cannot
+    break a reader whether or not that reader is visible, so no amount of
+    missing lineage should downgrade it. Gating these would be crying wolf,
+    which is how a tool teaches people to ignore it.
     """
     overall = _worst_tier(impacted)
     abstained = False
 
-    if overall is BreakageTier.SAFE and not ceiling.may_assert_safe:
+    if overall is BreakageTier.SAFE and not ceiling.may_assert_safe and not safety_is_intrinsic:
         overall = BreakageTier.TOUCHES
         abstained = True
         blind = "; ".join(s.description for s in ceiling.report.blind_spots)
         reasoning = (
-            f"Found no impact, but cannot assert safety: {blind or 'coverage below threshold'}. "
+            f"Found no impact, but cannot assert safety: "
+            f"{blind or 'coverage below threshold'}. "
             f"An empty result is not evidence of absence when the graph is incomplete."
-        ).strip()
+        )
 
     return Verdict(
         change=change,
@@ -81,14 +95,8 @@ def build_verdict(
 def _worst_tier(impacted: list[ImpactedAsset]) -> BreakageTier:
     if not impacted:
         return BreakageTier.SAFE
-    order = [
-        BreakageTier.BREAKS,
-        BreakageTier.DEGRADES,
-        BreakageTier.TOUCHES,
-        BreakageTier.SAFE,
-    ]
     tiers = {a.tier for a in impacted}
-    for tier in order:
+    for tier in _TIER_SEVERITY:
         if tier in tiers:
             return tier
     return BreakageTier.SAFE
@@ -106,14 +114,18 @@ class Assessor:
     ) -> Verdict:
         consumers = [e for e in subgraph.entities if e.urn != subgraph.root.urn]
 
-        # Cheap gate first. Nothing consumes this, or the change is additive —
-        # no reasoning required, and no LLM call made.
+        # Cheap gate first. Additive changes need no reasoning, and no LLM call
+        # is made for them.
         if change.kind in _ALWAYS_SAFE:
             return build_verdict(
                 change,
                 [],
                 ceiling,
-                reasoning=f"{change.kind.value} is strictly permissive; existing readers are unaffected.",
+                reasoning=(
+                    f"{change.kind.value} is strictly permissive; "
+                    f"existing readers are unaffected regardless of visibility."
+                ),
+                safety_is_intrinsic=True,
             )
 
         if not consumers:
@@ -130,7 +142,7 @@ class Assessor:
                 ImpactedAsset(
                     entity=entity,
                     tier=tier,
-                    reasoning=self._explain(change, entity.name, tier, subgraph),
+                    reasoning=self._explain(change, entity, tier, subgraph),
                 )
                 for entity in consumers
             ]
@@ -140,24 +152,32 @@ class Assessor:
         # depends on what the logic actually does.
         return self._assess_with_judgment(change, consumers, ceiling)
 
-    def _explain(self, change: ProposedChange, name: str, tier: BreakageTier, subgraph: Subgraph) -> str:
-        why = subgraph.relevance_trace.get(
-            next((e.urn for e in subgraph.entities if e.name == name), ""), ""
-        )
+    def _explain(
+        self,
+        change: ProposedChange,
+        entity: EntityRef,
+        tier: BreakageTier,
+        subgraph: Subgraph,
+    ) -> str:
+        why = subgraph.relevance_trace.get(entity.urn, "downstream")
         column = f".{change.column}" if change.column else ""
+
         if tier is BreakageTier.BREAKS:
-            return f"{name} depends on {change.model}{column} ({why}); the reference will not resolve."
+            return (
+                f"{entity.name} depends on {change.model}{column} ({why}); "
+                f"the reference will not resolve."
+            )
         if tier is BreakageTier.DEGRADES:
             return (
-                f"{name} reads {change.model}{column} ({why}); nothing errors, but values "
-                f"change silently under the narrowed type."
+                f"{entity.name} reads {change.model}{column} ({why}); nothing errors, "
+                f"but values change silently under the narrowed type."
             )
-        return f"{name} is downstream of {change.model}{column} ({why})."
+        return f"{entity.name} is downstream of {change.model}{column} ({why})."
 
     def _assess_with_judgment(
         self,
         change: ProposedChange,
-        consumers: list,
+        consumers: list[EntityRef],
         ceiling: CoverageCeiling,
     ) -> Verdict:
         """Only reached when the change kind doesn't determine the outcome.
@@ -185,7 +205,8 @@ class Assessor:
         names = ", ".join(e.name for e in consumers)
         prompt = (
             f"A dbt model '{change.model}' has changed its transformation logic.\n"
-            f"Old: {change.old_value}\nNew: {change.new_value}\n"
+            f"Old: {change.old_value}\n"
+            f"New: {change.new_value}\n"
             f"Downstream consumers: {names}\n\n"
             f"Classify the consequence for consumers as exactly one word: "
             f"BREAKS, DEGRADES, or TOUCHES. Then one sentence of justification."
@@ -194,8 +215,7 @@ class Assessor:
         tier = _parse_tier(response)
 
         impacted = [
-            ImpactedAsset(entity=e, tier=tier, reasoning=response.strip()[:300])
-            for e in consumers
+            ImpactedAsset(entity=e, tier=tier, reasoning=response.strip()[:300]) for e in consumers
         ]
         return build_verdict(change, impacted, ceiling)
 
