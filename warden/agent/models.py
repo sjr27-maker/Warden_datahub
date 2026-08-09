@@ -1,7 +1,8 @@
-"""Core types shared across every agent. This is the contract between
-Scoper/Skeptic (A) and Assessor/Remediator/Verifier/Scribe (B) — changes
-here ripple everywhere, so extend rather than restructure once B is building
-against it.
+"""Core types shared across every agent.
+
+This is the contract between Scoper/Skeptic and everything downstream.
+Changes here ripple, so extend rather than restructure once other agents are
+building against it.
 """
 
 from datetime import datetime
@@ -11,8 +12,8 @@ from pydantic import BaseModel, Field
 
 
 class Provenance(StrEnum):
-    """How a fact entered the graph. Never collapse this distinction —
-    it's what makes Warden's claims auditable rather than asserted."""
+    """How a fact entered the graph. Never collapse this distinction — it is
+    what makes Warden's claims auditable rather than asserted."""
 
     CURATED = "curated"  # human-entered in DataHub
     PARSED = "parsed"  # extracted by a DataHub ingestion connector
@@ -23,7 +24,7 @@ class EntityRef(BaseModel):
     urn: str
     platform: str
     name: str
-    entity_type: str  # dataset, dashboard, mlModel, etc.
+    entity_type: str
 
 
 class LineageEdge(BaseModel):
@@ -34,8 +35,8 @@ class LineageEdge(BaseModel):
 
 
 class AmbiguousReferent(BaseModel):
-    """Emitted by the Scoper when a diff's reference resolves to more than
-    one equally-plausible entity. Never silently pick one."""
+    """Emitted by the Scoper when a diff's reference resolves to more than one
+    equally-plausible entity. Never silently pick one."""
 
     query: str
     candidates: list[EntityRef]
@@ -74,8 +75,7 @@ class CoverageReport(BaseModel):
 
 
 class CoverageCeiling(BaseModel):
-    """The hard cap. Downstream verdict types are constructed against this —
-    see Verdict.safe being unconstructible below threshold."""
+    """The hard cap. Downstream verdicts are constructed against this."""
 
     report: CoverageReport
     may_assert_safe: bool
@@ -86,7 +86,30 @@ class BreakageTier(StrEnum):
     BREAKS = "breaks"
     DEGRADES = "degrades"
     TOUCHES = "touches"
-    SAFE = "safe"  # only constructible when ceiling.may_assert_safe is True
+    SAFE = "safe"
+
+
+class ChangeKind(StrEnum):
+    """What kind of change is proposed. The kind alone determines the verdict
+    for several cases, which is why the Assessor doesn't reach for an LLM
+    unless the rules genuinely can't decide."""
+
+    COLUMN_RENAMED = "column_renamed"
+    COLUMN_DROPPED = "column_dropped"
+    COLUMN_ADDED = "column_added"
+    TYPE_NARROWED = "type_narrowed"
+    TYPE_WIDENED = "type_widened"
+    LOGIC_CHANGED = "logic_changed"
+
+
+class ProposedChange(BaseModel):
+    """A single change extracted from a diff."""
+
+    model: str
+    kind: ChangeKind
+    column: str | None = None
+    old_value: str | None = None
+    new_value: str | None = None
 
 
 class ImpactedAsset(BaseModel):
@@ -117,30 +140,8 @@ class Decision(BaseModel):
     either a completed action or a blocked one waiting on a named fact."""
 
     is_blocked: bool
-    blocked_on: str | None = None  # precise, actionable: "ingest Tableau lineage"
+    blocked_on: str | None = None
     verdict: Verdict | None = None
     pr_url: str | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
-    resumed_from: str | None = None  # decision id this resumed, if any
-
-class ChangeKind(StrEnum):
-    """What kind of change is proposed. The kind alone determines the verdict
-    for several cases, which is why the Assessor doesn't reach for an LLM
-    unless the rules genuinely can't decide."""
-
-    COLUMN_RENAMED = "column_renamed"
-    COLUMN_DROPPED = "column_dropped"
-    COLUMN_ADDED = "column_added"
-    TYPE_NARROWED = "type_narrowed"
-    TYPE_WIDENED = "type_widened"
-    LOGIC_CHANGED = "logic_changed"
-
-
-class ProposedChange(BaseModel):
-    """A single change extracted from a diff."""
-
-    model: str
-    kind: ChangeKind
-    column: str | None = None
-    old_value: str | None = None
-    new_value: str | None = None
+    resumed_from: str | None = None
