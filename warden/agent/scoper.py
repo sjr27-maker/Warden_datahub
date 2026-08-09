@@ -20,8 +20,8 @@ from warden.agent.models import (
 
 logger = logging.getLogger(__name__)
 
-MAX_HOPS = 4
-MIN_MARGINAL_YIELD = 1  # stop when a hop adds fewer than this many new entities
+MAX_HOPS = 3
+MIN_MARGINAL_YIELD = 1
 
 _URN_RE = re.compile(r"urn:li:dataset:\(urn:li:dataPlatform:([^,]+),([^,]+),([^)]+)\)")
 
@@ -43,7 +43,7 @@ class Scoper:
 
         Two equally-plausible candidates produce a flagged ambiguity, never a
         guess. Most systems have no representation for 'I found two and cannot
-        choose'; that absence is where silent wrong answers come from.
+        choose'; that absence is where silent wrong answers begin.
         """
         result = await self._client.search(reference, num_results=10)
         candidates = [
@@ -67,11 +67,20 @@ class Scoper:
         )
 
     async def scope(self, reference: str, column: str | None = None) -> Subgraph:
+        """Build the subgraph relevant to a proposed change.
+
+        Downstream is what matters for blast radius — what breaks if this
+        changes. Upstream is pulled to one hop for provenance context, since
+        knowing where a column comes from informs what a change to it means.
+        """
         root, ambiguity = await self.resolve(reference)
 
         if root is None:
             placeholder = EntityRef(
-                urn=f"unresolved:{reference}", platform="?", name=reference, entity_type="dataset"
+                urn=f"unresolved:{reference}",
+                platform="?",
+                name=reference,
+                entity_type="dataset",
             )
             return Subgraph(
                 root=placeholder,
@@ -85,13 +94,12 @@ class Scoper:
         edges: list[LineageEdge] = []
         trace: dict[str, str] = {root.urn: "root: the entity the change targets"}
 
-        frontier = [root]
-        for hop in range(1, MAX_HOPS + 1):
-            added = await self._expand(frontier, column, entities, edges, trace, hop)
-            if len(added) < MIN_MARGINAL_YIELD:
-                logger.debug("stopping at hop %d: marginal yield %d", hop, len(added))
-                break
-            frontier = added
+        await self._collect(
+            root, upstream=False, column=column, entities=entities, edges=edges, trace=trace
+        )
+        await self._collect(
+            root, upstream=True, column=column, entities=entities, edges=edges, trace=trace
+        )
 
         return Subgraph(
             root=root,
@@ -101,34 +109,55 @@ class Scoper:
             relevance_trace=trace,
         )
 
-    async def _expand(
+    async def _collect(
         self,
-        frontier: list[EntityRef],
+        root: EntityRef,
+        upstream: bool,
         column: str | None,
         entities: dict[str, EntityRef],
         edges: list[LineageEdge],
         trace: dict[str, str],
-        hop: int,
-    ) -> list[EntityRef]:
-        newly_added: list[EntityRef] = []
-        for node in frontier:
-            result = await self._client.get_lineage(node.urn, column=column if hop == 1 else None)
+    ) -> None:
+        """Expand one direction, widening hop by hop until the marginal yield
+        drops. The server supports multi-hop directly, so each call replaces a
+        frontier walk."""
+        direction = "upstream" if upstream else "downstream"
+        seen_before = len(entities)
+
+        for hops in range(1, MAX_HOPS + 1):
+            result = await self._client.get_lineage(
+                root.urn,
+                upstream=upstream,
+                column=column if hops == 1 else None,
+                max_hops=hops,
+            )
+
+            added = 0
             for urn in _extract_urns(result):
                 ref = parse_urn(urn)
                 if ref is None or ref.urn in entities:
                     continue
                 entities[ref.urn] = ref
-                newly_added.append(ref)
-                edges.append(
+                added += 1
+                edge = (
                     LineageEdge(
-                        upstream=node,
-                        downstream=ref,
-                        provenance=Provenance.PARSED,
-                        confidence=1.0,
+                        upstream=ref, downstream=root, provenance=Provenance.PARSED, confidence=1.0
+                    )
+                    if upstream
+                    else LineageEdge(
+                        upstream=root, downstream=ref, provenance=Provenance.PARSED, confidence=1.0
                     )
                 )
-                trace[ref.urn] = f"hop {hop} from {node.name}"
-        return newly_added
+                edges.append(edge)
+                trace[ref.urn] = f"{direction}, within {hops} hop(s) of {root.name}"
+
+            if added < MIN_MARGINAL_YIELD:
+                logger.debug(
+                    "%s expansion stopped at %d hop(s): marginal yield %d", direction, hops, added
+                )
+                break
+
+        logger.debug("%s added %d entities", direction, len(entities) - seen_before)
 
 
 def _extract_urns(payload: object) -> list[str]:
