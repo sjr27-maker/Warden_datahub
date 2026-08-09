@@ -1,9 +1,16 @@
-.PHONY: setup test test-live lint fmt datahub-up datahub-down demo clean world world-clean ingest-dark ingest-covered
+.PHONY: setup test test-live lint fmt datahub-up datahub-down demo clean \
+        build-world clean-world ingest-dark ingest-covered
 
 VENV := .venv
 PY := $(VENV)/bin/python
 PIP := $(VENV)/bin/pip
 COMPOSE := $(HOME)/datahub-auth-compose.yml
+
+ifneq (,$(wildcard .env))
+include .env
+export
+endif
+
 DBT := cd world/dbt_project && DBT_PROFILES_DIR=. $(abspath $(VENV))/bin/dbt
 
 setup:
@@ -32,6 +39,15 @@ datahub-up:
 datahub-down:
 	$(VENV)/bin/datahub docker quickstart --stop
 
+build-world:
+	$(PY) world/generate_data.py
+	$(DBT) build
+	$(PY) world/transforms/customer_segments.py
+
+clean-world:
+	rm -f world/warehouse.duckdb
+	rm -rf world/dbt_project/target world/dbt_project/logs
+
 ingest-dark:
 	$(PY) -m warden.ingest --profile dark
 
@@ -41,15 +57,5 @@ ingest-covered:
 demo: build-world ingest-dark
 	@echo "world built and dark profile ingested"
 
-clean:
-	rm -rf world/dbt_project/target world/dbt_project/logs *.duckdb
+clean: clean-world
 	find . -type d -name __pycache__ -exec rm -rf {} +
-
-build-world:
-	$(PY) world/generate_data.py
-	$(DBT) build
-	$(PY) world/transforms/customer_segments.py
-
-clean-world:
-	rm -f world/warehouse.duckdb
-	rm -rf world/dbt_project/target world/dbt_project/logs
