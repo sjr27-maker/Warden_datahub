@@ -96,11 +96,19 @@ class ImpactedAsset(BaseModel):
 
 
 class Verdict(BaseModel):
-    """Assessor output. Construction should be validated against a
-    CoverageCeiling by the caller — see assessor.py in batch 5."""
+    """Assessor output.
 
+    `overall` must be built through `warden.agent.assessor.build_verdict`,
+    which enforces the coverage ceiling. Constructing SAFE directly bypasses
+    the gate — see test_safe_verdict_unconstructible_below_threshold.
+    """
+
+    change: ProposedChange
     impacted: list[ImpactedAsset]
+    overall: BreakageTier
     ceiling: CoverageCeiling
+    abstained: bool = False
+    reasoning: str = ""
     generated_at: datetime = Field(default_factory=datetime.utcnow)
 
 
@@ -114,3 +122,25 @@ class Decision(BaseModel):
     pr_url: str | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     resumed_from: str | None = None  # decision id this resumed, if any
+
+class ChangeKind(StrEnum):
+    """What kind of change is proposed. The kind alone determines the verdict
+    for several cases, which is why the Assessor doesn't reach for an LLM
+    unless the rules genuinely can't decide."""
+
+    COLUMN_RENAMED = "column_renamed"
+    COLUMN_DROPPED = "column_dropped"
+    COLUMN_ADDED = "column_added"
+    TYPE_NARROWED = "type_narrowed"
+    TYPE_WIDENED = "type_widened"
+    LOGIC_CHANGED = "logic_changed"
+
+
+class ProposedChange(BaseModel):
+    """A single change extracted from a diff."""
+
+    model: str
+    kind: ChangeKind
+    column: str | None = None
+    old_value: str | None = None
+    new_value: str | None = None
