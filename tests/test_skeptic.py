@@ -27,18 +27,14 @@ def _subgraph(entity_names: list[str]) -> Subgraph:
         root=root,
         entities=[root, *others],
         edges=[
-            LineageEdge(
-                upstream=root, downstream=o, provenance=Provenance.PARSED, confidence=1.0
-            )
+            LineageEdge(upstream=root, downstream=o, provenance=Provenance.PARSED, confidence=1.0)
             for o in others
         ],
     )
 
 
 COVERED_REGISTRY = [
-    PlatformRecord(
-        platform=p, lineage_connector_configured=True, expected_entity_count=n, note=""
-    )
+    PlatformRecord(platform=p, lineage_connector_configured=True, expected_entity_count=n, note="")
     for p, n in [("dbt", 16), ("duckdb", 6), ("tableau", 4), ("python", 1)]
 ]
 
@@ -61,7 +57,16 @@ def test_identical_input_yields_different_ceiling_by_graph():
     Same subgraph, two registries. If coverage were cosmetic — a caveat
     appended to prose rather than a computed cap — these would agree.
     """
-    subgraph = _subgraph(["fct_revenue", "stg_payments", "stg_orders"])
+    subgraph = _subgraph(
+        [
+            "fct_revenue",
+            "stg_payments",
+            "stg_orders",
+            "stg_refunds",
+            "customer_ltv",
+            "dim_customers",
+        ]
+    )
 
     covered = skeptic.assess(subgraph, COVERED_REGISTRY)
     dark = skeptic.assess(subgraph, DARK_REGISTRY)
