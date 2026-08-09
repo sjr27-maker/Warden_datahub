@@ -118,9 +118,7 @@ class MCPClient:
         """Real query history — the strongest available relevance signal."""
         return await self._call("get_dataset_queries", urn=urn, column=column)
 
-    async def grep_documents(
-        self, urns: list[str], pattern: str, context_chars: int = 200
-    ) -> dict:
+    async def grep_documents(self, urns: list[str], pattern: str, context_chars: int = 200) -> dict:
         """Note: requires explicit URNs. There is no global document grep."""
         return await self._call(
             "grep_documents", urns=urns, pattern=pattern, context_chars=context_chars
