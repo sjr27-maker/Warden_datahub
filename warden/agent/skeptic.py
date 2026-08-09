@@ -26,6 +26,10 @@ logger = logging.getLogger(__name__)
 
 KNOWN_PLATFORMS = ["dbt", "duckdb", "tableau", "python"]
 
+# A change with real consequences touches more than a couple of entities.
+# Below this, the traversal itself is the limiting factor, not the graph.
+_EXPECTED_SUBGRAPH_SIZE = 6
+
 
 async def load_registry(client: MCPClient) -> list[PlatformRecord]:
     return await read_registry(client, KNOWN_PLATFORMS)
@@ -34,31 +38,38 @@ async def load_registry(client: MCPClient) -> list[PlatformRecord]:
 def assess(subgraph: Subgraph, registry: list[PlatformRecord]) -> CoverageCeiling:
     """Compute coverage from the retrieved subgraph against the declared estate.
 
-    The denominator comes from the registry, not from what was retrieved.
-    An agent that measures 'how much of what I found did I understand' always
+    The denominator comes from the registry, not from what was retrieved. An
+    agent that measures 'how much of what I found did I understand' always
     reports complete coverage — the gap has to be measurable from outside the
     retrieval to be visible at all.
+
+    Three independent factors, multiplied so that any one of them being poor
+    caps the result. Averaging would let a strong factor mask a fatal one.
     """
     expected = sum(r.expected_entity_count for r in registry) or 1
-    reachable = len(subgraph.entities)
+
+    dark_entities = sum(
+        r.expected_entity_count for r in registry if not r.lineage_connector_configured
+    )
+    # What fraction of the estate is observable at all, in principle.
+    observable = 1.0 - (dark_entities / expected)
 
     parsed = sum(1 for e in subgraph.edges if e.provenance is Provenance.PARSED)
     inferred = sum(1 for e in subgraph.edges if e.provenance is Provenance.INFERRED)
-    total_edges = len(subgraph.edges) or 1
-    parsed_ratio = parsed / total_edges
+    parsed_ratio = parsed / len(subgraph.edges) if subgraph.edges else 0.0
+
+    # A subgraph that reaches nothing tells us nothing, however clean the
+    # platforms are. Saturates once the traversal has real breadth.
+    reach = min(1.0, len(subgraph.entities) / _EXPECTED_SUBGRAPH_SIZE)
 
     blind_spots = _blind_spots(subgraph, registry)
 
-    dark_platforms = [r for r in registry if not r.lineage_connector_configured]
-    dark_entities = sum(r.expected_entity_count for r in dark_platforms)
-    visible_fraction = 1.0 - (dark_entities / expected)
-
-    score = round(min(visible_fraction, reachable / expected + visible_fraction) * parsed_ratio, 3)
+    score = round(observable * parsed_ratio * reach, 3)
     score = max(0.0, min(1.0, score))
 
     report = CoverageReport(
         score=score,
-        reachable_nodes=reachable,
+        reachable_nodes=len(subgraph.entities),
         expected_nodes=expected,
         parsed_edge_ratio=round(parsed_ratio, 3),
         blind_spots=blind_spots,
@@ -129,9 +140,17 @@ def _blind_spots(subgraph: Subgraph, registry: list[PlatformRecord]) -> list[Bli
 
 
 def _entities_without_upstream(subgraph: Subgraph) -> list[str]:
+    """Entities whose origin the catalog cannot account for.
+
+    Only meaningful for nodes the traversal reached going downstream — an
+    upstream node having no further upstream is expected, not a gap.
+    """
     has_upstream = {e.downstream.urn for e in subgraph.edges}
+    downstream_reached = {
+        urn for urn, why in subgraph.relevance_trace.items() if why.startswith("downstream")
+    }
     return [
         entity.urn
         for entity in subgraph.entities
-        if entity.urn not in has_upstream and entity.urn != subgraph.root.urn
+        if entity.urn in downstream_reached and entity.urn not in has_upstream
     ]
