@@ -88,13 +88,25 @@ class MCPClient:
     async def get_lineage(
         self,
         urn: str,
+        upstream: bool = True,
         column: str | None = None,
+        max_hops: int = 1,
+        max_results: int = 30,
         query: str | None = None,
         filter: str | None = None,
     ) -> dict:
-        """`column` is accepted by the tool schema but its behaviour is unverified —
-        see NOTES.md. Warden must not assume column-level traversal works."""
-        return await self._call("get_lineage", urn=urn, column=column, query=query, filter=filter)
+        """`upstream` defaults to True server-side. Blast radius needs
+        downstream, so callers must pass upstream=False explicitly."""
+        return await self._call(
+            "get_lineage",
+            urn=urn,
+            upstream=upstream,
+            column=column,
+            max_hops=max_hops,
+            max_results=max_results,
+            query=query,
+            filter=filter,
+        )
 
     async def get_lineage_paths_between(
         self,
