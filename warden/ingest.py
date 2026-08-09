@@ -33,6 +33,11 @@ from datahub.metadata.schema_classes import (
     UpstreamClass,
     UpstreamLineageClass,
 )
+from datahub.metadata.schema_classes import (
+    FineGrainedLineageClass,
+    FineGrainedLineageDownstreamTypeClass,
+    FineGrainedLineageUpstreamTypeClass,
+)
 
 from warden.agent.config import settings
 from warden.registry import PlatformRecord
@@ -95,6 +100,46 @@ DESCRIPTIONS: dict[tuple[str, str], str] = {
         "downstream consumers rely on but which is not enforced anywhere."
     ),
 }
+
+# Column-level lineage for the models the scenarios touch. Real connectors
+# derive this from compiled SQL; we declare it for the models that matter.
+COLUMN_LINEAGE: dict[str, dict[str, list[tuple[str, str]]]] = {
+    "fct_revenue": {
+        "cust_id": [("dbt", "stg_orders.cust_id")],
+        "gross_revenue_usd": [("dbt", "stg_payments.amount_usd")],
+        "refunded_usd": [("dbt", "stg_refunds.refund_amount_usd")],
+    },
+    "fct_orders": {
+        "cust_id": [("dbt", "stg_orders.cust_id")],
+        "gross_value_usd": [("dbt", "stg_order_items.unit_price_usd")],
+    },
+    "dim_customers": {
+        "user_id": [("dbt", "stg_users.user_id")],
+        "order_count": [("dbt", "stg_orders.cust_id")],
+    },
+    "customer_ltv": {
+        "cust_id": [("dbt", "fct_revenue.cust_id")],
+        "lifetime_value_usd": [("dbt", "fct_revenue.net_revenue_usd")],
+    },
+}
+
+
+def _field_urn(platform: str, qualified: str) -> str:
+    table, column = qualified.rsplit(".", 1)
+    return f"urn:li:schemaField:({_urn(platform, table)},{column})"
+
+
+def _fine_grained(model: str) -> list[FineGrainedLineageClass]:
+    spec = COLUMN_LINEAGE.get(model, {})
+    return [
+        FineGrainedLineageClass(
+            upstreamType=FineGrainedLineageUpstreamTypeClass.FIELD_SET,
+            downstreamType=FineGrainedLineageDownstreamTypeClass.FIELD,
+            upstreams=[_field_urn(p, q) for p, q in upstreams],
+            downstreams=[f"urn:li:schemaField:({_urn('dbt', model)},{column})"],
+        )
+        for column, upstreams in spec.items()
+    ]
 
 
 def _emitter() -> DatahubRestEmitter:
@@ -171,7 +216,9 @@ def _schema_mcp(urn: str, table: str, platform: str) -> MetadataChangeProposalWr
 
 
 def _lineage_mcp(
-    downstream_urn: str, upstream_urns: list[str]
+    downstream_urn: str,
+    upstream_urns: list[str],
+    fine_grained: list[FineGrainedLineageClass] | None = None,
 ) -> MetadataChangeProposalWrapper | None:
     if not upstream_urns:
         return None
@@ -181,7 +228,8 @@ def _lineage_mcp(
             upstreams=[
                 UpstreamClass(dataset=u, type=DatasetLineageTypeClass.TRANSFORMED)
                 for u in upstream_urns
-            ]
+            ],
+            fineGrainedLineages=fine_grained or None,
         ),
     )
 
@@ -238,10 +286,15 @@ def _emit_dbt(emit: _Emission) -> None:
     for model, upstreams in DBT_LINEAGE.items():
         urn = _urn("dbt", model)
         emit(_schema_mcp(urn, model, "dbt"))
-        emit(_lineage_mcp(urn, [_urn(_upstream_platform(u), u) for u in upstreams]))
+        emit(
+            _lineage_mcp(
+                urn,
+                [_urn(_upstream_platform(u), u) for u in upstreams],
+                _fine_grained(model),
+            )
+        )
         if desc := DESCRIPTIONS.get(("dbt", model)):
             emit(_properties_mcp(urn, desc))
-
 
 def _emit_tableau(emit: _Emission) -> None:
     for dashboard, upstreams in TABLEAU_DASHBOARDS.items():
