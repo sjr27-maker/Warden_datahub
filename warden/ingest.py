@@ -23,6 +23,9 @@ from datahub.metadata.schema_classes import (
     DatasetLineageTypeClass,
     DatasetPropertiesClass,
     DateTypeClass,
+    FineGrainedLineageClass,
+    FineGrainedLineageDownstreamTypeClass,
+    FineGrainedLineageUpstreamTypeClass,
     NumberTypeClass,
     OtherSchemaClass,
     PlatformTypeClass,
@@ -32,11 +35,6 @@ from datahub.metadata.schema_classes import (
     StringTypeClass,
     UpstreamClass,
     UpstreamLineageClass,
-)
-from datahub.metadata.schema_classes import (
-    FineGrainedLineageClass,
-    FineGrainedLineageDownstreamTypeClass,
-    FineGrainedLineageUpstreamTypeClass,
 )
 
 from warden.agent.config import settings
@@ -295,6 +293,7 @@ def _emit_dbt(emit: _Emission) -> None:
         )
         if desc := DESCRIPTIONS.get(("dbt", model)):
             emit(_properties_mcp(urn, desc))
+
 
 def _emit_tableau(emit: _Emission) -> None:
     for dashboard, upstreams in TABLEAU_DASHBOARDS.items():

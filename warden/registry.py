@@ -6,13 +6,12 @@ missing, which is precisely why an empty lineage result is ambiguous.
 Structured properties would be the natural carrier, but DataHub's entity
 registry does not support the structuredProperties aspect on dataPlatform
 entities ("Unknown aspect structuredProperties for entity dataPlatform").
-There is no entity type designed to hold connector-coverage metadata, so
-Warden materialises one registry dataset per platform and records coverage
-as custom properties.
+No entity type is designed to hold connector-coverage metadata, so Warden
+materialises one registry dataset per platform and records coverage as
+custom properties.
 
-Write happens through the SDK during ingestion — that layer simulates
-connectors, which legitimately use the SDK. Every *agent* read goes through
-MCP.
+Writes happen through the SDK during ingestion — that layer simulates
+connectors, which legitimately use the SDK. Every agent read goes through MCP.
 """
 
 from pydantic import BaseModel
@@ -34,10 +33,7 @@ class PlatformRecord(BaseModel):
 
     @property
     def registry_urn(self) -> str:
-        return (
-            f"urn:li:dataset:(urn:li:dataPlatform:{REGISTRY_PLATFORM},"
-            f"registry.{self.platform},PROD)"
-        )
+        return registry_urn_for(self.platform)
 
     def to_custom_properties(self) -> dict[str, str]:
         return {
@@ -69,27 +65,55 @@ async def read_registry(client: MCPClient, platforms: list[str]) -> list[Platfor
     """
     urns = [registry_urn_for(p) for p in platforms]
     result = await client.get_entities(urns)
-    records: list[PlatformRecord] = []
-    for entity in result.get("entities", result if isinstance(result, list) else []):
-        props = _custom_properties(entity)
-        if props:
-            records.append(PlatformRecord.from_custom_properties(props))
-    return records
+    return [
+        PlatformRecord.from_custom_properties(props)
+        for entity in _as_entities(result)
+        if (props := _custom_properties(entity))
+    ]
+
+
+def _as_entities(result: object) -> list[dict]:
+    """get_entities returns a bare list on current versions; older shapes nest
+    it under an "entities" key."""
+    if isinstance(result, list):
+        return [e for e in result if isinstance(e, dict)]
+    if isinstance(result, dict):
+        nested = result.get("entities", [])
+        if isinstance(nested, list):
+            return [e for e in nested if isinstance(e, dict)]
+    return []
 
 
 def _custom_properties(entity: dict) -> dict[str, str]:
-    """Custom properties nest differently across DataHub response shapes."""
-    for path in (
-        ("properties", "customProperties"),
-        ("datasetProperties", "customProperties"),
-        ("customProperties",),
-    ):
-        node: object = entity
-        for key in path:
-            if not isinstance(node, dict):
-                node = None
-                break
-            node = node.get(key)
+    """Find the customProperties map wherever it sits in the response.
+
+    DataHub nests this differently across entity shapes and versions, so walk
+    the structure for the key rather than assuming a path.
+    """
+    found: dict[str, str] = {}
+
+    def absorb(candidate: object) -> None:
+        if isinstance(candidate, dict):
+            pairs = {str(k): str(v) for k, v in candidate.items()}
+        elif isinstance(candidate, list):
+            pairs = {
+                str(item.get("key")): str(item.get("value"))
+                for item in candidate
+                if isinstance(item, dict) and "key" in item
+            }
+        else:
+            return
+        if KEY_PLATFORM in pairs:
+            found.update(pairs)
+
+    def walk(node: object) -> None:
         if isinstance(node, dict):
-            return {str(k): str(v) for k, v in node.items()}
-    return {}
+            absorb(node.get("customProperties"))
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item)
+
+    walk(entity)
+    return found
