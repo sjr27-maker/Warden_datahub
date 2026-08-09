@@ -1,4 +1,7 @@
-"""Async wrapper over mcp-server-datahub, spawned as a stdio subprocess."""
+"""Async wrapper over mcp-server-datahub, spawned as a stdio subprocess.
+Every DataHub read or write goes through this file — no other module imports
+mcp directly. Signatures verified against a live server's tool schema.
+"""
 
 import asyncio
 import json
@@ -44,47 +47,140 @@ class MCPClient:
     async def _call(self, tool: str, **kwargs: Any) -> dict:
         if not self._session:
             raise RuntimeError("MCPClient used outside `async with` context")
-        result = await self._session.call_tool(tool, arguments=kwargs)
-        text = result.content[0].text
-        return json.loads(text)
+        # Drop None values — the server rejects unexpected nulls on some tools.
+        args = {k: v for k, v in kwargs.items() if v is not None}
+        result = await self._session.call_tool(tool, arguments=args)
+        blocks = [b.text for b in result.content if hasattr(b, "text")]
+        raw = "\n".join(blocks)
+        try:
+            return json.loads(raw)
+        except json.JSONDecodeError:
+            # Not every DataHub MCP tool returns JSON; some return formatted text.
+            return {"raw": raw}
 
     # ---- reads ----
 
-    async def search(self, query: str, entity_types: list[str] | None = None) -> dict:
-        return await self._call("search", query=query, entity_types=entity_types or [])
+    async def search(
+        self,
+        query: str = "*",
+        filter: str | None = None,
+        num_results: int = 10,
+        sort_by: str | None = None,
+    ) -> dict:
+        return await self._call(
+            "search", query=query, filter=filter, num_results=num_results, sort_by=sort_by
+        )
 
-    async def search_with_retry(self, query: str, entity_types: list[str] | None = None) -> dict:
-        last_result: dict = {}
+    async def search_with_retry(self, query: str, filter: str | None = None) -> dict:
+        """Use after a write — DataHub search is eventually consistent."""
+        last: dict = {}
         for delay in _SEARCH_RETRY_DELAYS:
-            last_result = await self.search(query, entity_types)
-            if last_result.get("total", 0) > 0:
-                return last_result
+            last = await self.search(query, filter=filter)
+            if last.get("total", 0) or last.get("results"):
+                return last
             await asyncio.sleep(delay)
         logger.warning("search_with_retry exhausted retries for query=%r", query)
-        return last_result
+        return last
 
-    async def get_entities(self, urns: list[str]) -> dict:
+    async def get_entities(self, urns: list[str] | str) -> dict:
         return await self._call("get_entities", urns=urns)
 
-    async def get_lineage(self, urn: str, direction: str = "downstream", hops: int = 2) -> dict:
-        return await self._call("get_lineage", urn=urn, direction=direction, hops=hops)
+    async def get_lineage(
+        self,
+        urn: str,
+        column: str | None = None,
+        query: str | None = None,
+        filter: str | None = None,
+    ) -> dict:
+        """`column` is accepted by the tool schema but its behaviour is unverified —
+        see NOTES.md. Warden must not assume column-level traversal works."""
+        return await self._call("get_lineage", urn=urn, column=column, query=query, filter=filter)
 
-    async def grep_documents(self, pattern: str) -> dict:
-        return await self._call("grep_documents", pattern=pattern)
+    async def get_lineage_paths_between(
+        self,
+        source_urn: str,
+        target_urn: str,
+        source_column: str | None = None,
+        target_column: str | None = None,
+    ) -> dict:
+        return await self._call(
+            "get_lineage_paths_between",
+            source_urn=source_urn,
+            target_urn=target_urn,
+            source_column=source_column,
+            target_column=target_column,
+        )
+
+    async def list_schema_fields(self, urn: str, keywords: list[str] | None = None) -> dict:
+        return await self._call("list_schema_fields", urn=urn, keywords=keywords)
+
+    async def get_dataset_queries(self, urn: str, column: str | None = None) -> dict:
+        """Real query history — the strongest available relevance signal."""
+        return await self._call("get_dataset_queries", urn=urn, column=column)
+
+    async def grep_documents(
+        self, urns: list[str], pattern: str, context_chars: int = 200
+    ) -> dict:
+        """Note: requires explicit URNs. There is no global document grep."""
+        return await self._call(
+            "grep_documents", urns=urns, pattern=pattern, context_chars=context_chars
+        )
+
+    async def search_documents(self, query: str = "*", num_results: int = 10) -> dict:
+        return await self._call("search_documents", query=query, num_results=num_results)
 
     # ---- writes ----
 
-    async def update_description(self, urn: str, description: str) -> dict:
-        return await self._call("update_description", urn=urn, description=description)
+    async def add_tags(
+        self, tag_urns: list[str], entity_urns: list[str], column_paths: list[str] | None = None
+    ) -> dict:
+        return await self._call(
+            "add_tags", tag_urns=tag_urns, entity_urns=entity_urns, column_paths=column_paths
+        )
 
-    async def add_tags(self, urn: str, tags: list[str]) -> dict:
-        return await self._call("add_tags", urn=urn, tags=tags)
+    async def add_terms(self, term_urns: list[str], entity_urns: list[str]) -> dict:
+        return await self._call("add_terms", term_urns=term_urns, entity_urns=entity_urns)
 
-    async def add_structured_properties(self, urn: str, properties: dict) -> dict:
-        return await self._call("add_structured_properties", urn=urn, properties=properties)
+    async def add_owners(self, owner_urns: list[str], entity_urns: list[str]) -> dict:
+        return await self._call("add_owners", owner_urns=owner_urns, entity_urns=entity_urns)
 
-    async def save_document(self, title: str, body: str, parent_urn: str | None = None) -> dict:
-        return await self._call("save_document", title=title, body=body, parent_urn=parent_urn)
+    async def update_description(
+        self, entity_urn: str, description: str, operation: str = "replace"
+    ) -> dict:
+        return await self._call(
+            "update_description",
+            entity_urn=entity_urn,
+            description=description,
+            operation=operation,
+        )
+
+    async def add_structured_properties(
+        self, property_values: dict[str, list], entity_urns: list[str]
+    ) -> dict:
+        """property_values maps structured-property URNs to lists of values."""
+        return await self._call(
+            "add_structured_properties",
+            property_values=property_values,
+            entity_urns=entity_urns,
+        )
+
+    async def save_document(
+        self,
+        document_type: str,
+        title: str,
+        content: str,
+        urn: str | None = None,
+    ) -> dict:
+        """document_type is one of: Insight, Decision, FAQ, Analysis, Summary,
+        Recommendation, Note, Context. Warden uses Decision for held decisions
+        and Analysis for completed run reports."""
+        return await self._call(
+            "save_document",
+            document_type=document_type,
+            title=title,
+            content=content,
+            urn=urn,
+        )
 
 
 @asynccontextmanager
