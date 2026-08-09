@@ -1,5 +1,5 @@
 .PHONY: setup test test-live lint fmt datahub-up datahub-down demo clean \
-        build-world clean-world ingest-dark ingest-covered
+        build-world clean-world ingest-dark ingest-covered datahub-reset demo-dark demo-covered
 
 VENV := .venv
 PY := $(VENV)/bin/python
@@ -59,3 +59,10 @@ demo: build-world ingest-dark
 
 clean: clean-world
 	find . -type d -name __pycache__ -exec rm -rf {} +
+
+datahub-reset:
+	$(VENV)/bin/datahub docker nuke
+	$(VENV)/bin/datahub docker quickstart -f $(COMPOSE)
+
+demo-dark: datahub-reset build-world ingest-dark
+demo-covered: datahub-reset build-world ingest-covered
