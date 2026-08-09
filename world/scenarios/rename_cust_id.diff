@@ -1,0 +1,11 @@
+--- a/world/dbt_project/models/staging/stg_orders.sql
++++ b/world/dbt_project/models/staging/stg_orders.sql
+@@ -1,7 +1,7 @@
+ select
+     order_id,
+-    cust_id,
++    cust_id as customer_id,
+     order_date,
+     status,
+     channel
+ from {{ source('raw', 'raw_orders') }}
