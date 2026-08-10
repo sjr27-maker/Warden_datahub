@@ -1,4 +1,4 @@
-from warden.agent.models import FileEdit, FixStrategy, Remediation
+from warden.agent.models import FixStrategy, Remediation
 from warden.agent.verifier import Verifier
 
 

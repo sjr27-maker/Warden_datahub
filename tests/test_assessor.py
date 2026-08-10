@@ -1,10 +1,8 @@
+from tests.fakes.ceilings import DARK, GOOD
 from warden.agent.assessor import Assessor, build_verdict
 from warden.agent.models import (
-    BlindSpot,
     BreakageTier,
     ChangeKind,
-    CoverageCeiling,
-    CoverageReport,
     EntityRef,
     ProposedChange,
     Subgraph,
@@ -27,35 +25,6 @@ def _subgraph(root: str, consumers: list[str]) -> Subgraph:
         edges=[],
         relevance_trace={_ref(c).urn: "downstream, within 1 hop(s)" for c in consumers},
     )
-
-
-def _ceiling(*, may_assert_safe: bool, score: float = 0.9) -> CoverageCeiling:
-    blind = (
-        []
-        if may_assert_safe
-        else [
-            BlindSpot(
-                description="tableau has no lineage connector",
-                affected_platform="tableau",
-            )
-        ]
-    )
-    return CoverageCeiling(
-        report=CoverageReport(
-            score=score,
-            reachable_nodes=6,
-            expected_nodes=27,
-            parsed_edge_ratio=1.0,
-            blind_spots=blind,
-            inferred_edge_count=0,
-        ),
-        may_assert_safe=may_assert_safe,
-        threshold_used=0.6,
-    )
-
-
-GOOD = _ceiling(may_assert_safe=True)
-DARK = _ceiling(may_assert_safe=False, score=0.4)
 
 
 def test_rename_with_consumers_breaks():
@@ -122,6 +91,22 @@ def test_safe_verdict_unconstructible_below_threshold():
     assert "tableau" in dark.reasoning
 
 
+def test_intrinsic_safety_survives_a_dark_graph():
+    """Widening cannot break a reader whether or not that reader is visible.
+    Gating it would be crying wolf — the failure mode that makes tools ignored.
+
+    Contrast with test_safe_verdict_unconstructible_below_threshold, where
+    safety rests on having looked and found nothing.
+    """
+    change = ProposedChange(
+        model="stg_order_items", kind=ChangeKind.TYPE_WIDENED, column="quantity"
+    )
+    verdict = Assessor().assess(change, _subgraph("stg_order_items", ["fct_orders"]), DARK)
+
+    assert verdict.overall is BreakageTier.SAFE
+    assert verdict.abstained is False
+
+
 def test_abstention_names_the_gap():
     """A refusal that says 'low confidence' is not actionable. It has to name
     what would change the answer."""
@@ -139,19 +124,3 @@ def test_build_verdict_downgrades_directly():
 
     assert verdict.overall is BreakageTier.TOUCHES
     assert verdict.abstained is True
-
-
-def test_intrinsic_safety_survives_a_dark_graph():
-    """Widening cannot break a reader whether or not that reader is visible.
-    Gating it would be crying wolf — the failure mode that makes tools ignored.
-
-    Contrast with test_safe_verdict_unconstructible_below_threshold, where
-    safety rests on having looked and found nothing.
-    """
-    change = ProposedChange(
-        model="stg_order_items", kind=ChangeKind.TYPE_WIDENED, column="quantity"
-    )
-    verdict = Assessor().assess(change, _subgraph("stg_order_items", ["fct_orders"]), DARK)
-
-    assert verdict.overall is BreakageTier.SAFE
-    assert verdict.abstained is False

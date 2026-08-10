@@ -1,11 +1,10 @@
 from pathlib import Path
 
+from tests.fakes.ceilings import GOOD, ceiling
 from warden.agent.models import (
-    BlindSpot,
     BreakageTier,
     ChangeKind,
     CoverageCeiling,
-    CoverageReport,
     EntityRef,
     FixStrategy,
     ImpactedAsset,
@@ -24,27 +23,7 @@ def _ref(name: str, platform: str = "dbt") -> EntityRef:
     )
 
 
-def _ceiling(*, may_assert_safe: bool, score: float = 0.9) -> CoverageCeiling:
-    blind = (
-        []
-        if may_assert_safe
-        else [BlindSpot(description="tableau has no lineage connector", affected_platform="tableau")]
-    )
-    return CoverageCeiling(
-        report=CoverageReport(
-            score=score,
-            reachable_nodes=6,
-            expected_nodes=27,
-            parsed_edge_ratio=1.0,
-            blind_spots=blind,
-            inferred_edge_count=0,
-        ),
-        may_assert_safe=may_assert_safe,
-        threshold_used=0.6,
-    )
-
-
-def _verdict(tier: BreakageTier, ceiling: CoverageCeiling, names: list[str]) -> Verdict:
+def _verdict(tier: BreakageTier, cov: CoverageCeiling, names: list[str]) -> Verdict:
     return Verdict(
         change=ProposedChange(
             model="stg_orders",
@@ -54,7 +33,7 @@ def _verdict(tier: BreakageTier, ceiling: CoverageCeiling, names: list[str]) -> 
         ),
         impacted=[ImpactedAsset(entity=_ref(n), tier=tier, reasoning="") for n in names],
         overall=tier,
-        ceiling=ceiling,
+        ceiling=cov,
     )
 
 
@@ -64,7 +43,7 @@ def test_generation_blocked_when_coverage_thin(tmp_path: Path):
     A fix generated against an incomplete blast radius addresses only the
     consumers Warden can see, while presenting itself as complete.
     """
-    verdict = _verdict(BreakageTier.TOUCHES, _ceiling(may_assert_safe=False, score=0.3), [])
+    verdict = _verdict(BreakageTier.TOUCHES, ceiling(may_assert_safe=False, score=0.3), [])
     remediation = Remediator(tmp_path).remediate(verdict)
 
     assert remediation.is_blocked
@@ -72,16 +51,17 @@ def test_generation_blocked_when_coverage_thin(tmp_path: Path):
 
 
 def test_blocked_reason_names_what_would_unblock_it():
-    verdict = _verdict(BreakageTier.TOUCHES, _ceiling(may_assert_safe=False), [])
+    verdict = _verdict(BreakageTier.TOUCHES, ceiling(may_assert_safe=False), [])
     remediation = Remediator().remediate(verdict)
 
+    assert remediation.blocked_reason is not None
     assert "tableau" in remediation.blocked_reason
 
 
 def test_rename_recommends_update_with_alternatives_named(tmp_path: Path):
     """Three strategies are legitimate here. Silently picking one hides a
     decision the reviewer should see."""
-    verdict = _verdict(BreakageTier.BREAKS, _ceiling(may_assert_safe=True), ["fct_orders"])
+    verdict = _verdict(BreakageTier.BREAKS, GOOD, ["fct_orders"])
     remediation = Remediator(tmp_path).remediate(verdict)
 
     assert remediation.strategy is FixStrategy.UPDATE_REFERENCES
@@ -95,7 +75,7 @@ def test_edits_rewrite_only_whole_column_references(tmp_path: Path):
     model = tmp_path / "fct_orders.sql"
     model.write_text("select cust_id, cust_id_hash from {{ ref('stg_orders') }}")
 
-    verdict = _verdict(BreakageTier.BREAKS, _ceiling(may_assert_safe=True), ["fct_orders"])
+    verdict = _verdict(BreakageTier.BREAKS, GOOD, ["fct_orders"])
     remediation = Remediator(tmp_path).remediate(verdict)
 
     assert len(remediation.edits) == 1
@@ -118,11 +98,13 @@ def test_cross_platform_impact_escalates(tmp_path: Path):
         impacted=[
             ImpactedAsset(entity=_ref("fct_orders", "dbt"), tier=BreakageTier.BREAKS, reasoning=""),
             ImpactedAsset(
-                entity=_ref("exec_dashboard", "tableau"), tier=BreakageTier.BREAKS, reasoning=""
+                entity=_ref("exec_dashboard", "tableau"),
+                tier=BreakageTier.BREAKS,
+                reasoning="",
             ),
         ],
         overall=BreakageTier.BREAKS,
-        ceiling=_ceiling(may_assert_safe=True),
+        ceiling=GOOD,
     )
     remediation = Remediator(tmp_path).remediate(verdict)
 
@@ -131,7 +113,7 @@ def test_cross_platform_impact_escalates(tmp_path: Path):
 
 
 def test_safe_verdict_produces_no_edits(tmp_path: Path):
-    verdict = _verdict(BreakageTier.SAFE, _ceiling(may_assert_safe=True), [])
+    verdict = _verdict(BreakageTier.SAFE, GOOD, [])
     remediation = Remediator(tmp_path).remediate(verdict)
 
     assert remediation.edits == []
