@@ -91,15 +91,17 @@ def test_pr_body_states_that_code_was_executed():
 
 
 def test_refusal_names_what_would_unblock_it():
-    """A refusal that reads as evasive is worse than no tool."""
+    """A refusal that reads as evasive is worse than no tool. It has to name
+    the missing fact and offer a way forward."""
     decision = Decision(is_blocked=True, blocked_on="lineage ingestion for: tableau")
     text = render_refusal(
         _verdict(DARK), Remediation(strategy=FixStrategy.UPDATE_REFERENCES), decision
     )
 
     assert "tableau" in text
-    assert "resumes automatically" in text
     assert "No pull request was opened" in text
+    assert "the analysis resumes" in text
+    assert "--override" in text
 
 
 def test_refusal_with_no_findings_states_the_ambiguity():
