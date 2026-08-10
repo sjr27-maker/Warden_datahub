@@ -2534,3 +2534,1905 @@ alter table "warehouse"."main"."customer_ltv__dbt_tmp" rename to "customer_ltv"
 [0m21:18:38.831112 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76948d7cc750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7694837e7b10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x769489650650>]}
 [0m21:18:38.831564 [debug] [MainThread]: Flushing usage events
 [0m21:18:41.415647 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m22:34:22.109977 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b88185580d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8817797b50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8817794750>]}
+
+
+============================== 22:34:22.115292 | 0e39b0f3-2302-4c7a-aa16-e7db0d5fd209 ==============================
+[0m22:34:22.115292 [info ] [MainThread]: Running with dbt=1.10.8
+[0m22:34:22.115884 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '.', 'fail_fast': 'False', 'warn_error': 'None', 'log_path': '/home/sooraj/warden/world/dbt_project/logs', 'version_check': 'True', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'False', 'log_format': 'default', 'invocation_command': 'dbt build', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m22:34:22.346952 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8817fcbed0>]}
+[0m22:34:22.399827 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b881a4f1710>]}
+[0m22:34:22.403725 [info ] [MainThread]: Registered adapter: duckdb=1.11.0
+[0m22:34:22.459989 [debug] [MainThread]: checksum: 265d66e81f90af29a7a28579c9b54d938c94f4a57c57be5f853267ae509b5fcb, vars: {}, profile: , target: , version: 1.10.8
+[0m22:34:22.592681 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m22:34:22.593194 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m22:34:22.621307 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8811678190>]}
+[0m22:34:22.678436 [debug] [MainThread]: Wrote artifact WritableManifest to /home/sooraj/warden/world/dbt_project/target/manifest.json
+[0m22:34:22.681120 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/sooraj/warden/world/dbt_project/target/semantic_manifest.json
+[0m22:34:22.726198 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b88113a3f50>]}
+[0m22:34:22.726747 [info ] [MainThread]: Found 10 models, 6 sources, 459 macros
+[0m22:34:22.729143 [info ] [MainThread]: 
+[0m22:34:22.729608 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m22:34:22.730043 [info ] [MainThread]: 
+[0m22:34:22.730600 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m22:34:22.734935 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_warehouse'
+[0m22:34:22.781255 [debug] [ThreadPool]: Using duckdb connection "list_warehouse"
+[0m22:34:22.781701 [debug] [ThreadPool]: On list_warehouse: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "list_warehouse"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"warehouse"'
+    
+  
+  
+[0m22:34:22.782040 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m22:34:22.807140 [debug] [ThreadPool]: SQL status: OK in 0.025 seconds
+[0m22:34:22.808974 [debug] [ThreadPool]: On list_warehouse: Close
+[0m22:34:22.809865 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_warehouse, now create_warehouse_main)
+[0m22:34:22.810305 [debug] [ThreadPool]: Creating schema "database: "warehouse"
+schema: "main"
+"
+[0m22:34:22.817269 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:34:22.817648 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='warehouse'
+        and type != 'duckdb'
+    
+  
+[0m22:34:22.817956 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m22:34:22.819973 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m22:34:22.821322 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:34:22.821731 [debug] [ThreadPool]: On create_warehouse_main: BEGIN
+[0m22:34:22.822401 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:34:22.822709 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:34:22.822974 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+    
+        create schema if not exists "warehouse"."main"
+    
+[0m22:34:22.823607 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:34:22.824325 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m22:34:22.824617 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:34:22.824862 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m22:34:22.825355 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:34:22.825660 [debug] [ThreadPool]: On create_warehouse_main: Close
+[0m22:34:22.828100 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_warehouse_main, now list_warehouse_main)
+[0m22:34:22.884272 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m22:34:22.884709 [debug] [ThreadPool]: On list_warehouse_main: BEGIN
+[0m22:34:22.885009 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m22:34:22.885859 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m22:34:22.886159 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m22:34:22.886418 [debug] [ThreadPool]: On list_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "list_warehouse_main"} */
+select
+      'warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'warehouse'
+  
+[0m22:34:22.898058 [debug] [ThreadPool]: SQL status: OK in 0.011 seconds
+[0m22:34:22.899893 [debug] [ThreadPool]: On list_warehouse_main: ROLLBACK
+[0m22:34:22.900762 [debug] [ThreadPool]: On list_warehouse_main: Close
+[0m22:34:22.902370 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8803f4c550>]}
+[0m22:34:22.902866 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:34:22.903199 [debug] [MainThread]: On master: BEGIN
+[0m22:34:22.903457 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m22:34:22.904020 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m22:34:22.904331 [debug] [MainThread]: On master: COMMIT
+[0m22:34:22.904590 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:34:22.904823 [debug] [MainThread]: On master: COMMIT
+[0m22:34:22.905331 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m22:34:22.905606 [debug] [MainThread]: On master: Close
+[0m22:34:22.909410 [debug] [Thread-1 (]: Began running node model.warden_world.mart_finance_summary
+[0m22:34:22.909888 [info ] [Thread-1 (]: 1 of 10 START sql table model main.mart_finance_summary ........................ [RUN]
+[0m22:34:22.910346 [debug] [Thread-2 (]: Began running node model.warden_world.stg_order_items
+[0m22:34:22.910776 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_warehouse_main, now model.warden_world.mart_finance_summary)
+[0m22:34:22.911284 [info ] [Thread-2 (]: 2 of 10 START sql view model main.stg_order_items .............................. [RUN]
+[0m22:34:22.911742 [debug] [Thread-3 (]: Began running node model.warden_world.stg_orders
+[0m22:34:22.912073 [debug] [Thread-1 (]: Began compiling node model.warden_world.mart_finance_summary
+[0m22:34:22.912539 [debug] [Thread-4 (]: Began running node model.warden_world.stg_payments
+[0m22:34:22.919929 [info ] [Thread-4 (]: 4 of 10 START sql view model main.stg_payments ................................. [RUN]
+[0m22:34:22.920466 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.warden_world.stg_payments'
+[0m22:34:22.920763 [debug] [Thread-4 (]: Began compiling node model.warden_world.stg_payments
+[0m22:34:22.913225 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.warden_world.stg_order_items'
+[0m22:34:22.913696 [info ] [Thread-3 (]: 3 of 10 START sql view model main.stg_orders ................................... [RUN]
+[0m22:34:22.923157 [debug] [Thread-4 (]: Writing injected SQL for node "model.warden_world.stg_payments"
+[0m22:34:22.925093 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.mart_finance_summary"
+[0m22:34:22.925789 [debug] [Thread-2 (]: Began compiling node model.warden_world.stg_order_items
+[0m22:34:22.926472 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.warden_world.stg_orders'
+[0m22:34:22.929088 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.stg_order_items"
+[0m22:34:22.929604 [debug] [Thread-3 (]: Began compiling node model.warden_world.stg_orders
+[0m22:34:22.930301 [debug] [Thread-1 (]: Began executing node model.warden_world.mart_finance_summary
+[0m22:34:22.930807 [debug] [Thread-4 (]: Began executing node model.warden_world.stg_payments
+[0m22:34:22.934157 [debug] [Thread-3 (]: Writing injected SQL for node "model.warden_world.stg_orders"
+[0m22:34:22.934963 [debug] [Thread-2 (]: Began executing node model.warden_world.stg_order_items
+[0m22:34:22.997623 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.stg_order_items"
+[0m22:34:23.000210 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.mart_finance_summary"
+[0m22:34:23.001956 [debug] [Thread-4 (]: Writing runtime sql for node "model.warden_world.stg_payments"
+[0m22:34:23.002696 [debug] [Thread-3 (]: Began executing node model.warden_world.stg_orders
+[0m22:34:23.005995 [debug] [Thread-3 (]: Writing runtime sql for node "model.warden_world.stg_orders"
+[0m22:34:23.006555 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:34:23.006928 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: BEGIN
+[0m22:34:23.007265 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m22:34:23.008147 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:34:23.008541 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: BEGIN
+[0m22:34:23.008843 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:34:23.009647 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:34:23.010159 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m22:34:23.010516 [debug] [Thread-3 (]: On model.warden_world.stg_orders: BEGIN
+[0m22:34:23.010998 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:34:23.011435 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:34:23.011835 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:34:23.012184 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m22:34:23.012524 [debug] [Thread-4 (]: On model.warden_world.stg_payments: BEGIN
+[0m22:34:23.012829 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:34:23.013211 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+
+  
+  create view "warehouse"."main"."stg_order_items__dbt_tmp" as (
+    select
+    item_id,
+    order_id,
+    sku,
+    quantity,
+    unit_price_cents / 100.0 as unit_price_usd
+from "warehouse"."main"."raw_order_items"
+  );
+
+[0m22:34:23.013913 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m22:34:23.014330 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+
+    
+
+    create  table
+      "warehouse"."main"."mart_finance_summary__dbt_tmp"
+  
+    
+    as (
+      -- HOLE #2: reads only from a hand-maintained extract. Nothing upstream of
+-- finance_extract is knowable from any connector.
+select
+    period,
+    region,
+    reported_revenue_usd
+from "warehouse"."main"."finance_extract"
+    );
+    
+  
+[0m22:34:23.014678 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:34:23.018357 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.018759 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.019420 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:34:23.019877 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:34:23.025136 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:34:23.025644 [debug] [Thread-1 (]: SQL status: OK in 0.006 seconds
+[0m22:34:23.026016 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+
+  
+  create view "warehouse"."main"."stg_orders__dbt_tmp" as (
+    select
+    order_id,
+    cust_id,
+    order_date,
+    status,
+    channel
+from "warehouse"."main"."raw_orders"
+  );
+
+[0m22:34:23.026411 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+
+  
+  create view "warehouse"."main"."stg_payments__dbt_tmp" as (
+    select
+    payment_id,
+    order_id,
+    amount_cents / 100.0 as amount_usd,
+    method,
+    paid_at
+from "warehouse"."main"."raw_payments"
+  );
+
+[0m22:34:23.026792 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+alter view "warehouse"."main"."stg_order_items__dbt_tmp" rename to "stg_order_items"
+[0m22:34:23.029203 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:34:23.030381 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.030903 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+alter table "warehouse"."main"."mart_finance_summary__dbt_tmp" rename to "mart_finance_summary"
+[0m22:34:23.031243 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.033635 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:34:23.033972 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.036461 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:34:23.036861 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:34:23.037265 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+alter view "warehouse"."main"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m22:34:23.044724 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: COMMIT
+[0m22:34:23.045143 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+alter view "warehouse"."main"."stg_payments__dbt_tmp" rename to "stg_payments"
+[0m22:34:23.048649 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: COMMIT
+[0m22:34:23.049210 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:34:23.050045 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:34:23.050365 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.050846 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.051246 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: COMMIT
+[0m22:34:23.051630 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: COMMIT
+[0m22:34:23.052662 [debug] [Thread-3 (]: On model.warden_world.stg_orders: COMMIT
+[0m22:34:23.053882 [debug] [Thread-4 (]: On model.warden_world.stg_payments: COMMIT
+[0m22:34:23.054754 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:34:23.055297 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:34:23.055795 [debug] [Thread-3 (]: On model.warden_world.stg_orders: COMMIT
+[0m22:34:23.056321 [debug] [Thread-4 (]: On model.warden_world.stg_payments: COMMIT
+[0m22:34:23.057750 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m22:34:23.061961 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:34:23.062464 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+
+      drop view if exists "warehouse"."main"."stg_order_items__dbt_backup" cascade
+    
+[0m22:34:23.063284 [debug] [Thread-1 (]: SQL status: OK in 0.009 seconds
+[0m22:34:23.065019 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:34:23.065470 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+
+      drop table if exists "warehouse"."main"."mart_finance_summary__dbt_backup" cascade
+    
+[0m22:34:23.065846 [debug] [Thread-3 (]: SQL status: OK in 0.009 seconds
+[0m22:34:23.066252 [debug] [Thread-4 (]: SQL status: OK in 0.009 seconds
+[0m22:34:23.066650 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.068617 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:34:23.069057 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:34:23.071849 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:34:23.073774 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: Close
+[0m22:34:23.074179 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+
+      drop view if exists "warehouse"."main"."stg_orders__dbt_backup" cascade
+    
+[0m22:34:23.075355 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: Close
+[0m22:34:23.075762 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+
+      drop view if exists "warehouse"."main"."stg_payments__dbt_backup" cascade
+    
+[0m22:34:23.077881 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.079070 [debug] [Thread-3 (]: On model.warden_world.stg_orders: Close
+[0m22:34:23.079731 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.080741 [debug] [Thread-4 (]: On model.warden_world.stg_payments: Close
+[0m22:34:23.081403 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b88101b7090>]}
+[0m22:34:23.081961 [info ] [Thread-2 (]: 2 of 10 OK created sql view model main.stg_order_items ......................... [[32mOK[0m in 0.16s]
+[0m22:34:23.082388 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b87ded2a450>]}
+[0m22:34:23.082866 [debug] [Thread-2 (]: Finished running node model.warden_world.stg_order_items
+[0m22:34:23.083190 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b87ded29650>]}
+[0m22:34:23.083820 [info ] [Thread-1 (]: 1 of 10 OK created sql table model main.mart_finance_summary ................... [[32mOK[0m in 0.17s]
+[0m22:34:23.084279 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b87ded29190>]}
+[0m22:34:23.084743 [debug] [Thread-2 (]: Began running node model.warden_world.stg_refunds
+[0m22:34:23.085431 [info ] [Thread-3 (]: 3 of 10 OK created sql view model main.stg_orders .............................. [[32mOK[0m in 0.15s]
+[0m22:34:23.086054 [debug] [Thread-1 (]: Finished running node model.warden_world.mart_finance_summary
+[0m22:34:23.086596 [info ] [Thread-4 (]: 4 of 10 OK created sql view model main.stg_payments ............................ [[32mOK[0m in 0.16s]
+[0m22:34:23.087128 [info ] [Thread-2 (]: 5 of 10 START sql view model main.stg_refunds .................................. [RUN]
+[0m22:34:23.087740 [debug] [Thread-3 (]: Finished running node model.warden_world.stg_orders
+[0m22:34:23.088214 [debug] [Thread-1 (]: Began running node model.warden_world.stg_users
+[0m22:34:23.088787 [debug] [Thread-4 (]: Finished running node model.warden_world.stg_payments
+[0m22:34:23.089332 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_order_items, now model.warden_world.stg_refunds)
+[0m22:34:23.090310 [info ] [Thread-1 (]: 6 of 10 START sql view model main.stg_users .................................... [RUN]
+[0m22:34:23.090756 [debug] [Thread-3 (]: Began running node model.warden_world.fct_orders
+[0m22:34:23.091382 [debug] [Thread-2 (]: Began compiling node model.warden_world.stg_refunds
+[0m22:34:23.091999 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.warden_world.mart_finance_summary, now model.warden_world.stg_users)
+[0m22:34:23.095402 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.stg_refunds"
+[0m22:34:23.092451 [info ] [Thread-3 (]: 7 of 10 START sql table model main.fct_orders .................................. [RUN]
+[0m22:34:23.097276 [debug] [Thread-1 (]: Began compiling node model.warden_world.stg_users
+[0m22:34:23.098131 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_orders, now model.warden_world.fct_orders)
+[0m22:34:23.100972 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.stg_users"
+[0m22:34:23.101429 [debug] [Thread-2 (]: Began executing node model.warden_world.stg_refunds
+[0m22:34:23.101846 [debug] [Thread-3 (]: Began compiling node model.warden_world.fct_orders
+[0m22:34:23.102459 [debug] [Thread-1 (]: Began executing node model.warden_world.stg_users
+[0m22:34:23.105810 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.stg_refunds"
+[0m22:34:23.108756 [debug] [Thread-3 (]: Writing injected SQL for node "model.warden_world.fct_orders"
+[0m22:34:23.112116 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.stg_users"
+[0m22:34:23.113297 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:34:23.113996 [debug] [Thread-2 (]: On model.warden_world.stg_refunds: BEGIN
+[0m22:34:23.114368 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m22:34:23.115112 [debug] [Thread-3 (]: Began executing node model.warden_world.fct_orders
+[0m22:34:23.117957 [debug] [Thread-3 (]: Writing runtime sql for node "model.warden_world.fct_orders"
+[0m22:34:23.118538 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.119165 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:34:23.119705 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:34:23.120132 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:34:23.120521 [debug] [Thread-3 (]: On model.warden_world.fct_orders: BEGIN
+[0m22:34:23.120867 [debug] [Thread-1 (]: On model.warden_world.stg_users: BEGIN
+[0m22:34:23.121204 [debug] [Thread-2 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+
+  
+  create view "warehouse"."main"."stg_refunds__dbt_tmp" as (
+    select
+    refund_id,
+    order_id,
+    refund_amount_cents / 100.0 as refund_amount_usd,
+    refund_date,
+    reason
+from "warehouse"."main"."raw_refunds"
+  );
+
+[0m22:34:23.121528 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m22:34:23.121848 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:34:23.122991 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.123338 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:34:23.123696 [debug] [Thread-3 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+
+    
+
+    create  table
+      "warehouse"."main"."fct_orders__dbt_tmp"
+  
+    
+    as (
+      with items as (
+    select
+        order_id,
+        sum(quantity) as total_units,
+        sum(quantity * unit_price_usd) as gross_value_usd
+    from "warehouse"."main"."stg_order_items"
+    group by order_id
+)
+
+select
+    o.order_id,
+    o.cust_id,
+    o.order_date,
+    o.status,
+    o.channel,
+    coalesce(i.total_units, 0) as total_units,
+    coalesce(i.gross_value_usd, 0) as gross_value_usd
+from "warehouse"."main"."stg_orders" o
+left join items i on o.order_id = i.order_id
+    );
+    
+  
+[0m22:34:23.124516 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m22:34:23.127032 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:34:23.127434 [debug] [Thread-2 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+alter view "warehouse"."main"."stg_refunds__dbt_tmp" rename to "stg_refunds"
+[0m22:34:23.128034 [debug] [Thread-1 (]: SQL status: OK in 0.006 seconds
+[0m22:34:23.128405 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:34:23.128795 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.129191 [debug] [Thread-1 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+
+  
+  create view "warehouse"."main"."stg_users__dbt_tmp" as (
+    select
+    user_id,
+    email,
+    signup_date,
+    country
+from "warehouse"."main"."raw_users"
+where not is_test
+  );
+
+[0m22:34:23.130533 [debug] [Thread-2 (]: On model.warden_world.stg_refunds: COMMIT
+[0m22:34:23.131159 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:34:23.131582 [debug] [Thread-2 (]: On model.warden_world.stg_refunds: COMMIT
+[0m22:34:23.132006 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.134716 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:34:23.135080 [debug] [Thread-1 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+alter view "warehouse"."main"."stg_users__dbt_tmp" rename to "stg_users"
+[0m22:34:23.135910 [debug] [Thread-1 (]: SQL status: OK in 0.000 seconds
+[0m22:34:23.137172 [debug] [Thread-1 (]: On model.warden_world.stg_users: COMMIT
+[0m22:34:23.137543 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:34:23.137852 [debug] [Thread-1 (]: On model.warden_world.stg_users: COMMIT
+[0m22:34:23.138837 [debug] [Thread-3 (]: SQL status: OK in 0.015 seconds
+[0m22:34:23.141675 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:34:23.142035 [debug] [Thread-3 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+alter table "warehouse"."main"."fct_orders__dbt_tmp" rename to "fct_orders"
+[0m22:34:23.142500 [debug] [Thread-2 (]: SQL status: OK in 0.010 seconds
+[0m22:34:23.145598 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:34:23.145960 [debug] [Thread-2 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+
+      drop view if exists "warehouse"."main"."stg_refunds__dbt_backup" cascade
+    
+[0m22:34:23.146432 [debug] [Thread-1 (]: SQL status: OK in 0.008 seconds
+[0m22:34:23.148354 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:34:23.148732 [debug] [Thread-1 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+
+      drop view if exists "warehouse"."main"."stg_users__dbt_backup" cascade
+    
+[0m22:34:23.149168 [debug] [Thread-3 (]: SQL status: OK in 0.007 seconds
+[0m22:34:23.150436 [debug] [Thread-3 (]: On model.warden_world.fct_orders: COMMIT
+[0m22:34:23.150869 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:34:23.151299 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:34:23.151668 [debug] [Thread-2 (]: SQL status: OK in 0.005 seconds
+[0m22:34:23.152725 [debug] [Thread-1 (]: On model.warden_world.stg_users: Close
+[0m22:34:23.153109 [debug] [Thread-3 (]: On model.warden_world.fct_orders: COMMIT
+[0m22:34:23.154081 [debug] [Thread-2 (]: On model.warden_world.stg_refunds: Close
+[0m22:34:23.154649 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b87ded8ab10>]}
+[0m22:34:23.155619 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b87ded97d90>]}
+[0m22:34:23.156351 [info ] [Thread-1 (]: 6 of 10 OK created sql view model main.stg_users ............................... [[32mOK[0m in 0.06s]
+[0m22:34:23.157138 [info ] [Thread-2 (]: 5 of 10 OK created sql view model main.stg_refunds ............................. [[32mOK[0m in 0.07s]
+[0m22:34:23.157889 [debug] [Thread-1 (]: Finished running node model.warden_world.stg_users
+[0m22:34:23.158446 [debug] [Thread-2 (]: Finished running node model.warden_world.stg_refunds
+[0m22:34:23.159699 [debug] [Thread-4 (]: Began running node model.warden_world.dim_customers
+[0m22:34:23.160866 [debug] [Thread-1 (]: Began running node model.warden_world.fct_revenue
+[0m22:34:23.162353 [info ] [Thread-1 (]: 9 of 10 START sql table model main.fct_revenue ................................. [RUN]
+[0m22:34:23.161241 [debug] [Thread-3 (]: SQL status: OK in 0.006 seconds
+[0m22:34:23.161783 [info ] [Thread-4 (]: 8 of 10 START sql table model main.dim_customers ............................... [RUN]
+[0m22:34:23.162862 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_users, now model.warden_world.fct_revenue)
+[0m22:34:23.165188 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:34:23.165708 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_payments, now model.warden_world.dim_customers)
+[0m22:34:23.166113 [debug] [Thread-1 (]: Began compiling node model.warden_world.fct_revenue
+[0m22:34:23.166507 [debug] [Thread-3 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+
+      drop table if exists "warehouse"."main"."fct_orders__dbt_backup" cascade
+    
+[0m22:34:23.166855 [debug] [Thread-4 (]: Began compiling node model.warden_world.dim_customers
+[0m22:34:23.169861 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.fct_revenue"
+[0m22:34:23.173681 [debug] [Thread-4 (]: Writing injected SQL for node "model.warden_world.dim_customers"
+[0m22:34:23.174526 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.176407 [debug] [Thread-3 (]: On model.warden_world.fct_orders: Close
+[0m22:34:23.177236 [debug] [Thread-4 (]: Began executing node model.warden_world.dim_customers
+[0m22:34:23.180750 [debug] [Thread-4 (]: Writing runtime sql for node "model.warden_world.dim_customers"
+[0m22:34:23.181303 [debug] [Thread-1 (]: Began executing node model.warden_world.fct_revenue
+[0m22:34:23.182544 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8803ff8910>]}
+[0m22:34:23.186863 [info ] [Thread-3 (]: 7 of 10 OK created sql table model main.fct_orders ............................. [[32mOK[0m in 0.08s]
+[0m22:34:23.186214 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.fct_revenue"
+[0m22:34:23.187960 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:34:23.187372 [debug] [Thread-3 (]: Finished running node model.warden_world.fct_orders
+[0m22:34:23.188359 [debug] [Thread-1 (]: On model.warden_world.fct_revenue: BEGIN
+[0m22:34:23.183102 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:34:23.189528 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:34:23.189910 [debug] [Thread-4 (]: On model.warden_world.dim_customers: BEGIN
+[0m22:34:23.190925 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m22:34:23.191341 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:34:23.192191 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:34:23.192635 [debug] [Thread-1 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+
+    
+
+    create  table
+      "warehouse"."main"."fct_revenue__dbt_tmp"
+  
+    
+    as (
+      with refunds as (
+    select order_id, sum(refund_amount_usd) as refunded_usd
+    from "warehouse"."main"."stg_refunds"
+    group by order_id
+)
+
+select
+    p.order_id,
+    o.cust_id,
+    o.order_date,
+    p.amount_usd as gross_revenue_usd,
+    coalesce(r.refunded_usd, 0) as refunded_usd,
+    p.amount_usd - coalesce(r.refunded_usd, 0) as net_revenue_usd
+from "warehouse"."main"."stg_payments" p
+join "warehouse"."main"."stg_orders" o on p.order_id = o.order_id
+left join refunds r on p.order_id = r.order_id
+    );
+    
+  
+[0m22:34:23.195160 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.195611 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:34:23.195972 [debug] [Thread-4 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+
+    
+
+    create  table
+      "warehouse"."main"."dim_customers__dbt_tmp"
+  
+    
+    as (
+      with orders as (
+    select
+        cust_id,
+        min(order_date) as first_order_date,
+        max(order_date) as last_order_date,
+        count(*) as order_count
+    from "warehouse"."main"."stg_orders"
+    group by cust_id
+)
+
+select
+    u.user_id,
+    u.email,
+    u.country,
+    u.signup_date,
+    o.first_order_date,
+    o.last_order_date,
+    coalesce(o.order_count, 0) as order_count
+from "warehouse"."main"."stg_users" u
+left join orders o on u.user_id = o.cust_id
+    );
+    
+  
+[0m22:34:23.200278 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.202849 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:34:23.203425 [debug] [Thread-4 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+alter table "warehouse"."main"."dim_customers__dbt_tmp" rename to "dim_customers"
+[0m22:34:23.203918 [debug] [Thread-1 (]: SQL status: OK in 0.011 seconds
+[0m22:34:23.206641 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:34:23.207037 [debug] [Thread-1 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+alter table "warehouse"."main"."fct_revenue__dbt_tmp" rename to "fct_revenue"
+[0m22:34:23.207665 [debug] [Thread-4 (]: SQL status: OK in 0.003 seconds
+[0m22:34:23.208135 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.209612 [debug] [Thread-4 (]: On model.warden_world.dim_customers: COMMIT
+[0m22:34:23.211459 [debug] [Thread-1 (]: On model.warden_world.fct_revenue: COMMIT
+[0m22:34:23.212175 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:34:23.212638 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:34:23.213011 [debug] [Thread-4 (]: On model.warden_world.dim_customers: COMMIT
+[0m22:34:23.213371 [debug] [Thread-1 (]: On model.warden_world.fct_revenue: COMMIT
+[0m22:34:23.218984 [debug] [Thread-4 (]: SQL status: OK in 0.005 seconds
+[0m22:34:23.221234 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:34:23.221582 [debug] [Thread-4 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+
+      drop table if exists "warehouse"."main"."dim_customers__dbt_backup" cascade
+    
+[0m22:34:23.222895 [debug] [Thread-1 (]: SQL status: OK in 0.009 seconds
+[0m22:34:23.224777 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:34:23.225119 [debug] [Thread-1 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+
+      drop table if exists "warehouse"."main"."fct_revenue__dbt_backup" cascade
+    
+[0m22:34:23.225605 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m22:34:23.226800 [debug] [Thread-4 (]: On model.warden_world.dim_customers: Close
+[0m22:34:23.227173 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:34:23.227903 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b88119e7ad0>]}
+[0m22:34:23.228956 [debug] [Thread-1 (]: On model.warden_world.fct_revenue: Close
+[0m22:34:23.229628 [info ] [Thread-4 (]: 8 of 10 OK created sql table model main.dim_customers .......................... [[32mOK[0m in 0.06s]
+[0m22:34:23.230270 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b87ded96950>]}
+[0m22:34:23.230781 [debug] [Thread-4 (]: Finished running node model.warden_world.dim_customers
+[0m22:34:23.231419 [info ] [Thread-1 (]: 9 of 10 OK created sql table model main.fct_revenue ............................ [[32mOK[0m in 0.07s]
+[0m22:34:23.232163 [debug] [Thread-1 (]: Finished running node model.warden_world.fct_revenue
+[0m22:34:23.233014 [debug] [Thread-2 (]: Began running node model.warden_world.customer_ltv
+[0m22:34:23.233428 [info ] [Thread-2 (]: 10 of 10 START sql table model main.customer_ltv ............................... [RUN]
+[0m22:34:23.233893 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_refunds, now model.warden_world.customer_ltv)
+[0m22:34:23.234223 [debug] [Thread-2 (]: Began compiling node model.warden_world.customer_ltv
+[0m22:34:23.237578 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.customer_ltv"
+[0m22:34:23.238281 [debug] [Thread-2 (]: Began executing node model.warden_world.customer_ltv
+[0m22:34:23.241206 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.customer_ltv"
+[0m22:34:23.241882 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:34:23.242274 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: BEGIN
+[0m22:34:23.242654 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m22:34:23.243511 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:34:23.243831 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:34:23.244115 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+
+    
+
+    create  table
+      "warehouse"."main"."customer_ltv__dbt_tmp"
+  
+    
+    as (
+      select
+    r.cust_id,
+    count(distinct r.order_id) as paid_order_count,
+    sum(r.net_revenue_usd) as lifetime_value_usd,
+    min(r.order_date) as first_paid_date,
+    max(r.order_date) as last_paid_date
+from "warehouse"."main"."fct_revenue" r
+group by r.cust_id
+    );
+    
+  
+[0m22:34:23.249662 [debug] [Thread-2 (]: SQL status: OK in 0.005 seconds
+[0m22:34:23.252561 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:34:23.253110 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+alter table "warehouse"."main"."customer_ltv__dbt_tmp" rename to "customer_ltv"
+[0m22:34:23.253957 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m22:34:23.255191 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: COMMIT
+[0m22:34:23.255548 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:34:23.255830 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: COMMIT
+[0m22:34:23.261789 [debug] [Thread-2 (]: SQL status: OK in 0.005 seconds
+[0m22:34:23.263693 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:34:23.264014 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+
+      drop table if exists "warehouse"."main"."customer_ltv__dbt_backup" cascade
+    
+[0m22:34:23.264610 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m22:34:23.265748 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: Close
+[0m22:34:23.266256 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '0e39b0f3-2302-4c7a-aa16-e7db0d5fd209', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b87dedf7150>]}
+[0m22:34:23.266802 [info ] [Thread-2 (]: 10 of 10 OK created sql table model main.customer_ltv .......................... [[32mOK[0m in 0.03s]
+[0m22:34:23.267320 [debug] [Thread-2 (]: Finished running node model.warden_world.customer_ltv
+[0m22:34:23.269162 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:34:23.269475 [debug] [MainThread]: On master: BEGIN
+[0m22:34:23.269747 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m22:34:23.270462 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m22:34:23.270771 [debug] [MainThread]: On master: COMMIT
+[0m22:34:23.271077 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:34:23.271365 [debug] [MainThread]: On master: COMMIT
+[0m22:34:23.271905 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m22:34:23.272227 [debug] [MainThread]: On master: Close
+[0m22:34:23.272611 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m22:34:23.272862 [debug] [MainThread]: Connection 'model.warden_world.fct_revenue' was properly closed.
+[0m22:34:23.273104 [debug] [MainThread]: Connection 'model.warden_world.customer_ltv' was properly closed.
+[0m22:34:23.273324 [debug] [MainThread]: Connection 'model.warden_world.dim_customers' was properly closed.
+[0m22:34:23.273527 [debug] [MainThread]: Connection 'model.warden_world.fct_orders' was properly closed.
+[0m22:34:23.273867 [info ] [MainThread]: 
+[0m22:34:23.274242 [info ] [MainThread]: Finished running 5 table models, 5 view models in 0 hours 0 minutes and 0.54 seconds (0.54s).
+[0m22:34:23.275668 [debug] [MainThread]: Command end result
+[0m22:34:23.296503 [debug] [MainThread]: Wrote artifact WritableManifest to /home/sooraj/warden/world/dbt_project/target/manifest.json
+[0m22:34:23.298271 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/sooraj/warden/world/dbt_project/target/semantic_manifest.json
+[0m22:34:23.303627 [debug] [MainThread]: Wrote artifact RunExecutionResult to /home/sooraj/warden/world/dbt_project/target/run_results.json
+[0m22:34:23.304035 [info ] [MainThread]: 
+[0m22:34:23.304439 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m22:34:23.304749 [info ] [MainThread]: 
+[0m22:34:23.305066 [info ] [MainThread]: Done. PASS=10 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=10
+[0m22:34:23.306277 [debug] [MainThread]: Resource report: {"command_name": "build", "command_success": true, "command_wall_clock_time": 1.2467175, "process_in_blocks": "45032", "process_kernel_time": 0.330943, "process_mem_max_rss": "167424", "process_out_blocks": "2904", "process_user_time": 1.905651}
+[0m22:34:23.306726 [debug] [MainThread]: Command `dbt build` succeeded at 22:34:23.306628 after 1.25 seconds
+[0m22:34:23.307060 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b88179eaf50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b881b9ec750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b881b9da410>]}
+[0m22:34:23.307673 [debug] [MainThread]: Flushing usage events
+[0m22:34:25.312970 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m22:43:51.967970 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b7215c69d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b721293510>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b72126a210>]}
+
+
+============================== 22:43:51.972910 | 490e3bf2-95d3-4408-bce7-8fe9f7aacec9 ==============================
+[0m22:43:51.972910 [info ] [MainThread]: Running with dbt=1.10.8
+[0m22:43:51.973439 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'fail_fast': 'False', 'log_path': '/home/sooraj/warden/world/dbt_project/logs', 'debug': 'False', 'profiles_dir': '.', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'False', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'introspect': 'True', 'log_format': 'default', 'invocation_command': 'dbt build', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m22:43:52.143153 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71b411a10>]}
+[0m22:43:52.192059 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b7240f5810>]}
+[0m22:43:52.194497 [info ] [MainThread]: Registered adapter: duckdb=1.11.0
+[0m22:43:52.245778 [debug] [MainThread]: checksum: 265d66e81f90af29a7a28579c9b54d938c94f4a57c57be5f853267ae509b5fcb, vars: {}, profile: , target: , version: 1.10.8
+[0m22:43:52.319052 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m22:43:52.319509 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m22:43:52.344770 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71b11e010>]}
+[0m22:43:52.393539 [debug] [MainThread]: Wrote artifact WritableManifest to /home/sooraj/warden/world/dbt_project/target/manifest.json
+[0m22:43:52.395507 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/sooraj/warden/world/dbt_project/target/semantic_manifest.json
+[0m22:43:52.420353 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71af83b50>]}
+[0m22:43:52.420905 [info ] [MainThread]: Found 10 models, 6 sources, 459 macros
+[0m22:43:52.422998 [info ] [MainThread]: 
+[0m22:43:52.423378 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m22:43:52.423620 [info ] [MainThread]: 
+[0m22:43:52.424046 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m22:43:52.428031 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_warehouse'
+[0m22:43:52.466663 [debug] [ThreadPool]: Using duckdb connection "list_warehouse"
+[0m22:43:52.467130 [debug] [ThreadPool]: On list_warehouse: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "list_warehouse"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"warehouse"'
+    
+  
+  
+[0m22:43:52.467407 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m22:43:52.484659 [debug] [ThreadPool]: SQL status: OK in 0.017 seconds
+[0m22:43:52.486054 [debug] [ThreadPool]: On list_warehouse: Close
+[0m22:43:52.486752 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_warehouse, now create_warehouse_main)
+[0m22:43:52.487246 [debug] [ThreadPool]: Creating schema "database: "warehouse"
+schema: "main"
+"
+[0m22:43:52.492789 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:43:52.493184 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='warehouse'
+        and type != 'duckdb'
+    
+  
+[0m22:43:52.493474 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m22:43:52.494998 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m22:43:52.496105 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:43:52.496393 [debug] [ThreadPool]: On create_warehouse_main: BEGIN
+[0m22:43:52.496931 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:43:52.497161 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:43:52.497364 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+    
+        create schema if not exists "warehouse"."main"
+    
+[0m22:43:52.497983 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:43:52.498628 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m22:43:52.498904 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:43:52.499135 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m22:43:52.499666 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:43:52.499933 [debug] [ThreadPool]: On create_warehouse_main: Close
+[0m22:43:52.502169 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_warehouse_main, now list_warehouse_main)
+[0m22:43:52.509011 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m22:43:52.509438 [debug] [ThreadPool]: On list_warehouse_main: BEGIN
+[0m22:43:52.509656 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m22:43:52.513898 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m22:43:52.514379 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m22:43:52.514616 [debug] [ThreadPool]: On list_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "list_warehouse_main"} */
+select
+      'warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'warehouse'
+  
+[0m22:43:52.519129 [debug] [ThreadPool]: SQL status: OK in 0.004 seconds
+[0m22:43:52.520909 [debug] [ThreadPool]: On list_warehouse_main: ROLLBACK
+[0m22:43:52.521799 [debug] [ThreadPool]: On list_warehouse_main: Close
+[0m22:43:52.524814 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71b5d2350>]}
+[0m22:43:52.525447 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:43:52.525706 [debug] [MainThread]: On master: BEGIN
+[0m22:43:52.525917 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m22:43:52.528035 [debug] [MainThread]: SQL status: OK in 0.002 seconds
+[0m22:43:52.528564 [debug] [MainThread]: On master: COMMIT
+[0m22:43:52.528830 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:43:52.529099 [debug] [MainThread]: On master: COMMIT
+[0m22:43:52.532537 [debug] [MainThread]: SQL status: OK in 0.003 seconds
+[0m22:43:52.532942 [debug] [MainThread]: On master: Close
+[0m22:43:52.591384 [debug] [Thread-1 (]: Began running node model.warden_world.mart_finance_summary
+[0m22:43:52.591893 [debug] [Thread-2 (]: Began running node model.warden_world.stg_order_items
+[0m22:43:52.592479 [info ] [Thread-1 (]: 1 of 10 START sql table model main.mart_finance_summary ........................ [RUN]
+[0m22:43:52.592947 [debug] [Thread-3 (]: Began running node model.warden_world.stg_orders
+[0m22:43:52.593340 [info ] [Thread-2 (]: 2 of 10 START sql view model main.stg_order_items .............................. [RUN]
+[0m22:43:52.593893 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_warehouse_main, now model.warden_world.mart_finance_summary)
+[0m22:43:52.594602 [debug] [Thread-4 (]: Began running node model.warden_world.stg_payments
+[0m22:43:52.594321 [info ] [Thread-3 (]: 3 of 10 START sql view model main.stg_orders ................................... [RUN]
+[0m22:43:52.595168 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.warden_world.stg_order_items'
+[0m22:43:52.595507 [debug] [Thread-1 (]: Began compiling node model.warden_world.mart_finance_summary
+[0m22:43:52.595894 [info ] [Thread-4 (]: 4 of 10 START sql view model main.stg_payments ................................. [RUN]
+[0m22:43:52.596383 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.warden_world.stg_orders'
+[0m22:43:52.596748 [debug] [Thread-2 (]: Began compiling node model.warden_world.stg_order_items
+[0m22:43:52.601982 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.mart_finance_summary"
+[0m22:43:52.602546 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.warden_world.stg_payments'
+[0m22:43:52.602987 [debug] [Thread-3 (]: Began compiling node model.warden_world.stg_orders
+[0m22:43:52.605056 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.stg_order_items"
+[0m22:43:52.605638 [debug] [Thread-4 (]: Began compiling node model.warden_world.stg_payments
+[0m22:43:52.607551 [debug] [Thread-3 (]: Writing injected SQL for node "model.warden_world.stg_orders"
+[0m22:43:52.607953 [debug] [Thread-1 (]: Began executing node model.warden_world.mart_finance_summary
+[0m22:43:52.610089 [debug] [Thread-4 (]: Writing injected SQL for node "model.warden_world.stg_payments"
+[0m22:43:52.627723 [debug] [Thread-3 (]: Began executing node model.warden_world.stg_orders
+[0m22:43:52.628282 [debug] [Thread-2 (]: Began executing node model.warden_world.stg_order_items
+[0m22:43:52.644306 [debug] [Thread-4 (]: Began executing node model.warden_world.stg_payments
+[0m22:43:52.648055 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.mart_finance_summary"
+[0m22:43:52.661939 [debug] [Thread-3 (]: Writing runtime sql for node "model.warden_world.stg_orders"
+[0m22:43:52.665967 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.stg_order_items"
+[0m22:43:52.668834 [debug] [Thread-4 (]: Writing runtime sql for node "model.warden_world.stg_payments"
+[0m22:43:52.669751 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:43:52.670241 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:43:52.671662 [debug] [Thread-3 (]: On model.warden_world.stg_orders: BEGIN
+[0m22:43:52.671315 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: BEGIN
+[0m22:43:52.670894 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:43:52.672021 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:43:52.672319 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m22:43:52.672627 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:43:52.672954 [debug] [Thread-4 (]: On model.warden_world.stg_payments: BEGIN
+[0m22:43:52.673247 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: BEGIN
+[0m22:43:52.674064 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m22:43:52.674396 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.674683 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.674936 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m22:43:52.675476 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:43:52.676904 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+
+  
+  create view "warehouse"."main"."stg_orders__dbt_tmp" as (
+    select
+    order_id,
+    cust_id,
+    order_date,
+    status,
+    channel
+from "warehouse"."main"."raw_orders"
+  );
+
+[0m22:43:52.676556 [debug] [Thread-4 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.676010 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:43:52.677326 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.678008 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:43:52.678362 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+
+    
+
+    create  table
+      "warehouse"."main"."mart_finance_summary__dbt_tmp"
+  
+    
+    as (
+      -- HOLE #2: reads only from a hand-maintained extract. Nothing upstream of
+-- finance_extract is knowable from any connector.
+select
+    period,
+    region,
+    reported_revenue_usd
+from "warehouse"."main"."finance_extract"
+    );
+    
+  
+[0m22:43:52.678745 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:43:52.680664 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+
+  
+  create view "warehouse"."main"."stg_order_items__dbt_tmp" as (
+    select
+    item_id,
+    order_id,
+    sku,
+    quantity,
+    unit_price_cents / 100.0 as unit_price_usd
+from "warehouse"."main"."raw_order_items"
+  );
+
+[0m22:43:52.679312 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+
+  
+  create view "warehouse"."main"."stg_payments__dbt_tmp" as (
+    select
+    payment_id,
+    order_id,
+    amount_cents / 100.0 as amount_usd,
+    method,
+    paid_at
+from "warehouse"."main"."raw_payments"
+  );
+
+[0m22:43:52.681760 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.679037 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.687266 [debug] [Thread-1 (]: SQL status: OK in 0.008 seconds
+[0m22:43:52.686938 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:43:52.689483 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:43:52.689976 [debug] [Thread-4 (]: SQL status: OK in 0.008 seconds
+[0m22:43:52.691927 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:43:52.692301 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+alter view "warehouse"."main"."stg_order_items__dbt_tmp" rename to "stg_order_items"
+[0m22:43:52.692683 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+alter view "warehouse"."main"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m22:43:52.694937 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:43:52.695300 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+alter table "warehouse"."main"."mart_finance_summary__dbt_tmp" rename to "mart_finance_summary"
+[0m22:43:52.696376 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+alter view "warehouse"."main"."stg_payments__dbt_tmp" rename to "stg_payments"
+[0m22:43:52.696844 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.697622 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.703459 [debug] [Thread-1 (]: SQL status: OK in 0.006 seconds
+[0m22:43:52.706270 [debug] [Thread-3 (]: On model.warden_world.stg_orders: COMMIT
+[0m22:43:52.708046 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: COMMIT
+[0m22:43:52.708408 [debug] [Thread-4 (]: SQL status: OK in 0.011 seconds
+[0m22:43:52.711554 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: COMMIT
+[0m22:43:52.711934 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:43:52.712259 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:43:52.713223 [debug] [Thread-4 (]: On model.warden_world.stg_payments: COMMIT
+[0m22:43:52.713575 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:43:52.713879 [debug] [Thread-3 (]: On model.warden_world.stg_orders: COMMIT
+[0m22:43:52.714162 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: COMMIT
+[0m22:43:52.714438 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:43:52.714705 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: COMMIT
+[0m22:43:52.715829 [debug] [Thread-4 (]: On model.warden_world.stg_payments: COMMIT
+[0m22:43:52.718310 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m22:43:52.722391 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:43:52.722956 [debug] [Thread-4 (]: SQL status: OK in 0.006 seconds
+[0m22:43:52.723284 [debug] [Thread-1 (]: SQL status: OK in 0.007 seconds
+[0m22:43:52.723596 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+
+      drop view if exists "warehouse"."main"."stg_orders__dbt_backup" cascade
+    
+[0m22:43:52.723914 [debug] [Thread-2 (]: SQL status: OK in 0.009 seconds
+[0m22:43:52.730780 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:43:52.727775 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:43:52.731881 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+
+      drop table if exists "warehouse"."main"."mart_finance_summary__dbt_backup" cascade
+    
+[0m22:43:52.725633 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:43:52.731523 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m22:43:52.732536 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+
+      drop view if exists "warehouse"."main"."stg_payments__dbt_backup" cascade
+    
+[0m22:43:52.731189 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+
+      drop view if exists "warehouse"."main"."stg_order_items__dbt_backup" cascade
+    
+[0m22:43:52.734364 [debug] [Thread-3 (]: On model.warden_world.stg_orders: Close
+[0m22:43:52.734864 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:43:52.735198 [debug] [Thread-4 (]: SQL status: OK in 0.000 seconds
+[0m22:43:52.736675 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.737018 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71a496a10>]}
+[0m22:43:52.738320 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: Close
+[0m22:43:52.739316 [debug] [Thread-4 (]: On model.warden_world.stg_payments: Close
+[0m22:43:52.740296 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: Close
+[0m22:43:52.740881 [info ] [Thread-3 (]: 3 of 10 OK created sql view model main.stg_orders .............................. [[32mOK[0m in 0.14s]
+[0m22:43:52.741470 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71a3d5310>]}
+[0m22:43:52.742026 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71a3d63d0>]}
+[0m22:43:52.743773 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71a3d6e90>]}
+[0m22:43:52.746597 [info ] [Thread-2 (]: 2 of 10 OK created sql view model main.stg_order_items ......................... [[32mOK[0m in 0.15s]
+[0m22:43:52.745309 [info ] [Thread-1 (]: 1 of 10 OK created sql table model main.mart_finance_summary ................... [[32mOK[0m in 0.15s]
+[0m22:43:52.747468 [debug] [Thread-1 (]: Finished running node model.warden_world.mart_finance_summary
+[0m22:43:52.745906 [info ] [Thread-4 (]: 4 of 10 OK created sql view model main.stg_payments ............................ [[32mOK[0m in 0.14s]
+[0m22:43:52.744234 [debug] [Thread-3 (]: Finished running node model.warden_world.stg_orders
+[0m22:43:52.747899 [debug] [Thread-1 (]: Began running node model.warden_world.stg_refunds
+[0m22:43:52.749343 [info ] [Thread-1 (]: 5 of 10 START sql view model main.stg_refunds .................................. [RUN]
+[0m22:43:52.748527 [debug] [Thread-4 (]: Finished running node model.warden_world.stg_payments
+[0m22:43:52.748897 [debug] [Thread-3 (]: Began running node model.warden_world.stg_users
+[0m22:43:52.747035 [debug] [Thread-2 (]: Finished running node model.warden_world.stg_order_items
+[0m22:43:52.750062 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.warden_world.mart_finance_summary, now model.warden_world.stg_refunds)
+[0m22:43:52.750680 [info ] [Thread-3 (]: 6 of 10 START sql view model main.stg_users .................................... [RUN]
+[0m22:43:52.751368 [debug] [Thread-1 (]: Began compiling node model.warden_world.stg_refunds
+[0m22:43:52.751742 [debug] [Thread-4 (]: Began running node model.warden_world.fct_orders
+[0m22:43:52.752121 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_orders, now model.warden_world.stg_users)
+[0m22:43:52.754078 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.stg_refunds"
+[0m22:43:52.754915 [debug] [Thread-3 (]: Began compiling node model.warden_world.stg_users
+[0m22:43:52.754629 [info ] [Thread-4 (]: 7 of 10 START sql table model main.fct_orders .................................. [RUN]
+[0m22:43:52.758691 [debug] [Thread-3 (]: Writing injected SQL for node "model.warden_world.stg_users"
+[0m22:43:52.759208 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_payments, now model.warden_world.fct_orders)
+[0m22:43:52.759908 [debug] [Thread-4 (]: Began compiling node model.warden_world.fct_orders
+[0m22:43:52.760244 [debug] [Thread-1 (]: Began executing node model.warden_world.stg_refunds
+[0m22:43:52.760791 [debug] [Thread-3 (]: Began executing node model.warden_world.stg_users
+[0m22:43:52.763384 [debug] [Thread-4 (]: Writing injected SQL for node "model.warden_world.fct_orders"
+[0m22:43:52.766382 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.stg_refunds"
+[0m22:43:52.769048 [debug] [Thread-3 (]: Writing runtime sql for node "model.warden_world.stg_users"
+[0m22:43:52.770203 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:43:52.770649 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: BEGIN
+[0m22:43:52.771005 [debug] [Thread-4 (]: Began executing node model.warden_world.fct_orders
+[0m22:43:52.771409 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:43:52.771705 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:43:52.774495 [debug] [Thread-4 (]: Writing runtime sql for node "model.warden_world.fct_orders"
+[0m22:43:52.774868 [debug] [Thread-3 (]: On model.warden_world.stg_users: BEGIN
+[0m22:43:52.775606 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m22:43:52.776326 [debug] [Thread-1 (]: SQL status: OK in 0.005 seconds
+[0m22:43:52.776647 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:43:52.776998 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:43:52.777358 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+
+  
+  create view "warehouse"."main"."stg_refunds__dbt_tmp" as (
+    select
+    refund_id,
+    order_id,
+    refund_amount_cents / 100.0 as refund_amount_usd,
+    refund_date,
+    reason
+from "warehouse"."main"."raw_refunds"
+  );
+
+[0m22:43:52.777915 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.779073 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:43:52.779464 [debug] [Thread-3 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+
+  
+  create view "warehouse"."main"."stg_users__dbt_tmp" as (
+    select
+    user_id,
+    email,
+    signup_date,
+    country
+from "warehouse"."main"."raw_users"
+where not is_test
+  );
+
+[0m22:43:52.778310 [debug] [Thread-4 (]: On model.warden_world.fct_orders: BEGIN
+[0m22:43:52.780137 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.780666 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.781076 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m22:43:52.783560 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:43:52.786597 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:43:52.787329 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+alter view "warehouse"."main"."stg_refunds__dbt_tmp" rename to "stg_refunds"
+[0m22:43:52.787726 [debug] [Thread-3 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+alter view "warehouse"."main"."stg_users__dbt_tmp" rename to "stg_users"
+[0m22:43:52.788103 [debug] [Thread-4 (]: SQL status: OK in 0.007 seconds
+[0m22:43:52.788728 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:43:52.789082 [debug] [Thread-4 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+
+    
+
+    create  table
+      "warehouse"."main"."fct_orders__dbt_tmp"
+  
+    
+    as (
+      with items as (
+    select
+        order_id,
+        sum(quantity) as total_units,
+        sum(quantity * unit_price_usd) as gross_value_usd
+    from "warehouse"."main"."stg_order_items"
+    group by order_id
+)
+
+select
+    o.order_id,
+    o.cust_id,
+    o.order_date,
+    o.status,
+    o.channel,
+    coalesce(i.total_units, 0) as total_units,
+    coalesce(i.gross_value_usd, 0) as gross_value_usd
+from "warehouse"."main"."stg_orders" o
+left join items i on o.order_id = i.order_id
+    );
+    
+  
+[0m22:43:52.789383 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.789808 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.791055 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: COMMIT
+[0m22:43:52.792108 [debug] [Thread-3 (]: On model.warden_world.stg_users: COMMIT
+[0m22:43:52.792525 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:43:52.792922 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:43:52.793240 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: COMMIT
+[0m22:43:52.793594 [debug] [Thread-3 (]: On model.warden_world.stg_users: COMMIT
+[0m22:43:52.797064 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:43:52.799034 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:43:52.799347 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+
+      drop view if exists "warehouse"."main"."stg_refunds__dbt_backup" cascade
+    
+[0m22:43:52.799654 [debug] [Thread-4 (]: SQL status: OK in 0.010 seconds
+[0m22:43:52.802007 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:43:52.802291 [debug] [Thread-4 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+alter table "warehouse"."main"."fct_orders__dbt_tmp" rename to "fct_orders"
+[0m22:43:52.802963 [debug] [Thread-4 (]: SQL status: OK in 0.000 seconds
+[0m22:43:52.804178 [debug] [Thread-4 (]: On model.warden_world.fct_orders: COMMIT
+[0m22:43:52.804732 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:43:52.805144 [debug] [Thread-1 (]: SQL status: OK in 0.005 seconds
+[0m22:43:52.805991 [debug] [Thread-4 (]: On model.warden_world.fct_orders: COMMIT
+[0m22:43:52.806305 [debug] [Thread-3 (]: SQL status: OK in 0.012 seconds
+[0m22:43:52.808641 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: Close
+[0m22:43:52.813981 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:43:52.814683 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b718519e90>]}
+[0m22:43:52.815082 [debug] [Thread-3 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+
+      drop view if exists "warehouse"."main"."stg_users__dbt_backup" cascade
+    
+[0m22:43:52.815385 [debug] [Thread-4 (]: SQL status: OK in 0.006 seconds
+[0m22:43:52.817720 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:43:52.818003 [debug] [Thread-4 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+
+      drop table if exists "warehouse"."main"."fct_orders__dbt_backup" cascade
+    
+[0m22:43:52.815957 [info ] [Thread-1 (]: 5 of 10 OK created sql view model main.stg_refunds ............................. [[32mOK[0m in 0.06s]
+[0m22:43:52.818426 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.818816 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.819221 [debug] [Thread-1 (]: Finished running node model.warden_world.stg_refunds
+[0m22:43:52.820203 [debug] [Thread-3 (]: On model.warden_world.stg_users: Close
+[0m22:43:52.821119 [debug] [Thread-4 (]: On model.warden_world.fct_orders: Close
+[0m22:43:52.821848 [debug] [Thread-2 (]: Began running node model.warden_world.fct_revenue
+[0m22:43:52.822329 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71851b090>]}
+[0m22:43:52.822840 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71851b690>]}
+[0m22:43:52.823256 [info ] [Thread-2 (]: 8 of 10 START sql table model main.fct_revenue ................................. [RUN]
+[0m22:43:52.824033 [info ] [Thread-3 (]: 6 of 10 OK created sql view model main.stg_users ............................... [[32mOK[0m in 0.07s]
+[0m22:43:52.824510 [info ] [Thread-4 (]: 7 of 10 OK created sql table model main.fct_orders ............................. [[32mOK[0m in 0.06s]
+[0m22:43:52.825086 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_order_items, now model.warden_world.fct_revenue)
+[0m22:43:52.825517 [debug] [Thread-3 (]: Finished running node model.warden_world.stg_users
+[0m22:43:52.825932 [debug] [Thread-4 (]: Finished running node model.warden_world.fct_orders
+[0m22:43:52.826261 [debug] [Thread-2 (]: Began compiling node model.warden_world.fct_revenue
+[0m22:43:52.826918 [debug] [Thread-1 (]: Began running node model.warden_world.dim_customers
+[0m22:43:52.829464 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.fct_revenue"
+[0m22:43:52.830041 [info ] [Thread-1 (]: 9 of 10 START sql table model main.dim_customers ............................... [RUN]
+[0m22:43:52.830921 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_refunds, now model.warden_world.dim_customers)
+[0m22:43:52.831255 [debug] [Thread-1 (]: Began compiling node model.warden_world.dim_customers
+[0m22:43:52.833324 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.dim_customers"
+[0m22:43:52.833761 [debug] [Thread-2 (]: Began executing node model.warden_world.fct_revenue
+[0m22:43:52.836419 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.fct_revenue"
+[0m22:43:52.836817 [debug] [Thread-1 (]: Began executing node model.warden_world.dim_customers
+[0m22:43:52.839812 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.dim_customers"
+[0m22:43:52.840590 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:43:52.840992 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:43:52.841349 [debug] [Thread-2 (]: On model.warden_world.fct_revenue: BEGIN
+[0m22:43:52.841702 [debug] [Thread-1 (]: On model.warden_world.dim_customers: BEGIN
+[0m22:43:52.842024 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m22:43:52.842339 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:43:52.843160 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.843481 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.843775 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:43:52.844098 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:43:52.844435 [debug] [Thread-2 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+
+    
+
+    create  table
+      "warehouse"."main"."fct_revenue__dbt_tmp"
+  
+    
+    as (
+      with refunds as (
+    select order_id, sum(refund_amount_usd) as refunded_usd
+    from "warehouse"."main"."stg_refunds"
+    group by order_id
+)
+
+select
+    p.order_id,
+    o.cust_id,
+    o.order_date,
+    p.amount_usd as gross_revenue_usd,
+    coalesce(r.refunded_usd, 0) as refunded_usd,
+    p.amount_usd - coalesce(r.refunded_usd, 0) as net_revenue_usd
+from "warehouse"."main"."stg_payments" p
+join "warehouse"."main"."stg_orders" o on p.order_id = o.order_id
+left join refunds r on p.order_id = r.order_id
+    );
+    
+  
+[0m22:43:52.844808 [debug] [Thread-1 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+
+    
+
+    create  table
+      "warehouse"."main"."dim_customers__dbt_tmp"
+  
+    
+    as (
+      with orders as (
+    select
+        cust_id,
+        min(order_date) as first_order_date,
+        max(order_date) as last_order_date,
+        count(*) as order_count
+    from "warehouse"."main"."stg_orders"
+    group by cust_id
+)
+
+select
+    u.user_id,
+    u.email,
+    u.country,
+    u.signup_date,
+    o.first_order_date,
+    o.last_order_date,
+    coalesce(o.order_count, 0) as order_count
+from "warehouse"."main"."stg_users" u
+left join orders o on u.user_id = o.cust_id
+    );
+    
+  
+[0m22:43:52.850423 [debug] [Thread-1 (]: SQL status: OK in 0.005 seconds
+[0m22:43:52.853119 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:43:52.853529 [debug] [Thread-2 (]: SQL status: OK in 0.008 seconds
+[0m22:43:52.854291 [debug] [Thread-1 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+alter table "warehouse"."main"."dim_customers__dbt_tmp" rename to "dim_customers"
+[0m22:43:52.856910 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:43:52.858190 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.858664 [debug] [Thread-2 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+alter table "warehouse"."main"."fct_revenue__dbt_tmp" rename to "fct_revenue"
+[0m22:43:52.860187 [debug] [Thread-1 (]: On model.warden_world.dim_customers: COMMIT
+[0m22:43:52.860750 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:43:52.861031 [debug] [Thread-1 (]: On model.warden_world.dim_customers: COMMIT
+[0m22:43:52.861338 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.862699 [debug] [Thread-2 (]: On model.warden_world.fct_revenue: COMMIT
+[0m22:43:52.863051 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:43:52.863366 [debug] [Thread-2 (]: On model.warden_world.fct_revenue: COMMIT
+[0m22:43:52.866076 [debug] [Thread-1 (]: SQL status: OK in 0.004 seconds
+[0m22:43:52.868446 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:43:52.868868 [debug] [Thread-1 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+
+      drop table if exists "warehouse"."main"."dim_customers__dbt_backup" cascade
+    
+[0m22:43:52.869285 [debug] [Thread-2 (]: SQL status: OK in 0.006 seconds
+[0m22:43:52.871363 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:43:52.871751 [debug] [Thread-2 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+
+      drop table if exists "warehouse"."main"."fct_revenue__dbt_backup" cascade
+    
+[0m22:43:52.872084 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.873351 [debug] [Thread-1 (]: On model.warden_world.dim_customers: Close
+[0m22:43:52.873856 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71850ea10>]}
+[0m22:43:52.874389 [info ] [Thread-1 (]: 9 of 10 OK created sql table model main.dim_customers .......................... [[32mOK[0m in 0.04s]
+[0m22:43:52.874776 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m22:43:52.875226 [debug] [Thread-1 (]: Finished running node model.warden_world.dim_customers
+[0m22:43:52.876196 [debug] [Thread-2 (]: On model.warden_world.fct_revenue: Close
+[0m22:43:52.876860 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b71af88dd0>]}
+[0m22:43:52.877323 [info ] [Thread-2 (]: 8 of 10 OK created sql table model main.fct_revenue ............................ [[32mOK[0m in 0.05s]
+[0m22:43:52.877721 [debug] [Thread-2 (]: Finished running node model.warden_world.fct_revenue
+[0m22:43:52.878430 [debug] [Thread-3 (]: Began running node model.warden_world.customer_ltv
+[0m22:43:52.878794 [info ] [Thread-3 (]: 10 of 10 START sql table model main.customer_ltv ............................... [RUN]
+[0m22:43:52.879422 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_users, now model.warden_world.customer_ltv)
+[0m22:43:52.879890 [debug] [Thread-3 (]: Began compiling node model.warden_world.customer_ltv
+[0m22:43:52.882985 [debug] [Thread-3 (]: Writing injected SQL for node "model.warden_world.customer_ltv"
+[0m22:43:52.883588 [debug] [Thread-3 (]: Began executing node model.warden_world.customer_ltv
+[0m22:43:52.886140 [debug] [Thread-3 (]: Writing runtime sql for node "model.warden_world.customer_ltv"
+[0m22:43:52.886832 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:43:52.887146 [debug] [Thread-3 (]: On model.warden_world.customer_ltv: BEGIN
+[0m22:43:52.887400 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m22:43:52.888131 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.888409 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:43:52.888683 [debug] [Thread-3 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+
+    
+
+    create  table
+      "warehouse"."main"."customer_ltv__dbt_tmp"
+  
+    
+    as (
+      select
+    r.cust_id,
+    count(distinct r.order_id) as paid_order_count,
+    sum(r.net_revenue_usd) as lifetime_value_usd,
+    min(r.order_date) as first_paid_date,
+    max(r.order_date) as last_paid_date
+from "warehouse"."main"."fct_revenue" r
+group by r.cust_id
+    );
+    
+  
+[0m22:43:52.892139 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m22:43:52.894974 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:43:52.895410 [debug] [Thread-3 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+alter table "warehouse"."main"."customer_ltv__dbt_tmp" rename to "customer_ltv"
+[0m22:43:52.896333 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.897494 [debug] [Thread-3 (]: On model.warden_world.customer_ltv: COMMIT
+[0m22:43:52.897790 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:43:52.898008 [debug] [Thread-3 (]: On model.warden_world.customer_ltv: COMMIT
+[0m22:43:52.902790 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m22:43:52.905177 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:43:52.905600 [debug] [Thread-3 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+
+      drop table if exists "warehouse"."main"."customer_ltv__dbt_backup" cascade
+    
+[0m22:43:52.906459 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:43:52.907544 [debug] [Thread-3 (]: On model.warden_world.customer_ltv: Close
+[0m22:43:52.908040 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '490e3bf2-95d3-4408-bce7-8fe9f7aacec9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b718584950>]}
+[0m22:43:52.908676 [info ] [Thread-3 (]: 10 of 10 OK created sql table model main.customer_ltv .......................... [[32mOK[0m in 0.03s]
+[0m22:43:52.909253 [debug] [Thread-3 (]: Finished running node model.warden_world.customer_ltv
+[0m22:43:52.910963 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:43:52.911356 [debug] [MainThread]: On master: BEGIN
+[0m22:43:52.911600 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m22:43:52.912332 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m22:43:52.912668 [debug] [MainThread]: On master: COMMIT
+[0m22:43:52.912897 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:43:52.913137 [debug] [MainThread]: On master: COMMIT
+[0m22:43:52.913598 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m22:43:52.913862 [debug] [MainThread]: On master: Close
+[0m22:43:52.914229 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m22:43:52.914460 [debug] [MainThread]: Connection 'model.warden_world.dim_customers' was properly closed.
+[0m22:43:52.914668 [debug] [MainThread]: Connection 'model.warden_world.fct_revenue' was properly closed.
+[0m22:43:52.914851 [debug] [MainThread]: Connection 'model.warden_world.customer_ltv' was properly closed.
+[0m22:43:52.915041 [debug] [MainThread]: Connection 'model.warden_world.fct_orders' was properly closed.
+[0m22:43:52.915371 [info ] [MainThread]: 
+[0m22:43:52.915661 [info ] [MainThread]: Finished running 5 table models, 5 view models in 0 hours 0 minutes and 0.49 seconds (0.49s).
+[0m22:43:52.916857 [debug] [MainThread]: Command end result
+[0m22:43:52.931826 [debug] [MainThread]: Wrote artifact WritableManifest to /home/sooraj/warden/world/dbt_project/target/manifest.json
+[0m22:43:52.933678 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/sooraj/warden/world/dbt_project/target/semantic_manifest.json
+[0m22:43:52.938772 [debug] [MainThread]: Wrote artifact RunExecutionResult to /home/sooraj/warden/world/dbt_project/target/run_results.json
+[0m22:43:52.939185 [info ] [MainThread]: 
+[0m22:43:52.939527 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m22:43:52.939784 [info ] [MainThread]: 
+[0m22:43:52.940046 [info ] [MainThread]: Done. PASS=10 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=10
+[0m22:43:52.940820 [debug] [MainThread]: Resource report: {"command_name": "build", "command_success": true, "command_wall_clock_time": 1.0140299, "process_in_blocks": "0", "process_kernel_time": 0.372636, "process_mem_max_rss": "166284", "process_out_blocks": "2904", "process_user_time": 1.669558}
+[0m22:43:52.941256 [debug] [MainThread]: Command `dbt build` succeeded at 22:43:52.941171 after 1.01 seconds
+[0m22:43:52.941593 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b72129b850>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b7255ac750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x76b72552a390>]}
+[0m22:43:52.941900 [debug] [MainThread]: Flushing usage events
+[0m22:43:54.635322 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m22:49:31.933625 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea071b2510>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea0728fd50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea071b10d0>]}
+
+
+============================== 22:49:31.937394 | e679fcc2-6788-4f06-a391-e73f2e1c7e43 ==============================
+[0m22:49:31.937394 [info ] [MainThread]: Running with dbt=1.10.8
+[0m22:49:31.937915 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '.', 'debug': 'False', 'version_check': 'True', 'log_path': '/home/sooraj/warden/world/dbt_project/logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'False', 'log_format': 'default', 'invocation_command': 'dbt build', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m22:49:32.091995 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea0706aed0>]}
+[0m22:49:32.132416 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea09ff52d0>]}
+[0m22:49:32.134077 [info ] [MainThread]: Registered adapter: duckdb=1.11.0
+[0m22:49:32.187210 [debug] [MainThread]: checksum: 265d66e81f90af29a7a28579c9b54d938c94f4a57c57be5f853267ae509b5fcb, vars: {}, profile: , target: , version: 1.10.8
+[0m22:49:32.250941 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m22:49:32.251373 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m22:49:32.275511 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea01004b90>]}
+[0m22:49:32.321801 [debug] [MainThread]: Wrote artifact WritableManifest to /home/sooraj/warden/world/dbt_project/target/manifest.json
+[0m22:49:32.323135 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/sooraj/warden/world/dbt_project/target/semantic_manifest.json
+[0m22:49:32.340106 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea00ea39d0>]}
+[0m22:49:32.340545 [info ] [MainThread]: Found 10 models, 6 sources, 459 macros
+[0m22:49:32.342348 [info ] [MainThread]: 
+[0m22:49:32.342676 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m22:49:32.342916 [info ] [MainThread]: 
+[0m22:49:32.343314 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m22:49:32.346938 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_warehouse'
+[0m22:49:32.372168 [debug] [ThreadPool]: Using duckdb connection "list_warehouse"
+[0m22:49:32.372876 [debug] [ThreadPool]: On list_warehouse: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "list_warehouse"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"warehouse"'
+    
+  
+  
+[0m22:49:32.373312 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m22:49:32.451830 [debug] [ThreadPool]: SQL status: OK in 0.078 seconds
+[0m22:49:32.453304 [debug] [ThreadPool]: On list_warehouse: Close
+[0m22:49:32.454186 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_warehouse, now create_warehouse_main)
+[0m22:49:32.454643 [debug] [ThreadPool]: Creating schema "database: "warehouse"
+schema: "main"
+"
+[0m22:49:32.460232 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:49:32.460526 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='warehouse'
+        and type != 'duckdb'
+    
+  
+[0m22:49:32.460729 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m22:49:32.461643 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m22:49:32.462574 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:49:32.462803 [debug] [ThreadPool]: On create_warehouse_main: BEGIN
+[0m22:49:32.463194 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:49:32.463398 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:49:32.463570 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+    
+        create schema if not exists "warehouse"."main"
+    
+[0m22:49:32.463919 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m22:49:32.464437 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m22:49:32.464659 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m22:49:32.464836 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m22:49:32.465748 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m22:49:32.466065 [debug] [ThreadPool]: On create_warehouse_main: Close
+[0m22:49:32.467841 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_warehouse_main, now list_warehouse_main)
+[0m22:49:32.474193 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m22:49:32.474629 [debug] [ThreadPool]: On list_warehouse_main: BEGIN
+[0m22:49:32.474854 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m22:49:32.475942 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m22:49:32.476215 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m22:49:32.476431 [debug] [ThreadPool]: On list_warehouse_main: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "connection_name": "list_warehouse_main"} */
+select
+      'warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'warehouse'
+  
+[0m22:49:32.479276 [debug] [ThreadPool]: SQL status: OK in 0.003 seconds
+[0m22:49:32.480322 [debug] [ThreadPool]: On list_warehouse_main: ROLLBACK
+[0m22:49:32.481051 [debug] [ThreadPool]: On list_warehouse_main: Close
+[0m22:49:32.482382 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea0106b590>]}
+[0m22:49:32.482851 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:49:32.483087 [debug] [MainThread]: On master: BEGIN
+[0m22:49:32.483297 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m22:49:32.483945 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m22:49:32.484215 [debug] [MainThread]: On master: COMMIT
+[0m22:49:32.484464 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:49:32.484671 [debug] [MainThread]: On master: COMMIT
+[0m22:49:32.485132 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m22:49:32.485408 [debug] [MainThread]: On master: Close
+[0m22:49:32.537371 [debug] [Thread-1 (]: Began running node model.warden_world.mart_finance_summary
+[0m22:49:32.537940 [info ] [Thread-1 (]: 1 of 10 START sql table model main.mart_finance_summary ........................ [RUN]
+[0m22:49:32.538474 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_warehouse_main, now model.warden_world.mart_finance_summary)
+[0m22:49:32.538810 [debug] [Thread-1 (]: Began compiling node model.warden_world.mart_finance_summary
+[0m22:49:32.544050 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.mart_finance_summary"
+[0m22:49:32.544576 [debug] [Thread-2 (]: Began running node model.warden_world.stg_order_items
+[0m22:49:32.545046 [info ] [Thread-2 (]: 2 of 10 START sql view model main.stg_order_items .............................. [RUN]
+[0m22:49:32.545608 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.warden_world.stg_order_items'
+[0m22:49:32.546015 [debug] [Thread-2 (]: Began compiling node model.warden_world.stg_order_items
+[0m22:49:32.548404 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.stg_order_items"
+[0m22:49:32.549306 [debug] [Thread-3 (]: Began running node model.warden_world.stg_orders
+[0m22:49:32.549953 [debug] [Thread-4 (]: Began running node model.warden_world.stg_payments
+[0m22:49:32.550366 [info ] [Thread-3 (]: 3 of 10 START sql view model main.stg_orders ................................... [RUN]
+[0m22:49:32.551219 [debug] [Thread-1 (]: Began executing node model.warden_world.mart_finance_summary
+[0m22:49:32.550932 [info ] [Thread-4 (]: 4 of 10 START sql view model main.stg_payments ................................. [RUN]
+[0m22:49:32.551984 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.warden_world.stg_orders'
+[0m22:49:32.552291 [debug] [Thread-2 (]: Began executing node model.warden_world.stg_order_items
+[0m22:49:32.574873 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.warden_world.stg_payments'
+[0m22:49:32.588058 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.mart_finance_summary"
+[0m22:49:32.588559 [debug] [Thread-3 (]: Began compiling node model.warden_world.stg_orders
+[0m22:49:32.596014 [debug] [Thread-4 (]: Began compiling node model.warden_world.stg_payments
+[0m22:49:32.600886 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.stg_order_items"
+[0m22:49:32.602832 [debug] [Thread-3 (]: Writing injected SQL for node "model.warden_world.stg_orders"
+[0m22:49:32.603302 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:49:32.605034 [debug] [Thread-4 (]: Writing injected SQL for node "model.warden_world.stg_payments"
+[0m22:49:32.606013 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: BEGIN
+[0m22:49:32.606418 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:49:32.606852 [debug] [Thread-3 (]: Began executing node model.warden_world.stg_orders
+[0m22:49:32.607218 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:49:32.607568 [debug] [Thread-4 (]: Began executing node model.warden_world.stg_payments
+[0m22:49:32.607871 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: BEGIN
+[0m22:49:32.611066 [debug] [Thread-3 (]: Writing runtime sql for node "model.warden_world.stg_orders"
+[0m22:49:32.613601 [debug] [Thread-4 (]: Writing runtime sql for node "model.warden_world.stg_payments"
+[0m22:49:32.614188 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m22:49:32.614668 [debug] [Thread-1 (]: SQL status: OK in 0.007 seconds
+[0m22:49:32.616121 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:49:32.616493 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:49:32.616961 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.617265 [debug] [Thread-4 (]: On model.warden_world.stg_payments: BEGIN
+[0m22:49:32.617676 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:49:32.617966 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+
+    
+
+    create  table
+      "warehouse"."main"."mart_finance_summary__dbt_tmp"
+  
+    
+    as (
+      -- HOLE #2: reads only from a hand-maintained extract. Nothing upstream of
+-- finance_extract is knowable from any connector.
+select
+    period,
+    region,
+    reported_revenue_usd
+from "warehouse"."main"."finance_extract"
+    );
+    
+  
+[0m22:49:32.618430 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:49:32.618773 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m22:49:32.619179 [debug] [Thread-3 (]: On model.warden_world.stg_orders: BEGIN
+[0m22:49:32.620640 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m22:49:32.619929 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+
+  
+  create view "warehouse"."main"."stg_order_items__dbt_tmp" as (
+    select
+    item_id,
+    order_id,
+    sku,
+    quantity,
+    unit_price_cents / 100.0 as unit_price_usd
+from "warehouse"."main"."raw_order_items"
+  );
+
+[0m22:49:32.621508 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.622294 [debug] [Thread-4 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.626673 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:49:32.627028 [debug] [Thread-2 (]: SQL status: OK in 0.005 seconds
+[0m22:49:32.627364 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:49:32.627676 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+alter table "warehouse"."main"."mart_finance_summary__dbt_tmp" rename to "mart_finance_summary"
+[0m22:49:32.627929 [debug] [Thread-3 (]: SQL status: OK in 0.007 seconds
+[0m22:49:32.630020 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:49:32.630374 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+
+  
+  create view "warehouse"."main"."stg_payments__dbt_tmp" as (
+    select
+    payment_id,
+    order_id,
+    amount_cents / 100.0 as amount_usd,
+    method,
+    paid_at
+from "warehouse"."main"."raw_payments"
+  );
+
+[0m22:49:32.630837 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:49:32.631277 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+alter view "warehouse"."main"."stg_order_items__dbt_tmp" rename to "stg_order_items"
+[0m22:49:32.631560 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.632110 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+
+  
+  create view "warehouse"."main"."stg_orders__dbt_tmp" as (
+    select
+    order_id,
+    cust_id,
+    order_date,
+    status,
+    channel
+from "warehouse"."main"."raw_orders"
+  );
+
+[0m22:49:32.632463 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.641363 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: COMMIT
+[0m22:49:32.641710 [debug] [Thread-2 (]: SQL status: OK in 0.009 seconds
+[0m22:49:32.644134 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:49:32.644505 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.644851 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:49:32.645925 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: COMMIT
+[0m22:49:32.646278 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+alter view "warehouse"."main"."stg_payments__dbt_tmp" rename to "stg_payments"
+[0m22:49:32.648139 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:49:32.648460 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: COMMIT
+[0m22:49:32.648952 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:49:32.649624 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+alter view "warehouse"."main"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m22:49:32.649994 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.650877 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: COMMIT
+[0m22:49:32.651700 [debug] [Thread-3 (]: SQL status: OK in 0.000 seconds
+[0m22:49:32.655200 [debug] [Thread-3 (]: On model.warden_world.stg_orders: COMMIT
+[0m22:49:32.653111 [debug] [Thread-4 (]: On model.warden_world.stg_payments: COMMIT
+[0m22:49:32.653943 [debug] [Thread-1 (]: SQL status: OK in 0.004 seconds
+[0m22:49:32.655529 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:49:32.655891 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:49:32.659838 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.mart_finance_summary"
+[0m22:49:32.660275 [debug] [Thread-3 (]: On model.warden_world.stg_orders: COMMIT
+[0m22:49:32.660651 [debug] [Thread-2 (]: SQL status: OK in 0.007 seconds
+[0m22:49:32.660943 [debug] [Thread-4 (]: On model.warden_world.stg_payments: COMMIT
+[0m22:49:32.661327 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.mart_finance_summary"} */
+
+      drop table if exists "warehouse"."main"."mart_finance_summary__dbt_backup" cascade
+    
+[0m22:49:32.663280 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_order_items"
+[0m22:49:32.664354 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.664725 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_order_items"} */
+
+      drop view if exists "warehouse"."main"."stg_order_items__dbt_backup" cascade
+    
+[0m22:49:32.666487 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.stg_orders"
+[0m22:49:32.666846 [debug] [Thread-4 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.667186 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.667606 [debug] [Thread-3 (]: On model.warden_world.stg_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_orders"} */
+
+      drop view if exists "warehouse"."main"."stg_orders__dbt_backup" cascade
+    
+[0m22:49:32.667944 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m22:49:32.669466 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.stg_payments"
+[0m22:49:32.672181 [debug] [Thread-1 (]: On model.warden_world.mart_finance_summary: Close
+[0m22:49:32.673303 [debug] [Thread-2 (]: On model.warden_world.stg_order_items: Close
+[0m22:49:32.673639 [debug] [Thread-4 (]: On model.warden_world.stg_payments: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_payments"} */
+
+      drop view if exists "warehouse"."main"."stg_payments__dbt_backup" cascade
+    
+[0m22:49:32.675051 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.675428 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea002f4090>]}
+[0m22:49:32.675812 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea002def50>]}
+[0m22:49:32.676775 [debug] [Thread-3 (]: On model.warden_world.stg_orders: Close
+[0m22:49:32.677347 [info ] [Thread-1 (]: 1 of 10 OK created sql table model main.mart_finance_summary ................... [[32mOK[0m in 0.14s]
+[0m22:49:32.677748 [debug] [Thread-4 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.678247 [info ] [Thread-2 (]: 2 of 10 OK created sql view model main.stg_order_items ......................... [[32mOK[0m in 0.13s]
+[0m22:49:32.678855 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea000ff6d0>]}
+[0m22:49:32.679285 [debug] [Thread-1 (]: Finished running node model.warden_world.mart_finance_summary
+[0m22:49:32.680131 [debug] [Thread-4 (]: On model.warden_world.stg_payments: Close
+[0m22:49:32.680554 [debug] [Thread-2 (]: Finished running node model.warden_world.stg_order_items
+[0m22:49:32.681029 [info ] [Thread-3 (]: 3 of 10 OK created sql view model main.stg_orders .............................. [[32mOK[0m in 0.13s]
+[0m22:49:32.682947 [debug] [Thread-3 (]: Finished running node model.warden_world.stg_orders
+[0m22:49:32.682185 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea000ff750>]}
+[0m22:49:32.682555 [debug] [Thread-2 (]: Began running node model.warden_world.stg_users
+[0m22:49:32.681472 [debug] [Thread-1 (]: Began running node model.warden_world.stg_refunds
+[0m22:49:32.684357 [debug] [Thread-3 (]: Began running node model.warden_world.fct_orders
+[0m22:49:32.683762 [info ] [Thread-4 (]: 4 of 10 OK created sql view model main.stg_payments ............................ [[32mOK[0m in 0.11s]
+[0m22:49:32.684122 [info ] [Thread-2 (]: 6 of 10 START sql view model main.stg_users .................................... [RUN]
+[0m22:49:32.684943 [info ] [Thread-1 (]: 5 of 10 START sql view model main.stg_refunds .................................. [RUN]
+[0m22:49:32.686012 [debug] [Thread-4 (]: Finished running node model.warden_world.stg_payments
+[0m22:49:32.685443 [info ] [Thread-3 (]: 7 of 10 START sql table model main.fct_orders .................................. [RUN]
+[0m22:49:32.686536 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_order_items, now model.warden_world.stg_users)
+[0m22:49:32.686980 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.warden_world.mart_finance_summary, now model.warden_world.stg_refunds)
+[0m22:49:32.687595 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_orders, now model.warden_world.fct_orders)
+[0m22:49:32.688570 [debug] [Thread-3 (]: Began compiling node model.warden_world.fct_orders
+[0m22:49:32.687953 [debug] [Thread-2 (]: Began compiling node model.warden_world.stg_users
+[0m22:49:32.688272 [debug] [Thread-1 (]: Began compiling node model.warden_world.stg_refunds
+[0m22:49:32.691401 [debug] [Thread-3 (]: Writing injected SQL for node "model.warden_world.fct_orders"
+[0m22:49:32.694737 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.stg_users"
+[0m22:49:32.699538 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.stg_refunds"
+[0m22:49:32.700746 [debug] [Thread-3 (]: Began executing node model.warden_world.fct_orders
+[0m22:49:32.704794 [debug] [Thread-3 (]: Writing runtime sql for node "model.warden_world.fct_orders"
+[0m22:49:32.705744 [debug] [Thread-1 (]: Began executing node model.warden_world.stg_refunds
+[0m22:49:32.709630 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.stg_refunds"
+[0m22:49:32.711311 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:49:32.712256 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:49:32.712850 [debug] [Thread-3 (]: On model.warden_world.fct_orders: BEGIN
+[0m22:49:32.713449 [debug] [Thread-2 (]: Began executing node model.warden_world.stg_users
+[0m22:49:32.714221 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: BEGIN
+[0m22:49:32.714942 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m22:49:32.719119 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.stg_users"
+[0m22:49:32.719839 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:49:32.721071 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:49:32.721777 [debug] [Thread-3 (]: SQL status: OK in 0.007 seconds
+[0m22:49:32.722158 [debug] [Thread-2 (]: On model.warden_world.stg_users: BEGIN
+[0m22:49:32.722443 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.722779 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:49:32.723073 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m22:49:32.723388 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:49:32.723774 [debug] [Thread-3 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+
+    
+
+    create  table
+      "warehouse"."main"."fct_orders__dbt_tmp"
+  
+    
+    as (
+      with items as (
+    select
+        order_id,
+        sum(quantity) as total_units,
+        sum(quantity * unit_price_usd) as gross_value_usd
+    from "warehouse"."main"."stg_order_items"
+    group by order_id
+)
+
+select
+    o.order_id,
+    o.cust_id,
+    o.order_date,
+    o.status,
+    o.channel,
+    coalesce(i.total_units, 0) as total_units,
+    coalesce(i.gross_value_usd, 0) as gross_value_usd
+from "warehouse"."main"."stg_orders" o
+left join items i on o.order_id = i.order_id
+    );
+    
+  
+[0m22:49:32.724315 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+
+  
+  create view "warehouse"."main"."stg_refunds__dbt_tmp" as (
+    select
+    refund_id,
+    order_id,
+    refund_amount_cents / 100.0 as refund_amount_usd,
+    refund_date,
+    reason
+from "warehouse"."main"."raw_refunds"
+  );
+
+[0m22:49:32.724709 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.725718 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:49:32.726388 [debug] [Thread-2 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+
+  
+  create view "warehouse"."main"."stg_users__dbt_tmp" as (
+    select
+    user_id,
+    email,
+    signup_date,
+    country
+from "warehouse"."main"."raw_users"
+where not is_test
+  );
+
+[0m22:49:32.727187 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.730154 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.733087 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:49:32.733642 [debug] [Thread-3 (]: SQL status: OK in 0.009 seconds
+[0m22:49:32.735653 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:49:32.735994 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+alter view "warehouse"."main"."stg_refunds__dbt_tmp" rename to "stg_refunds"
+[0m22:49:32.737927 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:49:32.738262 [debug] [Thread-2 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+alter view "warehouse"."main"."stg_users__dbt_tmp" rename to "stg_users"
+[0m22:49:32.738774 [debug] [Thread-3 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+alter table "warehouse"."main"."fct_orders__dbt_tmp" rename to "fct_orders"
+[0m22:49:32.739271 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.739774 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.740779 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: COMMIT
+[0m22:49:32.741143 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.742100 [debug] [Thread-2 (]: On model.warden_world.stg_users: COMMIT
+[0m22:49:32.742445 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:49:32.743430 [debug] [Thread-3 (]: On model.warden_world.fct_orders: COMMIT
+[0m22:49:32.743759 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:49:32.744056 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: COMMIT
+[0m22:49:32.744340 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:49:32.744634 [debug] [Thread-2 (]: On model.warden_world.stg_users: COMMIT
+[0m22:49:32.745112 [debug] [Thread-3 (]: On model.warden_world.fct_orders: COMMIT
+[0m22:49:32.748687 [debug] [Thread-1 (]: SQL status: OK in 0.004 seconds
+[0m22:49:32.750546 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.stg_refunds"
+[0m22:49:32.750902 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_refunds"} */
+
+      drop view if exists "warehouse"."main"."stg_refunds__dbt_backup" cascade
+    
+[0m22:49:32.751184 [debug] [Thread-2 (]: SQL status: OK in 0.006 seconds
+[0m22:49:32.753781 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.stg_users"
+[0m22:49:32.754110 [debug] [Thread-2 (]: On model.warden_world.stg_users: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.stg_users"} */
+
+      drop view if exists "warehouse"."main"."stg_users__dbt_backup" cascade
+    
+[0m22:49:32.754397 [debug] [Thread-3 (]: SQL status: OK in 0.009 seconds
+[0m22:49:32.754908 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.756286 [debug] [Thread-3 (]: Using duckdb connection "model.warden_world.fct_orders"
+[0m22:49:32.756684 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.757589 [debug] [Thread-1 (]: On model.warden_world.stg_refunds: Close
+[0m22:49:32.757932 [debug] [Thread-3 (]: On model.warden_world.fct_orders: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_orders"} */
+
+      drop table if exists "warehouse"."main"."fct_orders__dbt_backup" cascade
+    
+[0m22:49:32.758830 [debug] [Thread-2 (]: On model.warden_world.stg_users: Close
+[0m22:49:32.759347 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea00142a10>]}
+[0m22:49:32.759947 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea00142110>]}
+[0m22:49:32.760495 [info ] [Thread-1 (]: 5 of 10 OK created sql view model main.stg_refunds ............................. [[32mOK[0m in 0.07s]
+[0m22:49:32.760874 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.761362 [info ] [Thread-2 (]: 6 of 10 OK created sql view model main.stg_users ............................... [[32mOK[0m in 0.07s]
+[0m22:49:32.761876 [debug] [Thread-1 (]: Finished running node model.warden_world.stg_refunds
+[0m22:49:32.762717 [debug] [Thread-3 (]: On model.warden_world.fct_orders: Close
+[0m22:49:32.763132 [debug] [Thread-2 (]: Finished running node model.warden_world.stg_users
+[0m22:49:32.763830 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea003c6fd0>]}
+[0m22:49:32.764594 [debug] [Thread-4 (]: Began running node model.warden_world.fct_revenue
+[0m22:49:32.765098 [info ] [Thread-3 (]: 7 of 10 OK created sql table model main.fct_orders ............................. [[32mOK[0m in 0.08s]
+[0m22:49:32.765610 [debug] [Thread-1 (]: Began running node model.warden_world.dim_customers
+[0m22:49:32.766002 [info ] [Thread-4 (]: 8 of 10 START sql table model main.fct_revenue ................................. [RUN]
+[0m22:49:32.766476 [debug] [Thread-3 (]: Finished running node model.warden_world.fct_orders
+[0m22:49:32.766857 [info ] [Thread-1 (]: 9 of 10 START sql table model main.dim_customers ............................... [RUN]
+[0m22:49:32.767311 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_payments, now model.warden_world.fct_revenue)
+[0m22:49:32.767955 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_refunds, now model.warden_world.dim_customers)
+[0m22:49:32.768326 [debug] [Thread-4 (]: Began compiling node model.warden_world.fct_revenue
+[0m22:49:32.768693 [debug] [Thread-1 (]: Began compiling node model.warden_world.dim_customers
+[0m22:49:32.771215 [debug] [Thread-4 (]: Writing injected SQL for node "model.warden_world.fct_revenue"
+[0m22:49:32.773354 [debug] [Thread-1 (]: Writing injected SQL for node "model.warden_world.dim_customers"
+[0m22:49:32.774039 [debug] [Thread-4 (]: Began executing node model.warden_world.fct_revenue
+[0m22:49:32.774370 [debug] [Thread-1 (]: Began executing node model.warden_world.dim_customers
+[0m22:49:32.777070 [debug] [Thread-4 (]: Writing runtime sql for node "model.warden_world.fct_revenue"
+[0m22:49:32.779617 [debug] [Thread-1 (]: Writing runtime sql for node "model.warden_world.dim_customers"
+[0m22:49:32.780367 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:49:32.780677 [debug] [Thread-1 (]: On model.warden_world.dim_customers: BEGIN
+[0m22:49:32.780987 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:49:32.781307 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m22:49:32.781699 [debug] [Thread-4 (]: On model.warden_world.fct_revenue: BEGIN
+[0m22:49:32.782233 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m22:49:32.782716 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.783030 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.783313 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:49:32.783636 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:49:32.783952 [debug] [Thread-1 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+
+    
+
+    create  table
+      "warehouse"."main"."dim_customers__dbt_tmp"
+  
+    
+    as (
+      with orders as (
+    select
+        cust_id,
+        min(order_date) as first_order_date,
+        max(order_date) as last_order_date,
+        count(*) as order_count
+    from "warehouse"."main"."stg_orders"
+    group by cust_id
+)
+
+select
+    u.user_id,
+    u.email,
+    u.country,
+    u.signup_date,
+    o.first_order_date,
+    o.last_order_date,
+    coalesce(o.order_count, 0) as order_count
+from "warehouse"."main"."stg_users" u
+left join orders o on u.user_id = o.cust_id
+    );
+    
+  
+[0m22:49:32.784293 [debug] [Thread-4 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+
+    
+
+    create  table
+      "warehouse"."main"."fct_revenue__dbt_tmp"
+  
+    
+    as (
+      with refunds as (
+    select order_id, sum(refund_amount_usd) as refunded_usd
+    from "warehouse"."main"."stg_refunds"
+    group by order_id
+)
+
+select
+    p.order_id,
+    o.cust_id,
+    o.order_date,
+    p.amount_usd as gross_revenue_usd,
+    coalesce(r.refunded_usd, 0) as refunded_usd,
+    p.amount_usd - coalesce(r.refunded_usd, 0) as net_revenue_usd
+from "warehouse"."main"."stg_payments" p
+join "warehouse"."main"."stg_orders" o on p.order_id = o.order_id
+left join refunds r on p.order_id = r.order_id
+    );
+    
+  
+[0m22:49:32.788101 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.790553 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:49:32.790935 [debug] [Thread-4 (]: SQL status: OK in 0.006 seconds
+[0m22:49:32.791299 [debug] [Thread-1 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+alter table "warehouse"."main"."dim_customers__dbt_tmp" rename to "dim_customers"
+[0m22:49:32.793345 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:49:32.793876 [debug] [Thread-4 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+alter table "warehouse"."main"."fct_revenue__dbt_tmp" rename to "fct_revenue"
+[0m22:49:32.794261 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.795375 [debug] [Thread-1 (]: On model.warden_world.dim_customers: COMMIT
+[0m22:49:32.795697 [debug] [Thread-4 (]: SQL status: OK in 0.002 seconds
+[0m22:49:32.795980 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:49:32.797040 [debug] [Thread-4 (]: On model.warden_world.fct_revenue: COMMIT
+[0m22:49:32.797353 [debug] [Thread-1 (]: On model.warden_world.dim_customers: COMMIT
+[0m22:49:32.797662 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:49:32.798085 [debug] [Thread-4 (]: On model.warden_world.fct_revenue: COMMIT
+[0m22:49:32.801754 [debug] [Thread-1 (]: SQL status: OK in 0.004 seconds
+[0m22:49:32.803503 [debug] [Thread-1 (]: Using duckdb connection "model.warden_world.dim_customers"
+[0m22:49:32.803800 [debug] [Thread-1 (]: On model.warden_world.dim_customers: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.dim_customers"} */
+
+      drop table if exists "warehouse"."main"."dim_customers__dbt_backup" cascade
+    
+[0m22:49:32.810389 [debug] [Thread-4 (]: SQL status: OK in 0.012 seconds
+[0m22:49:32.812012 [debug] [Thread-4 (]: Using duckdb connection "model.warden_world.fct_revenue"
+[0m22:49:32.812323 [debug] [Thread-4 (]: On model.warden_world.fct_revenue: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.fct_revenue"} */
+
+      drop table if exists "warehouse"."main"."fct_revenue__dbt_backup" cascade
+    
+[0m22:49:32.812703 [debug] [Thread-1 (]: SQL status: OK in 0.009 seconds
+[0m22:49:32.813083 [debug] [Thread-4 (]: SQL status: OK in 0.000 seconds
+[0m22:49:32.815248 [debug] [Thread-4 (]: On model.warden_world.fct_revenue: Close
+[0m22:49:32.814263 [debug] [Thread-1 (]: On model.warden_world.dim_customers: Close
+[0m22:49:32.815793 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea00133510>]}
+[0m22:49:32.816394 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea07147a10>]}
+[0m22:49:32.817009 [info ] [Thread-4 (]: 8 of 10 OK created sql table model main.fct_revenue ............................ [[32mOK[0m in 0.05s]
+[0m22:49:32.818017 [debug] [Thread-4 (]: Finished running node model.warden_world.fct_revenue
+[0m22:49:32.817589 [info ] [Thread-1 (]: 9 of 10 OK created sql table model main.dim_customers .......................... [[32mOK[0m in 0.05s]
+[0m22:49:32.818754 [debug] [Thread-1 (]: Finished running node model.warden_world.dim_customers
+[0m22:49:32.819308 [debug] [Thread-2 (]: Began running node model.warden_world.customer_ltv
+[0m22:49:32.819695 [info ] [Thread-2 (]: 10 of 10 START sql table model main.customer_ltv ............................... [RUN]
+[0m22:49:32.820028 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.warden_world.stg_users, now model.warden_world.customer_ltv)
+[0m22:49:32.820281 [debug] [Thread-2 (]: Began compiling node model.warden_world.customer_ltv
+[0m22:49:32.821969 [debug] [Thread-2 (]: Writing injected SQL for node "model.warden_world.customer_ltv"
+[0m22:49:32.822408 [debug] [Thread-2 (]: Began executing node model.warden_world.customer_ltv
+[0m22:49:32.826008 [debug] [Thread-2 (]: Writing runtime sql for node "model.warden_world.customer_ltv"
+[0m22:49:32.826667 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:49:32.826957 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: BEGIN
+[0m22:49:32.827184 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m22:49:32.827834 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m22:49:32.828091 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:49:32.828404 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+
+    
+
+    create  table
+      "warehouse"."main"."customer_ltv__dbt_tmp"
+  
+    
+    as (
+      select
+    r.cust_id,
+    count(distinct r.order_id) as paid_order_count,
+    sum(r.net_revenue_usd) as lifetime_value_usd,
+    min(r.order_date) as first_paid_date,
+    max(r.order_date) as last_paid_date
+from "warehouse"."main"."fct_revenue" r
+group by r.cust_id
+    );
+    
+  
+[0m22:49:32.831770 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m22:49:32.834089 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:49:32.834406 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+alter table "warehouse"."main"."customer_ltv__dbt_tmp" rename to "customer_ltv"
+[0m22:49:32.835070 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m22:49:32.836121 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: COMMIT
+[0m22:49:32.836407 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:49:32.836656 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: COMMIT
+[0m22:49:32.840575 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m22:49:32.842305 [debug] [Thread-2 (]: Using duckdb connection "model.warden_world.customer_ltv"
+[0m22:49:32.842582 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: /* {"app": "dbt", "dbt_version": "1.10.8", "profile_name": "warden_world", "target_name": "dev", "node_id": "model.warden_world.customer_ltv"} */
+
+      drop table if exists "warehouse"."main"."customer_ltv__dbt_backup" cascade
+    
+[0m22:49:32.843171 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m22:49:32.844099 [debug] [Thread-2 (]: On model.warden_world.customer_ltv: Close
+[0m22:49:32.844526 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'e679fcc2-6788-4f06-a391-e73f2e1c7e43', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea001b5450>]}
+[0m22:49:32.845011 [info ] [Thread-2 (]: 10 of 10 OK created sql table model main.customer_ltv .......................... [[32mOK[0m in 0.02s]
+[0m22:49:32.845451 [debug] [Thread-2 (]: Finished running node model.warden_world.customer_ltv
+[0m22:49:32.846949 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:49:32.847217 [debug] [MainThread]: On master: BEGIN
+[0m22:49:32.847432 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m22:49:32.847896 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m22:49:32.848131 [debug] [MainThread]: On master: COMMIT
+[0m22:49:32.848366 [debug] [MainThread]: Using duckdb connection "master"
+[0m22:49:32.848571 [debug] [MainThread]: On master: COMMIT
+[0m22:49:32.849068 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m22:49:32.849361 [debug] [MainThread]: On master: Close
+[0m22:49:32.849692 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m22:49:32.849921 [debug] [MainThread]: Connection 'model.warden_world.dim_customers' was properly closed.
+[0m22:49:32.850114 [debug] [MainThread]: Connection 'model.warden_world.customer_ltv' was properly closed.
+[0m22:49:32.850302 [debug] [MainThread]: Connection 'model.warden_world.fct_orders' was properly closed.
+[0m22:49:32.850478 [debug] [MainThread]: Connection 'model.warden_world.fct_revenue' was properly closed.
+[0m22:49:32.850784 [info ] [MainThread]: 
+[0m22:49:32.851078 [info ] [MainThread]: Finished running 5 table models, 5 view models in 0 hours 0 minutes and 0.51 seconds (0.51s).
+[0m22:49:32.852113 [debug] [MainThread]: Command end result
+[0m22:49:32.866971 [debug] [MainThread]: Wrote artifact WritableManifest to /home/sooraj/warden/world/dbt_project/target/manifest.json
+[0m22:49:32.868772 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/sooraj/warden/world/dbt_project/target/semantic_manifest.json
+[0m22:49:32.873026 [debug] [MainThread]: Wrote artifact RunExecutionResult to /home/sooraj/warden/world/dbt_project/target/run_results.json
+[0m22:49:32.873340 [info ] [MainThread]: 
+[0m22:49:32.873649 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m22:49:32.873923 [info ] [MainThread]: 
+[0m22:49:32.874178 [info ] [MainThread]: Done. PASS=10 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=10
+[0m22:49:32.874939 [debug] [MainThread]: Resource report: {"command_name": "build", "command_success": true, "command_wall_clock_time": 0.9972134, "process_in_blocks": "544", "process_kernel_time": 0.217868, "process_mem_max_rss": "167068", "process_out_blocks": "2904", "process_user_time": 1.684591}
+[0m22:49:32.875309 [debug] [MainThread]: Command `dbt build` succeeded at 22:49:32.875236 after 1.00 seconds
+[0m22:49:32.875585 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea0b4f0750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea004e7290>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea0b4d7410>]}
+[0m22:49:32.875862 [debug] [MainThread]: Flushing usage events
+[0m22:49:34.957477 [debug] [MainThread]: An error was encountered while trying to flush usage events
