@@ -146,6 +146,7 @@ class Decision(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     resumed_from: str | None = None
 
+
 class FixStrategy(StrEnum):
     """How to remediate. These are trade-offs, not right and wrong — which is
     why the Remediator names alternatives rather than silently choosing."""
