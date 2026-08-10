@@ -14,9 +14,16 @@ from pathlib import Path
 
 from warden.agent import skeptic
 from warden.agent.assessor import Assessor
+from warden.agent.config import settings
 from warden.agent.diff import parse_diff_file
 from warden.agent.mcp_client import mcp_client
-from warden.agent.models import Decision, ProposedChange, Remediation, Verdict, VerificationResult
+from warden.agent.models import (
+    Decision,
+    ProposedChange,
+    Remediation,
+    Verdict,
+    VerificationResult,
+)
 from warden.agent.remediator import Remediator
 from warden.agent.report import render_pr_body, render_refusal
 from warden.agent.scoper import Scoper
@@ -88,13 +95,17 @@ def write_output(result: RunResult, profile: str, directory: Path = OUTPUT_DIR) 
 
 def _summarise(result: RunResult, profile: str) -> None:
     ceiling = result.verdict.ceiling
+    column = f".{result.change.column}" if result.change.column else ""
+
     print(f"\n{'=' * 68}")
     print(f"profile      : {profile}")
-    print(f"change       : {result.change.kind.value} on {result.change.model}", end="")
-    print(f".{result.change.column}" if result.change.column else "")
+    print(f"change       : {result.change.kind.value} on {result.change.model}{column}")
     print(f"coverage     : {ceiling.report.score} (threshold {ceiling.threshold_used})")
+    if ceiling.overridden:
+        print(f"OVERRIDDEN   : {ceiling.override_reason}")
     print(f"verdict      : {result.verdict.overall.value}")
     print(f"impacted     : {len(result.verdict.impacted)}")
+
     if result.blocked:
         print(f"OUTCOME      : HELD — blocked on {result.decision.blocked_on}")
     else:
@@ -104,32 +115,33 @@ def _summarise(result: RunResult, profile: str) -> None:
     print("=" * 68)
 
 
-async def _live(change: ProposedChange, profile: str) -> RunResult:
+async def _live(change: ProposedChange, override_reason: str | None) -> RunResult:
     async with mcp_client() as client:
-        return await run_once(client, change)
+        return await run_once(client, change, override_reason=override_reason)
 
 
-async def _offline(change: ProposedChange, snapshot: Path) -> RunResult:
+async def _offline(
+    change: ProposedChange, snapshot: Path, override_reason: str | None
+) -> RunResult:
     client = SnapshotClient.load(snapshot)
     # Verification needs a real dbt project; offline runs skip it and say so.
-    return await run_once(client, change, verify=False)
+    return await run_once(client, change, verify=False, override_reason=override_reason)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run Warden against a proposed change.")
-    parser.add_argument("--diff", type=Path, help="unified diff to evaluate")
+    parser.add_argument("--diff", type=Path, required=True, help="unified diff to evaluate")
     parser.add_argument("--snapshot", type=Path, help="run offline against a captured graph")
     parser.add_argument("--profile", default="live", help="label for output files")
     parser.add_argument(
         "--override",
-        help="proceed despite insufficient coverage; the reason is recorded in the PR",
+        help="proceed despite insufficient coverage; the reason is recorded in the output",
     )
     args = parser.parse_args()
-    override = args.override or settings.coverage_override_reason or None
+
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(message)s")
 
-    if not args.diff:
-        parser.error("--diff is required")
+    override_reason = args.override or settings.coverage_override_reason or None
 
     changes = parse_diff_file(args.diff)
     if not changes:
@@ -138,10 +150,10 @@ def main() -> None:
 
     for change in changes:
         if args.snapshot:
-            result = asyncio.run(_offline(change, args.snapshot))
+            result = asyncio.run(_offline(change, args.snapshot, override_reason))
             profile = args.snapshot.stem
         else:
-            result = asyncio.run(_live(change, args.profile))
+            result = asyncio.run(_live(change, override_reason))
             profile = args.profile
 
         _summarise(result, profile)
