@@ -96,7 +96,15 @@ def _completeness_sentence(verdict: Verdict) -> str:
     """
     count = len(verdict.impacted)
     blind = verdict.ceiling.report.blind_spots
-
+    if verdict.ceiling.overridden:
+        lines += [
+            "",
+            "> **Coverage gate overridden.** Warden would not normally generate code "
+            f"at coverage {verdict.ceiling.report.score} (threshold "
+            f"{verdict.ceiling.threshold_used}). Proceeding was requested with the "
+            f"reason: _{verdict.ceiling.override_reason}_. Treat the impact list below "
+            "as incomplete.",
+        ]
     if not blind:
         return (
             f"Warden found **{count} affected asset(s)**. Lineage coverage is complete "

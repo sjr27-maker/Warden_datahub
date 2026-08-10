@@ -43,10 +43,15 @@ class RunResult:
         return self.decision.is_blocked
 
 
-async def run_once(client, change: ProposedChange, verify: bool = True) -> RunResult:
+async def run_once(
+    client,
+    change: ProposedChange,
+    verify: bool = True,
+    override_reason: str | None = None,
+) -> RunResult:
     subgraph = await Scoper(client).scope(change.model, column=change.column)
     registry = await skeptic.load_registry(client)
-    ceiling = skeptic.assess(subgraph, registry)
+    ceiling = skeptic.assess(subgraph, registry, override_reason=override_reason)
 
     verdict = Assessor().assess(change, subgraph, ceiling)
     remediation = Remediator().remediate(verdict)
@@ -115,8 +120,12 @@ def main() -> None:
     parser.add_argument("--diff", type=Path, help="unified diff to evaluate")
     parser.add_argument("--snapshot", type=Path, help="run offline against a captured graph")
     parser.add_argument("--profile", default="live", help="label for output files")
+    parser.add_argument(
+        "--override",
+        help="proceed despite insufficient coverage; the reason is recorded in the PR",
+    )
     args = parser.parse_args()
-
+    override = args.override or settings.coverage_override_reason or None
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(message)s")
 
     if not args.diff:

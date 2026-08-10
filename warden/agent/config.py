@@ -16,7 +16,7 @@ class Settings(BaseModel):
     llm_backend: str = Field(default="ollama")
     anthropic_api_key: str = Field(default="")
     gemini_api_key: str = Field(default="")
-
+    coverage_override_reason: str = Field(default="")
     coverage_threshold: float = Field(default=0.6, ge=0.0, le=1.0)
 
     @field_validator("datahub_gms_url")
@@ -35,6 +35,7 @@ class Settings(BaseModel):
             anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY", ""),
             gemini_api_key=os.environ.get("GEMINI_API_KEY", ""),
             coverage_threshold=float(os.environ.get("WARDEN_COVERAGE_THRESHOLD", "0.6")),
+            coverage_override_reason=os.environ.get("WARDEN_COVERAGE_OVERRIDE", ""),
         )
 
 
