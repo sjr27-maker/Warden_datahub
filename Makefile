@@ -64,9 +64,14 @@ clean: clean-world
 datahub-reset:
 	$(VENV)/bin/datahub docker nuke
 	$(VENV)/bin/datahub docker quickstart -f $(COMPOSE)
+	@echo ""
+	@echo "  DataHub was nuked — the previous access token is gone."
+	@echo "  Generate a new one at http://localhost:9002 (Settings > Access Tokens),"
+	@echo "  put it in .env, then run:  make ingest-dark   (or make ingest-covered)"
+	@echo ""
 
-demo-dark: datahub-reset build-world ingest-dark
-demo-covered: datahub-reset build-world ingest-covered
+demo-dark: datahub-reset build-world
+demo-covered: datahub-reset build-world
 
 snapshot-dark:
 	$(PY) -m warden.capture_snapshot --profile dark
