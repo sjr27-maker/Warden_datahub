@@ -41,9 +41,7 @@ The graph changed. The code did not.
 
 The two output files are the deliverables. Read
 [the PR](examples/covered-stg_orders-pr.md) and
-[the refusal](examples/dark-stg_orders-refusal.md) — they are what a reviewer
-would actually see.
-
+[the refusal](examples/dark-stg_orders-refusal.md) 
 For the full pipeline against a live catalog, including verification and
 write-back, see [Running against DataHub](#running-against-datahub).
 
@@ -343,7 +341,6 @@ organisational action. Claiming otherwise would be overreach.
 **Search is eventually consistent after a write.** Warden retries rather than
 assuming failure.
 
-**Never run against a production catalog.** This is a prototype.
 
 ---
 
