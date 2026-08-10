@@ -1,5 +1,6 @@
 .PHONY: setup test test-live lint fmt datahub-up datahub-down demo clean \
-        build-world clean-world ingest-dark ingest-covered datahub-reset demo-dark demo-covered
+        build-world clean-world ingest-dark ingest-covered datahub-reset demo-dark demo-covered \
+		snapshot-dark snapshot-covered
 
 VENV := .venv
 PY := $(VENV)/bin/python
@@ -66,3 +67,9 @@ datahub-reset:
 
 demo-dark: datahub-reset build-world ingest-dark
 demo-covered: datahub-reset build-world ingest-covered
+
+snapshot-dark:
+	$(PY) -m warden.capture_snapshot --profile dark
+
+snapshot-covered:
+	$(PY) -m warden.capture_snapshot --profile covered
