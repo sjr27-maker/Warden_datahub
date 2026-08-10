@@ -1,0 +1,239 @@
+{
+  "profile": "covered",
+  "captured_at": "2026-08-10T15:40:53.651660+00:00",
+  "registry": [
+    {
+      "platform": "dbt",
+      "lineage_connector_configured": true,
+      "expected_entity_count": 16,
+      "note": "Staging and mart models. Fully parseable."
+    },
+    {
+      "platform": "duckdb",
+      "lineage_connector_configured": true,
+      "expected_entity_count": 6,
+      "note": "Raw landed tables."
+    },
+    {
+      "platform": "tableau",
+      "lineage_connector_configured": true,
+      "expected_entity_count": 4,
+      "note": "HOLE #1 — the dark platform. Four dashboards consume marts, but no connector is configured, so DataHub has no record they exist. This is the case where an empty downstream list means 'invisible', not 'safe'."
+    },
+    {
+      "platform": "python",
+      "lineage_connector_configured": true,
+      "expected_entity_count": 1,
+      "note": "HOLE #3 — customer_segments is produced by a pandas transform. No SQL parser can extract this edge; it is inferable but never parsed."
+    }
+  ],
+  "search": {
+    "stg_orders": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)"
+    ],
+    "stg_order_items": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)"
+    ],
+    "stg_payments": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)"
+    ],
+    "stg_refunds": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)"
+    ]
+  },
+  "lineage": {
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_orders,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_orders,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_orders,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|cust_id|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|cust_id|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|cust_id|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|amount_usd|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|amount_usd|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|up|amount_usd|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,dim_customers,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,customer_health,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,exec_revenue_overview,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,orders_operational,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,dim_customers,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,customer_health,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,exec_revenue_overview,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,orders_operational,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,dim_customers,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:python,customer_segments,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|cust_id|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,dim_customers,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|cust_id|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,dim_customers,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|cust_id|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,dim_customers,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|amount_usd|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|amount_usd|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_orders,PROD)|down|amount_usd|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_order_items,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_order_items,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_order_items,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|cust_id|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|cust_id|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|cust_id|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|amount_usd|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|amount_usd|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|up|amount_usd|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,orders_operational,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,orders_operational,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_orders,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|cust_id|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|cust_id|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|cust_id|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|amount_usd|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|amount_usd|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_order_items,PROD)|down|amount_usd|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_payments,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_payments,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_payments,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|cust_id|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|cust_id|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|cust_id|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|amount_usd|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|amount_usd|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|up|amount_usd|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,exec_revenue_overview,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,customer_health,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,exec_revenue_overview,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:python,customer_segments,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|cust_id|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|cust_id|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|cust_id|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|amount_usd|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|amount_usd|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_payments,PROD)|down|amount_usd|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_refunds,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_refunds,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:duckdb,raw_refunds,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|cust_id|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|cust_id|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|cust_id|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|amount_usd|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|amount_usd|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|up|amount_usd|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|*|1": [
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|*|2": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,exec_revenue_overview,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|*|3": [
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,customer_health,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:tableau,exec_revenue_overview,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,customer_ltv,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:dbt,fct_revenue,PROD)",
+      "urn:li:dataset:(urn:li:dataPlatform:python,customer_segments,PROD)"
+    ],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|cust_id|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|cust_id|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|cust_id|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|quantity|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|quantity|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|quantity|3": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|amount_usd|1": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|amount_usd|2": [],
+    "urn:li:dataset:(urn:li:dataPlatform:dbt,stg_refunds,PROD)|down|amount_usd|3": []
+  }
+}
