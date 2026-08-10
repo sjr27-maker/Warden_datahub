@@ -11,7 +11,7 @@ the evidence for that.
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from pydantic import BaseModel, Field
@@ -117,7 +117,7 @@ async def capture(client: MCPClient, profile: str, roots: list[str]) -> GraphSna
     registry = await read_registry(client, ["dbt", "duckdb", "tableau", "python"])
     snapshot = GraphSnapshot(
         profile=profile,
-        captured_at=datetime.now(timezone.utc).isoformat(),
+        captured_at=datetime.now(UTC).isoformat(),
         registry=registry,
     )
 
