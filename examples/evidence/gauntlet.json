@@ -1,0 +1,100 @@
+[
+  {
+    "profile": "covered",
+    "cases": 5,
+    "false_alarms": 0,
+    "missed_breakage": 0,
+    "safe_changes_held": 1,
+    "rows": [
+      {
+        "change": "type_widened on stg_order_items.quantity",
+        "expected": "safe",
+        "verdict": "safe",
+        "held": false,
+        "false_alarm": false,
+        "trap": "type change on a widely-consumed column \u2014 widening cannot break a reader"
+      },
+      {
+        "change": "column_added on stg_order_items.discount_usd",
+        "expected": "safe",
+        "verdict": "safe",
+        "held": false,
+        "false_alarm": false,
+        "trap": "schema change on a model four marts read \u2014 additions are invisible to readers"
+      },
+      {
+        "change": "column_dropped on stg_refunds.reason",
+        "expected": "safe",
+        "verdict": "touches",
+        "held": true,
+        "false_alarm": false,
+        "trap": "a dropped column, which nothing downstream selects"
+      },
+      {
+        "change": "column_renamed on stg_orders.cust_id",
+        "expected": "breaks",
+        "verdict": "breaks",
+        "held": false,
+        "missed": false,
+        "trap": ""
+      },
+      {
+        "change": "type_narrowed on stg_payments.amount_usd",
+        "expected": "degrades",
+        "verdict": "degrades",
+        "held": false,
+        "missed": false,
+        "trap": ""
+      }
+    ]
+  },
+  {
+    "profile": "dark",
+    "cases": 5,
+    "false_alarms": 0,
+    "missed_breakage": 0,
+    "safe_changes_held": 1,
+    "rows": [
+      {
+        "change": "type_widened on stg_order_items.quantity",
+        "expected": "safe",
+        "verdict": "safe",
+        "held": false,
+        "false_alarm": false,
+        "trap": "type change on a widely-consumed column \u2014 widening cannot break a reader"
+      },
+      {
+        "change": "column_added on stg_order_items.discount_usd",
+        "expected": "safe",
+        "verdict": "safe",
+        "held": false,
+        "false_alarm": false,
+        "trap": "schema change on a model four marts read \u2014 additions are invisible to readers"
+      },
+      {
+        "change": "column_dropped on stg_refunds.reason",
+        "expected": "safe",
+        "verdict": "touches",
+        "held": true,
+        "false_alarm": false,
+        "trap": "a dropped column, which nothing downstream selects"
+      },
+      {
+        "change": "column_renamed on stg_orders.cust_id",
+        "expected": "breaks",
+        "verdict": "breaks",
+        "held": true,
+        "missed": false,
+        "trap": ""
+      },
+      {
+        "change": "type_narrowed on stg_payments.amount_usd",
+        "expected": "degrades",
+        "verdict": "degrades",
+        "held": true,
+        "missed": false,
+        "trap": ""
+      }
+    ]
+  }
+]

@@ -1,30 +1,34 @@
 {
   "profile": "dark",
-  "captured_at": "2026-08-10T15:54:11.908575+00:00",
+  "captured_at": "2026-08-10T17:20:39.651167+00:00",
   "registry": [
     {
       "platform": "dbt",
       "lineage_connector_configured": true,
       "expected_entity_count": 16,
-      "note": "Staging and mart models. Fully parseable."
+      "note": "Staging and mart models. Fully parseable.",
+      "hosts_consumers": true
     },
     {
       "platform": "duckdb",
       "lineage_connector_configured": true,
       "expected_entity_count": 6,
-      "note": "Raw landed tables."
+      "note": "Raw landed tables.",
+      "hosts_consumers": false
     },
     {
       "platform": "tableau",
       "lineage_connector_configured": false,
       "expected_entity_count": 4,
-      "note": "HOLE #1 — the dark platform. Four dashboards consume marts, but no connector is configured, so DataHub has no record they exist. This is the case where an empty downstream list means 'invisible', not 'safe'."
+      "note": "HOLE #1 — the dark platform. Four dashboards consume marts, but no connector is configured, so DataHub has no record they exist. This is the case where an empty downstream list means 'invisible', not 'safe'.",
+      "hosts_consumers": true
     },
     {
       "platform": "python",
       "lineage_connector_configured": false,
       "expected_entity_count": 1,
-      "note": "HOLE #3 — customer_segments is produced by a pandas transform. No SQL parser can extract this edge; it is inferable but never parsed."
+      "note": "HOLE #3 — customer_segments is produced by a pandas transform. No SQL parser can extract this edge; it is inferable but never parsed.",
+      "hosts_consumers": true
     }
   ],
   "search": {
