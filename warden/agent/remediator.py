@@ -110,9 +110,7 @@ class Remediator:
             original = path.read_text()
             modified = self._apply(original, change, strategy)
             if original != modified:
-                edits.append(
-                    FileEdit(path=str(path), original=original, modified=modified)
-                )
+                edits.append(FileEdit(path=str(path), original=original, modified=modified))
         return edits
 
     def _apply(self, sql: str, change: ProposedChange, strategy: FixStrategy) -> str:
