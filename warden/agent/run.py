@@ -16,7 +16,7 @@ from warden.agent import skeptic
 from warden.agent.assessor import Assessor
 from warden.agent.diff import parse_diff_file
 from warden.agent.mcp_client import mcp_client
-from warden.agent.models import Decision, ProposedChange, Remediation, VerificationResult, Verdict
+from warden.agent.models import Decision, ProposedChange, Remediation, Verdict, VerificationResult
 from warden.agent.remediator import Remediator
 from warden.agent.report import render_pr_body, render_refusal
 from warden.agent.scoper import Scoper

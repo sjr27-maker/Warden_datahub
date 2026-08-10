@@ -19,8 +19,8 @@ from warden.agent.models import (
     BreakageTier,
     Decision,
     Remediation,
-    VerificationResult,
     Verdict,
+    VerificationResult,
 )
 
 _TIER_ICON = {
@@ -124,8 +124,7 @@ def _verification_section(verification: VerificationResult) -> str:
     if verification.passed:
         lines.append("")
         lines.append(
-            "The generated changes were executed before this PR was opened. "
-            "They compile and run."
+            "The generated changes were executed before this PR was opened. They compile and run."
         )
     else:
         lines.append("")

@@ -86,9 +86,7 @@ def _type_changes(model: str, removed: set[str], added: set[str]) -> list[Propos
             if base in _WIDENING
             else ChangeKind.LOGIC_CHANGED
         )
-        changes.append(
-            ProposedChange(model=model, kind=kind, column=column, new_value=new_type)
-        )
+        changes.append(ProposedChange(model=model, kind=kind, column=column, new_value=new_type))
     return changes
 
 
@@ -99,13 +97,9 @@ def _column_set_changes(model: str, removed: set[str], added: set[str]) -> list[
     added_cols = {_bare_column(line) for line in added} - {None}
 
     for column in removed_cols - added_cols:
-        changes.append(
-            ProposedChange(model=model, kind=ChangeKind.COLUMN_DROPPED, column=column)
-        )
+        changes.append(ProposedChange(model=model, kind=ChangeKind.COLUMN_DROPPED, column=column))
     for column in added_cols - removed_cols:
-        changes.append(
-            ProposedChange(model=model, kind=ChangeKind.COLUMN_ADDED, column=column)
-        )
+        changes.append(ProposedChange(model=model, kind=ChangeKind.COLUMN_ADDED, column=column))
     return changes
 
 
