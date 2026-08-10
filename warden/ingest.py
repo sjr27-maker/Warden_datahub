@@ -325,6 +325,7 @@ def _emit_registry(profile: CoverageProfile, emit: _Emission) -> int:
             lineage_connector_configured=spec.name in profile.platforms,
             expected_entity_count=spec.entity_count,
             note=spec.note,
+            hosts_consumers=spec.hosts_consumers,
         )
         for spec in ESTATE
     ]

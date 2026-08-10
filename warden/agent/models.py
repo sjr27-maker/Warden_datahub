@@ -56,11 +56,18 @@ class Subgraph(BaseModel):
 
 
 class BlindSpot(BaseModel):
-    """A named, specific gap in coverage — never a vague score alone."""
+    """A named, specific gap in coverage — never a vague score alone.
+
+    `blocks_generation` distinguishes gaps that could hide downstream
+    consumers from gaps that cannot. A dark platform feeding only raw tables
+    is a real gap, but it cannot conceal anything the change would break.
+    Treating every gap as blocking is what makes a tool cry wolf.
+    """
 
     description: str
     affected_platform: str | None = None
     affected_urns: list[str] = Field(default_factory=list)
+    blocks_generation: bool = True
 
 
 class CoverageReport(BaseModel):
@@ -80,6 +87,12 @@ class CoverageCeiling(BaseModel):
     report: CoverageReport
     may_assert_safe: bool
     threshold_used: float
+    overridden: bool = False
+    override_reason: str | None = None
+
+    @property
+    def blocking_spots(self) -> list[BlindSpot]:
+        return [s for s in self.report.blind_spots if s.blocks_generation]
 
 
 class BreakageTier(StrEnum):
@@ -203,3 +216,4 @@ class VerificationResult(BaseModel):
     @property
     def passed(self) -> bool:
         return bool(self.attempts) and self.attempts[-1].passed
+

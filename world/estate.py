@@ -13,6 +13,7 @@ class PlatformSpec(BaseModel):
     entity_count: int
     has_lineage_connector: bool
     note: str
+    hosts_consumers: bool = True
 
 
 class CoverageProfile(BaseModel):
@@ -38,6 +39,7 @@ ESTATE: list[PlatformSpec] = [
         entity_count=6,
         has_lineage_connector=True,
         note="Raw landed tables.",
+        hosts_consumers=False,
     ),
     PlatformSpec(
         name="tableau",

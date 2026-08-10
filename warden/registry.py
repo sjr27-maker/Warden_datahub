@@ -24,16 +24,15 @@ KEY_CONNECTOR = "lineageConnectorConfigured"
 KEY_EXPECTED_COUNT = "expectedEntityCount"
 KEY_NOTE = "registryNote"
 
+KEY_HOSTS_CONSUMERS = "hostsConsumers"
+
 
 class PlatformRecord(BaseModel):
     platform: str
     lineage_connector_configured: bool
     expected_entity_count: int
     note: str
-
-    @property
-    def registry_urn(self) -> str:
-        return registry_urn_for(self.platform)
+    hosts_consumers: bool = True
 
     def to_custom_properties(self) -> dict[str, str]:
         return {
@@ -41,6 +40,7 @@ class PlatformRecord(BaseModel):
             KEY_CONNECTOR: str(self.lineage_connector_configured).lower(),
             KEY_EXPECTED_COUNT: str(self.expected_entity_count),
             KEY_NOTE: self.note,
+            KEY_HOSTS_CONSUMERS: str(self.hosts_consumers).lower(),
         }
 
     @classmethod
@@ -50,6 +50,7 @@ class PlatformRecord(BaseModel):
             lineage_connector_configured=props.get(KEY_CONNECTOR) == "true",
             expected_entity_count=int(props.get(KEY_EXPECTED_COUNT, 0)),
             note=props.get(KEY_NOTE, ""),
+            hosts_consumers=props.get(KEY_HOSTS_CONSUMERS, "true") == "true",
         )
 
 
