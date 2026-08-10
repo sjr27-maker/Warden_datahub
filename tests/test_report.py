@@ -9,9 +9,9 @@ from warden.agent.models import (
     ImpactedAsset,
     ProposedChange,
     Remediation,
+    Verdict,
     VerificationAttempt,
     VerificationResult,
-    Verdict,
 )
 from warden.agent.report import render_pr_body, render_refusal
 
@@ -93,7 +93,9 @@ def test_pr_body_states_that_code_was_executed():
 def test_refusal_names_what_would_unblock_it():
     """A refusal that reads as evasive is worse than no tool."""
     decision = Decision(is_blocked=True, blocked_on="lineage ingestion for: tableau")
-    text = render_refusal(_verdict(DARK), Remediation(strategy=FixStrategy.UPDATE_REFERENCES), decision)
+    text = render_refusal(
+        _verdict(DARK), Remediation(strategy=FixStrategy.UPDATE_REFERENCES), decision
+    )
 
     assert "tableau" in text
     assert "resumes automatically" in text
@@ -101,8 +103,11 @@ def test_refusal_names_what_would_unblock_it():
 
 
 def test_refusal_with_no_findings_states_the_ambiguity():
-    verdict = _verdict(DARK, names=())
     decision = Decision(is_blocked=True, blocked_on="lineage ingestion for: tableau")
-    text = render_refusal(verdict, Remediation(strategy=FixStrategy.UPDATE_REFERENCES), decision)
+    text = render_refusal(
+        _verdict(DARK, names=()),
+        Remediation(strategy=FixStrategy.UPDATE_REFERENCES),
+        decision,
+    )
 
     assert "not evidence of absence" in text

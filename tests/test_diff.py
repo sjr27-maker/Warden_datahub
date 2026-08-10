@@ -44,16 +44,12 @@ def test_alias_addition_is_a_rename():
 
 def test_removed_column_is_a_drop():
     changes = parse_diff(DROP)
-    assert any(
-        c.kind is ChangeKind.COLUMN_DROPPED and c.column == "reason" for c in changes
-    )
+    assert any(c.kind is ChangeKind.COLUMN_DROPPED and c.column == "reason" for c in changes)
 
 
 def test_added_column_is_an_addition():
     changes = parse_diff(ADD)
-    assert any(
-        c.kind is ChangeKind.COLUMN_ADDED and c.column == "discount_usd" for c in changes
-    )
+    assert any(c.kind is ChangeKind.COLUMN_ADDED and c.column == "discount_usd" for c in changes)
 
 
 def test_unrecognised_change_falls_back_to_logic_rather_than_guessing():

@@ -118,3 +118,17 @@ def test_safe_verdict_produces_no_edits(tmp_path: Path):
 
     assert remediation.edits == []
     assert not remediation.is_blocked
+
+
+def test_breakage_does_not_license_generation_on_a_dark_graph(tmp_path: Path):
+    """Finding real breakage is not permission to act on it.
+
+    A confident impact list from an incomplete graph is still partial. Fixing
+    what is visible, in a PR that implies completeness, is the exact failure
+    the coverage gate exists to prevent.
+    """
+    verdict = _verdict(BreakageTier.BREAKS, ceiling(may_assert_safe=False), ["fct_orders"])
+    remediation = Remediator(tmp_path).remediate(verdict)
+
+    assert remediation.is_blocked
+    assert remediation.edits == []
