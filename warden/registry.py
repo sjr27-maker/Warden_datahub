@@ -23,8 +23,11 @@ KEY_PLATFORM = "platform"
 KEY_CONNECTOR = "lineageConnectorConfigured"
 KEY_EXPECTED_COUNT = "expectedEntityCount"
 KEY_NOTE = "registryNote"
-
 KEY_HOSTS_CONSUMERS = "hostsConsumers"
+
+
+def registry_urn_for(platform: str) -> str:
+    return f"urn:li:dataset:(urn:li:dataPlatform:{REGISTRY_PLATFORM},registry.{platform},PROD)"
 
 
 class PlatformRecord(BaseModel):
@@ -32,7 +35,13 @@ class PlatformRecord(BaseModel):
     lineage_connector_configured: bool
     expected_entity_count: int
     note: str
+    # A platform that hosts only source data cannot conceal a downstream
+    # consumer, so a gap there must not block generation.
     hosts_consumers: bool = True
+
+    @property
+    def registry_urn(self) -> str:
+        return registry_urn_for(self.platform)
 
     def to_custom_properties(self) -> dict[str, str]:
         return {
@@ -52,10 +61,6 @@ class PlatformRecord(BaseModel):
             note=props.get(KEY_NOTE, ""),
             hosts_consumers=props.get(KEY_HOSTS_CONSUMERS, "true") == "true",
         )
-
-
-def registry_urn_for(platform: str) -> str:
-    return f"urn:li:dataset:(urn:li:dataPlatform:{REGISTRY_PLATFORM},registry.{platform},PROD)"
 
 
 async def read_registry(client: MCPClient, platforms: list[str]) -> list[PlatformRecord]:

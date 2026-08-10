@@ -216,4 +216,3 @@ class VerificationResult(BaseModel):
     @property
     def passed(self) -> bool:
         return bool(self.attempts) and self.attempts[-1].passed
-

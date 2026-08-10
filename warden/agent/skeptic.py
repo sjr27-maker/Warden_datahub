@@ -29,6 +29,10 @@ KNOWN_PLATFORMS = ["dbt", "duckdb", "tableau", "python"]
 # A change with real consequences touches more than a couple of entities.
 # Below this, the traversal itself is the limiting factor, not the graph.
 _EXPECTED_SUBGRAPH_SIZE = 6
+# A traversal that reaches nothing tells us nothing. Below this the retrieval
+# itself is the limiting factor; above it, a small subgraph means a small
+# blast radius, which is a finding rather than a gap.
+_MINIMUM_USEFUL_REACH = 2
 
 
 async def load_registry(client: MCPClient) -> list[PlatformRecord]:
@@ -63,7 +67,7 @@ def assess(
     inferred = sum(1 for e in subgraph.edges if e.provenance is Provenance.INFERRED)
     parsed_ratio = parsed / len(subgraph.edges) if subgraph.edges else 0.0
 
-    reach = min(1.0, len(subgraph.entities) / _EXPECTED_SUBGRAPH_SIZE)
+    reach = 1.0 if len(subgraph.entities) >= _MINIMUM_USEFUL_REACH else 0.0
 
     blind_spots = _blind_spots(subgraph, registry)
 
@@ -175,6 +179,7 @@ def _blind_spots(subgraph: Subgraph, registry: list[PlatformRecord]) -> list[Bli
         )
 
     return spots
+
 
 # Platforms whose entities are landing zones — having no upstream there is
 # expected, not a gap.
