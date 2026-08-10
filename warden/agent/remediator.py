@@ -2,10 +2,11 @@
 
 Two commitments.
 
-Generation is blocked when the Skeptic says the graph is too dark. Writing
-code into a repository on the strength of an incomplete blast radius means
-confidently fixing four files while missing three others — worse than not
-acting, because the PR carries an implicit claim of completeness.
+Generation is blocked when the Skeptic says the graph is too dark — and the
+gate is coverage, not severity. Finding real breakage does not license acting
+on it: a confident impact list from an incomplete graph is still partial, and
+fixing what is visible inside a PR that implies completeness is precisely the
+failure this exists to prevent.
 
 And where several strategies are legitimate, Warden recommends one and names
 the rest. A column rename admits at least three approaches that differ in
@@ -31,6 +32,10 @@ logger = logging.getLogger(__name__)
 
 DBT_MODELS_DIR = Path("world/dbt_project/models")
 
+# Only dbt models have source files in this repository. Other platforms are
+# real consumers Warden can identify but cannot repair.
+REPAIRABLE_PLATFORM = "dbt"
+
 _STRATEGIES: dict[ChangeKind, tuple[FixStrategy, list[FixStrategy]]] = {
     ChangeKind.COLUMN_RENAMED: (
         FixStrategy.UPDATE_REFERENCES,
@@ -52,7 +57,7 @@ class Remediator:
         self._models_dir = models_dir
 
     def remediate(self, verdict: Verdict) -> Remediation:
-        if not verdict.ceiling.may_assert_safe and verdict.overall is not BreakageTier.BREAKS:
+        if not verdict.ceiling.may_assert_safe:
             return self._blocked(verdict)
 
         if verdict.overall in (BreakageTier.SAFE, BreakageTier.TOUCHES):
@@ -74,7 +79,7 @@ class Remediator:
         return Remediation(
             strategy=strategy,
             alternatives=alternatives,
-            rationale=self._rationale(verdict, strategy),
+            rationale=self._rationale(verdict, strategy, len(edits)),
             escalation=self._escalation(verdict),
             edits=edits,
         )
@@ -86,10 +91,9 @@ class Remediator:
         return Remediation(
             strategy=FixStrategy.UPDATE_REFERENCES,
             blocked_reason=(
-                f"Coverage {verdict.ceiling.report.score} is insufficient to generate code. "
-                f"{blind} "
-                f"Any fix written now would address only the consumers Warden can see, "
-                f"while presenting itself as complete."
+                f"Coverage {verdict.ceiling.report.score} is insufficient to generate "
+                f"code. {blind} Any fix written now would address only the consumers "
+                f"Warden can see, while presenting itself as complete."
             ),
         )
 
@@ -102,9 +106,12 @@ class Remediator:
         for asset in verdict.impacted:
             if asset.tier is not BreakageTier.BREAKS:
                 continue
+            if asset.entity.platform != REPAIRABLE_PLATFORM:
+                continue
+
             path = self._find_model_file(asset.entity.name)
             if path is None:
-                logger.warning("no source file found for %s", asset.entity.name)
+                logger.debug("no source file for %s", asset.entity.name)
                 continue
 
             original = path.read_text()
@@ -119,7 +126,7 @@ class Remediator:
             return sql
 
         if strategy is FixStrategy.UPDATE_REFERENCES:
-            # Word-boundary match so `cust_id` doesn't also rewrite `cust_id_x`.
+            # Word-boundary match so `cust_id` doesn't also rewrite `cust_id_hash`.
             return re.sub(rf"\b{re.escape(old)}\b", new, sql)
 
         if strategy is FixStrategy.COMPATIBILITY_ALIAS:
@@ -131,18 +138,33 @@ class Remediator:
         matches = list(self._models_dir.rglob(f"{model_name}.sql"))
         return matches[0] if matches else None
 
-    def _rationale(self, verdict: Verdict, strategy: FixStrategy) -> str:
-        count = len([a for a in verdict.impacted if a.tier is BreakageTier.BREAKS])
+    def _rationale(self, verdict: Verdict, strategy: FixStrategy, fixed: int) -> str:
+        """Counts what was repaired, not what was found.
+
+        Of eight broken consumers, four may be dbt models here and four
+        dashboards elsewhere. Reporting eight as fixed would be false.
+        """
+        total = len([a for a in verdict.impacted if a.tier is BreakageTier.BREAKS])
+
         if strategy is FixStrategy.UPDATE_REFERENCES:
-            return (
-                f"All {count} broken references are inside this repository, so updating "
-                f"them directly is a single atomic change with no transitional state."
+            elsewhere = total - fixed
+            suffix = (
+                f" The remaining {elsewhere} live in other systems and need separate coordination."
+                if elsewhere
+                else ""
             )
+            return (
+                f"{fixed} of {total} broken references are dbt models in this "
+                f"repository, so updating them directly is a single atomic change "
+                f"with no transitional state.{suffix}"
+            )
+
         if strategy is FixStrategy.COMPATIBILITY_ALIAS:
             return (
                 "Preserving the old name as an alias keeps existing readers working "
                 "while the new one is adopted."
             )
+
         return (
             "Adding the new form before removing the old lets consumers migrate on "
             "their own schedule."
