@@ -145,3 +145,60 @@ class Decision(BaseModel):
     pr_url: str | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     resumed_from: str | None = None
+
+class FixStrategy(StrEnum):
+    """How to remediate. These are trade-offs, not right and wrong — which is
+    why the Remediator names alternatives rather than silently choosing."""
+
+    UPDATE_REFERENCES = "update_references"  # change every downstream reference
+    COMPATIBILITY_ALIAS = "compatibility_alias"  # keep the old name as an alias
+    TWO_PHASE_DEPRECATE = "two_phase_deprecate"  # add new, deprecate old, migrate later
+
+
+class FileEdit(BaseModel):
+    path: str
+    original: str
+    modified: str
+
+    @property
+    def changed(self) -> bool:
+        return self.original != self.modified
+
+
+class Remediation(BaseModel):
+    """Generated fixes, before verification. `verified` stays False until the
+    Verifier has actually executed them."""
+
+    strategy: FixStrategy
+    alternatives: list[FixStrategy] = Field(default_factory=list)
+    rationale: str = ""
+    escalation: str | None = None
+    edits: list[FileEdit] = Field(default_factory=list)
+    blocked_reason: str | None = None
+
+    @property
+    def is_blocked(self) -> bool:
+        return self.blocked_reason is not None
+
+
+class VerificationAttempt(BaseModel):
+    attempt: int
+    command: str
+    exit_code: int
+    output_tail: str
+
+    @property
+    def passed(self) -> bool:
+        return self.exit_code == 0
+
+
+class VerificationResult(BaseModel):
+    """The execution record. Committed to examples/ — a reviewer learns more
+    from a failure that was caught and corrected than from a clean artifact."""
+
+    attempts: list[VerificationAttempt] = Field(default_factory=list)
+    final_edits: list[FileEdit] = Field(default_factory=list)
+
+    @property
+    def passed(self) -> bool:
+        return bool(self.attempts) and self.attempts[-1].passed
