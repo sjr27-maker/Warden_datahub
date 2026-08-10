@@ -10,8 +10,8 @@ fixture. What it cannot do is prove the live path works; the live demo remains
 the evidence for that.
 """
 
-import json
 import logging
+from datetime import datetime, timezone
 from pathlib import Path
 
 from pydantic import BaseModel, Field
@@ -22,6 +22,11 @@ from warden.registry import PlatformRecord, read_registry
 logger = logging.getLogger(__name__)
 
 SNAPSHOT_DIR = Path("snapshots")
+
+# The Scoper widens hop by hop; a snapshot must record each depth separately
+# or replay collapses multi-hop traversal to a single hop.
+CAPTURED_HOPS = (1, 2, 3)
+CAPTURED_COLUMNS: tuple[str | None, ...] = (None, "cust_id", "quantity", "amount_usd")
 
 
 class GraphSnapshot(BaseModel):
@@ -34,8 +39,8 @@ class GraphSnapshot(BaseModel):
     lineage: dict[str, list[str]] = Field(default_factory=dict)
 
     @staticmethod
-    def lineage_key(urn: str, upstream: bool, column: str | None) -> str:
-        return f"{urn}|{'up' if upstream else 'down'}|{column or '*'}"
+    def lineage_key(urn: str, upstream: bool, column: str | None, max_hops: int) -> str:
+        return f"{urn}|{'up' if upstream else 'down'}|{column or '*'}|{max_hops}"
 
 
 class SnapshotClient:
@@ -53,6 +58,10 @@ class SnapshotClient:
     def load(cls, path: Path) -> "SnapshotClient":
         return cls(GraphSnapshot.model_validate_json(path.read_text()))
 
+    @property
+    def profile(self) -> str:
+        return self._snapshot.profile
+
     async def search(self, query: str, num_results: int = 10, **_) -> dict:
         urns = self._snapshot.search.get(query, [])
         return {"total": len(urns), "results": [{"urn": u} for u in urns]}
@@ -62,21 +71,24 @@ class SnapshotClient:
 
     async def get_entities(self, urns: list[str] | str) -> list[dict]:
         wanted = [urns] if isinstance(urns, str) else urns
-        entities = []
-        for record in self._snapshot.registry:
-            if record.registry_urn in wanted:
-                entities.append(
-                    {
-                        "urn": record.registry_urn,
-                        "properties": {"customProperties": record.to_custom_properties()},
-                    }
-                )
-        return entities
+        return [
+            {
+                "urn": record.registry_urn,
+                "properties": {"customProperties": record.to_custom_properties()},
+            }
+            for record in self._snapshot.registry
+            if record.registry_urn in wanted
+        ]
 
     async def get_lineage(
-        self, urn: str, upstream: bool = True, column: str | None = None, **_
+        self,
+        urn: str,
+        upstream: bool = True,
+        column: str | None = None,
+        max_hops: int = 1,
+        **_,
     ) -> dict:
-        key = GraphSnapshot.lineage_key(urn, upstream, column)
+        key = GraphSnapshot.lineage_key(urn, upstream, column, max_hops)
         urns = self._snapshot.lineage.get(key, [])
         return {"upstreams": {"total": len(urns)}, "results": [{"urn": u} for u in urns]}
 
@@ -102,8 +114,6 @@ async def capture(client: MCPClient, profile: str, roots: list[str]) -> GraphSna
     Deliberately narrow: only the queries the committed scenarios issue. A
     full catalog dump would be larger, staler, and no more convincing.
     """
-    from datetime import datetime, timezone
-
     registry = await read_registry(client, ["dbt", "duckdb", "tableau", "python"])
     snapshot = GraphSnapshot(
         profile=profile,
@@ -117,10 +127,13 @@ async def capture(client: MCPClient, profile: str, roots: list[str]) -> GraphSna
 
         for urn in snapshot.search[root]:
             for upstream in (True, False):
-                for column in (None, "cust_id", "quantity", "amount_usd"):
-                    result = await client.get_lineage(urn, upstream=upstream, column=column)
-                    key = GraphSnapshot.lineage_key(urn, upstream, column)
-                    snapshot.lineage[key] = _urns(result)
+                for column in CAPTURED_COLUMNS:
+                    for hops in CAPTURED_HOPS:
+                        result = await client.get_lineage(
+                            urn, upstream=upstream, column=column, max_hops=hops
+                        )
+                        key = GraphSnapshot.lineage_key(urn, upstream, column, hops)
+                        snapshot.lineage[key] = _urns(result)
 
     return snapshot
 

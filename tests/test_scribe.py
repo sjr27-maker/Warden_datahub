@@ -54,9 +54,7 @@ def _ref(name: str, platform: str = "dbt") -> EntityRef:
 
 def _verdict(ceiling, tier=BreakageTier.BREAKS, names=("fct_orders",)) -> Verdict:
     return Verdict(
-        change=ProposedChange(
-            model="stg_orders", kind=ChangeKind.COLUMN_RENAMED, column="cust_id"
-        ),
+        change=ProposedChange(model="stg_orders", kind=ChangeKind.COLUMN_RENAMED, column="cust_id"),
         impacted=[ImpactedAsset(entity=_ref(n), tier=tier, reasoning="") for n in names],
         overall=tier,
         ceiling=ceiling,

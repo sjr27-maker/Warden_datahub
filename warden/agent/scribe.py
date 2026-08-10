@@ -17,7 +17,6 @@ ecosystem persists "I don't know" as a queryable fact.
 
 import json
 import logging
-from datetime import datetime
 
 from warden.agent.mcp_client import MCPClient
 from warden.agent.models import (
@@ -25,8 +24,8 @@ from warden.agent.models import (
     Provenance,
     Remediation,
     Subgraph,
-    VerificationResult,
     Verdict,
+    VerificationResult,
 )
 
 logger = logging.getLogger(__name__)
@@ -76,9 +75,7 @@ class Scribe:
         item; "ingest tableau lineage" is.
         """
         platforms = [
-            s.affected_platform
-            for s in verdict.ceiling.report.blind_spots
-            if s.affected_platform
+            s.affected_platform for s in verdict.ceiling.report.blind_spots if s.affected_platform
         ]
         if platforms:
             return f"lineage ingestion for: {', '.join(sorted(platforms))}"
