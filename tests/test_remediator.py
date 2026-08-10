@@ -132,3 +132,15 @@ def test_breakage_does_not_license_generation_on_a_dark_graph(tmp_path: Path):
 
     assert remediation.is_blocked
     assert remediation.edits == []
+
+
+def test_intrinsically_safe_change_is_not_blocked_by_a_dark_graph(tmp_path: Path):
+    """The Assessor already established that this change's safety does not
+    rest on having looked. Blocking it anyway would refuse work for no gain —
+    and the coverage gate would be doing something it was never meant to do.
+    """
+    verdict = _verdict(BreakageTier.SAFE, ceiling(may_assert_safe=False), [])
+    remediation = Remediator(tmp_path).remediate(verdict)
+
+    assert not remediation.is_blocked
+    assert remediation.edits == []

@@ -57,13 +57,30 @@ class Remediator:
         self._models_dir = models_dir
 
     def remediate(self, verdict: Verdict) -> Remediation:
-        if not verdict.ceiling.may_assert_safe:
-            return self._blocked(verdict)
+        """Generate fixes, or refuse.
 
-        if verdict.overall in (BreakageTier.SAFE, BreakageTier.TOUCHES):
+        The gate is coverage, not severity: finding real breakage on a dark
+        graph does not license acting on it, because the impact list is still
+        partial.
+
+        But a verdict of SAFE that the Assessor reached *without* relying on
+        having looked — a widened type, an added column — is not a coverage
+        judgment at all. Blocking those would refuse work for no gain, which
+        is how a tool teaches people to ignore it.
+        """
+        if verdict.overall is BreakageTier.SAFE:
             return Remediation(
                 strategy=FixStrategy.UPDATE_REFERENCES,
                 rationale="No breakage to remediate.",
+            )
+
+        if not verdict.ceiling.may_assert_safe:
+            return self._blocked(verdict)
+
+        if verdict.overall is BreakageTier.TOUCHES:
+            return Remediation(
+                strategy=FixStrategy.UPDATE_REFERENCES,
+                rationale="Change touches downstream assets but breaks nothing.",
             )
 
         if verdict.change.kind not in _STRATEGIES:
