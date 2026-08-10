@@ -4,6 +4,7 @@
         ingest-dark ingest-covered \
         snapshot-dark snapshot-covered \
         demo-dark demo-covered demo-offline run-live \
+		verify gauntlet evidence \
         clean
 
 VENV := .venv
@@ -109,3 +110,11 @@ demo-covered: datahub-reset build-world
 
 clean: clean-world
 	find . -type d -name __pycache__ -exec rm -rf {} +
+
+verify:
+	$(PY) verify.py
+
+gauntlet:
+	$(PY) -m evidence.gauntlet
+
+evidence: verify gauntlet
